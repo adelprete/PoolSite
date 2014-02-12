@@ -1,1 +1,43 @@
-hey
+<html>
+    <head>
+        <title>YourPoolHub.com</title>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/screen.css" type="text/css" media="screen">
+        <!--[if IE]><link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/lib/ie.css" type="text/css" media="screen, projection"><![endif]-->
+    </head>
+    <body>
+        {% block banner %}
+        <div id="main-banner">
+            <div class="container">
+                <div class="span-14" id="main-banner-text">Welcome to YourPoolHub.com</div>
+                <div class="span-9 screen last" style="text-align:right;">
+                    {% if user.is_anonymous %}
+                        <a href="{% url 'login_user' %}">Log in</a> |
+                        <a href="">Sign up</a>
+                    {% else %}
+                        Hi {{ user.first_name }}!<br>
+                        <a href="{% url 'logout_user' %}">Log out</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        {% block menu %}
+            <div class="menu">
+                <div class="container">
+                    <ul style="margin-top:10px;">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Create a Pool</a></li>
+                        <li><a href="">Join a Pool</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endblock %}
+        <div class="container">
+        {% block body %}
+                <h3>Your priemeire destination for easy March Madness pool management</h3>
+        {% endblock %}
+        </div>
+    </body>
+</html>
