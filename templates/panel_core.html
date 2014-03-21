@@ -7,16 +7,17 @@
         <!--[if IE]><link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/lib/ie.css" type="text/css" media="screen, projection"><![endif]-->
     </head>
     <body>
+    {% block body_override %}
         {% block banner %}
         <div id="main-banner">
             <div class="container">
                 <div class="span-14" id="main-banner-text">Welcome to YourPoolHub.com</div>
                 <div class="span-9 screen last" style="text-align:right;">
                     {% if user.is_anonymous %}
-                        <a href="{% url 'login_user' %}">Log in</a> |
-                        <a href="">Sign up</a>
+                        <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a> |
+                        <a href="{% url 'registration_register' %}">Sign up</a>
                     {% else %}
-                        Hi {{ user.first_name }}!<br>
+                        <strong style="font-size:18px;">Hi {{ user.first_name }}!<br></strong>
                         <a href="{% url 'logout_user' %}">Log out</a>
                     {% endif %}
                 </div>
@@ -27,17 +28,22 @@
             <div class="menu">
                 <div class="container">
                     <ul style="margin-top:10px;">
-                        <li><a href="">Home</a></li>
-                        <li><a href="">Create a Pool</a></li>
+                        <li><a href="{% url 'root' %}">Home</a></li>
+                        {% if not user.is_anonymous %}
+                        <li><a href="{% url 'your_pools' %}">Your Pools</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'pool_add' %}">Create a Pool</a></li>
                         <li><a href="">Join a Pool</a></li>
                     </ul>
                 </div>
             </div>
         {% endblock %}
         <div class="container">
+        {% include 'messages.html' %}
         {% block body %}
-                <h3>Your priemeire destination for easy March Madness pool management</h3>
+                <h3>Your premiere destination for easy March Madness pool management</h3>
         {% endblock %}
         </div>
+    {% endblock %}
     </body>
 </html>
