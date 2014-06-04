@@ -1,0 +1,3 @@
+To finish activating your account, copy and paste the url below:
+
+http://{{ site.domain }}/accounts{% url 'registration_activate' activation_key %}

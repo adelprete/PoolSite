@@ -1,0 +1,32 @@
+{% extends "oscars/pool_home_core.html" %}
+{% load oscars_tags %}
+{% block body %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
+            {% display_top_three %}
+        <table>
+            <tr class="header">
+                <th><b>Member</b></th>
+                <th><b>Ballot</b></th>
+                <th><b>Correct Picks</b></th>
+                {% if pool.how_to_win == 'points' %}
+                <th><b>Total Points</b></th>
+                {% endif %}
+            </tr>
+        {% if ballots %}
+        {% for ballot in ballots %}
+            <tr>
+                <td>{{ ballot.member }}</td>
+                <td>{{ ballot.name }}</td>
+                <td>{{ ballot.total_correct }}</td>
+                {% if pool.how_to_win == 'points' %}
+                 <td>{{ ballot.total_points }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+               <td colspan=3>No ballots have been submitted yet</td>
+            </tr>
+        {% endif %}
+        </table>
+{% endblock %}

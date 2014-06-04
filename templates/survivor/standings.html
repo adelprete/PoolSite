@@ -1,0 +1,25 @@
+{% extends "survivor/pool_home_core.html" %}
+{% load oscars_tags %}
+{% block body %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
+        <table>
+            <tr class="header">
+                <th><b>Member</b></th>
+                <th><b>Pick Sheet</b></th>
+                <th><b>Total Points</b></th>
+            </tr>
+        {% if picksheets %}
+        {% for picksheet in picksheets %}
+            <tr>
+                <td>{{ picksheet.member }}</td>
+                <td>{{ picksheet.name }}</td>
+                 <td>{{ picksheet.total_points }}</td>
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+               <td colspan=3>No pick sheets have been submitted yet</td>
+            </tr>
+        {% endif %}
+        </table>
+{% endblock %}

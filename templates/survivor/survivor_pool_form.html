@@ -1,0 +1,114 @@
+{% extends "panel_core.html" %}
+{% block body %}
+        {% if pool %}
+            <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
+            <h4>You will not be able to edit the pool settings once the ceremony has started</h4>
+        {% else %}
+            <h2>Create a Survivor pool</h2>
+        {% endif %}
+<form method="POST">{% csrf_token %}
+    <table>
+        <tr>
+            <td class="span-3">{{ form.name.label_tag }}</td>
+            <td class="span-6">{{ form.name }}</td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+            <td>{{ form.password.help_text }}</td>
+            <td>{{ form.password.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password_confirm.label_tag }}</td>
+            <td>{{ form.password_confirm }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.entry_deadline.label_tag }}</td>
+            <td>{{ form.entry_deadline }}<br>
+                All time is in EST</td>
+            <td>{{ form.entry_deadline.help_text }} The season starts on {{ season.start_date }}</td>
+            <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+       </table>
+        <h3>Set the Points</h3>
+        <h4 class="span-12">Each member of the pool will choose 4 castaways before the start of the season.
+        No two members can choose the same 4 castaways.  As the season goes on, each member
+        will get points depending on what their chosen castaways do.  Choose want
+        you want to give points for by checking the check marks below.</h4>
+        <hr width=0>
+        <table style="margin-top:-10px;margin-bottom:5px;">
+            <tr>
+                <td class="span-2"><u>Include in pool</u></td>
+                <td class="span-7"><u>Condition</u></td>
+                <td><u>Points</u></td>
+            </tr>
+            <tr>
+                <td>{{ form.first_out }}</td>
+                <td>{{ form.first_out.label_tag }}</td>
+                <td>12 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.tribe_reward }}</td>
+                <td>{{ form.tribe_reward.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.tribe_immunity }}</td>
+                <td>{{ form.tribe_immunity.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.making_merge }}</td>
+                <td>{{ form.making_merge.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.individual_reward }}</td>
+                <td>{{ form.individual_reward.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.individual_immunity }}</td>
+                <td>{{ form.individual_immunity.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.finding_immunity }}</td>
+                <td>{{ form.finding_immunity.label_tag }}</td>
+                <td>4 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.going_with_vote }}</td>
+                <td>{{ form.going_with_vote.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.successful_idol_use }}</td>
+                <td>{{ form.successful_idol_use.label_tag }}</td>
+                <td>6 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.ri_victory }}</td>
+                <td>{{ form.ri_victory.label_tag }}</td>
+                <td>1 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.returned_from_ri }}</td>
+                <td>{{ form.returned_from_ri.label_tag }}</td>
+                <td>4 pts</td>
+            </tr>
+            <tr>
+                <td>{{ form.ftc_votes }}</td>
+                <td>{{ form.ftc_votes.label_tag }}</td>
+                <td>2 pts for each vote</td>
+            </tr>
+        <table>
+        <div>
+        <input class="submit" type="submit" name="submit" value="{% if pool %}Save{% else %}Create Pool{% endif %}" />
+        {% if form.instance.id %}
+        <input class="submit delete" type="submit" name="delete" id="delete" value="Delete Pool" />
+        {% endif %}
+    </div>
+</form>
+{% endblock %}

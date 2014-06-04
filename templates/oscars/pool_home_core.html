@@ -1,0 +1,18 @@
+{% extends "panel_core.html" %}
+{% block menu %}
+{{ block.super }}
+    <div class="container">
+        <div class="submenu">
+            <ul>
+                <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
+                <li id="ballots"><a href="{% url 'oscar_pool_ballots' pool.id %}">Ballots</a></li>
+                <li><a href="{% url 'oscar_pool_standings' pool.id %}">Standings</a></li>
+                <li><a href="{% url 'oscar_pool_members' pool.id %}">Members</a></li>
+                <li><a href="{% url 'oscar_predictions' pool.id %}">Predictions/Results</a></li>
+                {% if user == pool.administrator %}
+                <li><a style="color:orange;" href="{% url 'oscar_pool' pool.id %}">Settings</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

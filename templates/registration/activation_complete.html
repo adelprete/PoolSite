@@ -1,0 +1,8 @@
+{% extends 'panel_core.html' %}
+{% block body %}
+    <center>
+        <h2>You Successfully activated your account.  You may now log in.</h2>
+        <a href="{% url 'django.contrib.auth.views.login' %}">Click Here to Log in</a>
+    </center>
+
+{% endblock %}

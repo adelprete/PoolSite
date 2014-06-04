@@ -1,0 +1,156 @@
+{% extends "panel_core.html" %}
+
+{% block head %}
+{{ block.super }}
+    <script type="text/javascript">
+        $(function(){
+            if($("#id_how_to_win").val() == '' || $("#id_how_to_win").val() == 'correct'){
+                $("input[id$=points]").hide();
+                $("#points").hide();
+                }
+            else{
+                $("input[id$=points]").show();
+                $("#points").show();
+                }
+            $("#id_how_to_win").change(function(){
+                if($("#id_how_to_win").val() == '' || $("#id_how_to_win").val() == 'correct'){
+                    $("input[id$=points]").hide();
+                    $("#points").hide();
+                    }
+                else{
+                    $("input[id$=points]").show();
+                    $("#points").show();
+                    }
+                    });
+        });
+
+    </script>
+{% endblock %}
+{% block menu %}
+{{ block.super }}
+    {% if pool %}
+    <div class="container">
+        <div class="submenu">
+            <ul>
+                <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
+                <li><a href="{% url 'oscar_pool_ballots' pool.id %}">Ballots</a></li>
+                <li><a href="{% url 'oscar_pool_standings' pool.id %} ">Standings</a></li>
+                <li><a href="{% url 'oscar_pool_members' pool.id %}">Members</a></li>
+                <li><a href="{% url 'oscar_predictions' pool.id %}">Predictions/Results</a></li>
+                {% if user == pool.administrator %}
+                <li><a style="color:orange;" href="{% url 'oscar_pool' pool.id %}">Settings</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block body %}
+{% if pool %}
+    <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
+    <h4>You will not be able to edit the pool settings once the ceremony has started</h4>
+{% else %}
+    <h2>Create an Oscar pool</h2>
+{% endif %}
+{% if pool and pool.is_past_due %}
+        <table class="span-18">
+        <tr>
+            <td class="span-3">{{ form.name.label_tag }}</td>
+            <td class="span-6">{{ form.name.value }}</td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password.value }}</td>
+            <td>{{ form.password.help_text }}</td>
+            <td>{{ form.password.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.entry_deadline.label_tag }}</td>
+            <td>{{ form.entry_deadline.value }}<br>
+                All time is in EST</td>
+            <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
+            <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+       </table>
+        <div class="span-18">
+        <h3>Create the Ballot</h3>
+        <table style="margin-top:-10px;margin-bottom:1px;">
+        <tr>
+            <td class="span-3">{{ form.how_to_win.label_tag }}</td>
+            <td class="span-4">{{ form.instance.get_how_to_win_display }}</td>
+            <td>{{ form.how_to_win.errors }}</td>
+        </tr>
+        </table>
+        <table>
+        <tr>
+                <td class="span-4"><u>Award</u></td>
+                <td id="points"><u>Awarded points</u></td>
+            </tr>
+        {% for c in category_forms %}
+            {% if c.active.value == True %}
+            <tr>
+                <td>{{ c.name.value }}</td>
+                <td>{{ c.points.value }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+            </div>
+{% else %}
+<form method="post" class="span-18">{% csrf_token %}
+    <table>
+        <tr>
+            <td class="span-3">{{ form.name.label_tag }}</td>
+            <td class="span-6">{{ form.name }}</td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+            <td>{{ form.password.help_text }}</td>
+            <td>{{ form.password.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password_confirm.label_tag }}</td>
+            <td>{{ form.password_confirm }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.entry_deadline.label_tag }}</td>
+            <td>{{ form.entry_deadline }}<br>
+                All time is in EST</td>
+            <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
+            <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+       </table>
+    <h3>Create the Ballot</h3>
+    <table style="margin-top:-10px;margin-bottom:-15px;">
+        <tr>
+            <td class="span-3">{{ form.how_to_win.label_tag }}</td>
+            <td class="span-4">{{ form.how_to_win }}</td>
+            <td>{{ form.how_to_win.errors }}</td>
+        </tr>
+    <table>
+    <table>
+        <tr>
+                <td class="span-3"><u>Check to include category</u></td>
+                <td class="span-4"><u>Award</u></td>
+                <td id="points"><u>Awarded points</u></td>
+            </tr>
+        {% for c in category_forms %}
+            <tr>
+                <td>{{ c.active }}</td>
+                <td>{{ c.name.value }}</td>
+                <td>{{ c.points }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div>
+        <input class="submit" type="submit" name="submit" value="{% if pool %}Save{% else %}Create Pool{% endif %}" />
+        {% if form.instance.id %}
+        <input class="submit delete" type="submit" name="delete" id="delete" value="Delete Pool" />
+        {% endif %}
+    </div>
+</form>
+ {% endif %}
+{% endblock %}

@@ -41,19 +41,24 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'datetimewidget',
     'registration',
     'mysite.base',
+    'mysite.oscars',
+    'mysite.survivor',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mysite.base.middleware.FinishProfile',
 )
 
 
@@ -84,7 +89,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -99,6 +104,8 @@ LOGIN_REDIRECT_URL = '/'
 STATIC_ROOT = 'C:/Users/Anthony/Desktop/March Madness Site/mysite/static/'
 STATIC_URL = '/static/'
 
-#MEDIA_ROOT = 'C:/Users/Anthony/Desktop/March Madness Site/mysite/static/'
-#MEDIA_URL = '/media/'
+MEDIA_ROOT = 'C:/Users/Anthony/Desktop/March Madness Site/mysite/media/'
+MEDIA_URL = '/media/'
 #ADMIN_MEDIA_PREFIX = '/media/'
+
+OSCAR_POOLS_OPEN = True

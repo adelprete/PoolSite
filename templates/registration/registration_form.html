@@ -1,0 +1,33 @@
+{% extends "panel_core.html" %}
+{% block body %}
+<h3>Sign Up</h3>
+<form method="post" class="span-10">{% csrf_token %}
+    <table>
+        <tr>
+            <td class="span-4">{{ form.username.label }}</td>
+            <td>{{ form.username }}</td>
+            <td>{{ form.username.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.email.label }}</td>
+            <td>{{ form.email }}</td>
+            <td>{{ form.email.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password1.label }}</td>
+            <td>{{ form.password1 }}</td>
+            <td>{{ form.password1.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password2.label }}</td>
+            <td>{{ form.password2 }}</td>
+            <td>{{ form.password2.errors }}</td>
+        </tr>
+    </table>
+    <div>
+        <input class="submit" type="submit" name="submit" value="Register" />
+    </div>
+</form>
+
+
+{% endblock %}

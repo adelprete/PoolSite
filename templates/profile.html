@@ -1,0 +1,66 @@
+{% extends 'panel_core.html' %}
+{% block body %}
+<h3>Sign Up</h3>
+<form method="post" class="span-15">{% csrf_token %}
+    <h2>Last step! Finish filling out your profile!</h2>
+    <h3>Basic information</h3>
+    <table>
+        <tr>
+            <td class="span-5">{{ form.first_name.label }}</td>
+            <td>{{ form.first_name }}</td>
+            <td>{{ form.first_name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.last_name.label }}</td>
+            <td>{{ form.last_name }}</td>
+            <td>{{ form.last_name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.line_1.label }}</td>
+            <td>{{ addr_form.line_1 }}</td>
+            <td>{{ addr_form.line_1.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.line_2.label }}</td>
+            <td>{{ addr_form.line_2 }}</td>
+            <td>{{ addr_form.line_2.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.city.label }}</td>
+            <td>{{ addr_form.city }}</td>
+            <td>{{ addr_form.city.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.state.label }}</td>
+            <td>{{ addr_form.state }}</td>
+            <td>{{ addr_form.state.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.zip.label }}</td>
+            <td>{{ addr_form.zip }}</td>
+            <td>{{ addr_form.zip.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ addr_form.phone.label }}</td>
+            <td>{{ addr_form.phone }}</td>
+            <td>{{ addr_form.phone.errors }}</td>
+        </tr>
+    </table>
+    <h3>Bonus Information</h3>
+    <table>
+        <tr>
+            <td class="span-5">{{ form.birth_date.label }}</td>
+            <td>{{ form.birth_date }}</td>
+            <td>{{ form.birth_date.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.gender.label }}</td>
+            <td>{{ form.gender }}</td>
+            <td>{{ form.gender.errors }}</td>
+        </tr>
+    </table>
+    <div>
+        <input class="submit" type="submit" name="submit" value="Submit" />
+    </div>
+</form>
+{% endblock %}

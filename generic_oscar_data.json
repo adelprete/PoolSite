@@ -1,0 +1,525 @@
+[
+{
+  "pk": 1, 
+  "model": "oscars.oscarceremony", 
+  "fields": {
+    "active": true, 
+    "date": "2014-05-23T19:10:19Z", 
+    "first_play_off": 3, 
+    "name": "84th Annual"
+  }
+},
+{
+  "pk": 5, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Original Screenplay", 
+    "nominee": [
+      40, 
+      39, 
+      38, 
+      18, 
+      19
+    ], 
+    "winner": 19, 
+    "priority": 7, 
+    "points": 5, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 6, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Supporting Actress", 
+    "nominee": [
+      34, 
+      37, 
+      35, 
+      36, 
+      33
+    ], 
+    "winner": 33, 
+    "priority": 6, 
+    "points": 10, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 7, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Supporting Actor", 
+    "nominee": [
+      28, 
+      30, 
+      29, 
+      32, 
+      31
+    ], 
+    "winner": 28, 
+    "priority": 5, 
+    "points": 15, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 8, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Actress", 
+    "nominee": [
+      24, 
+      23, 
+      27, 
+      26, 
+      25
+    ], 
+    "winner": 23, 
+    "priority": 4, 
+    "points": 20, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 9, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Actor", 
+    "nominee": [
+      17, 
+      14, 
+      16, 
+      15, 
+      13
+    ], 
+    "winner": 13, 
+    "priority": 3, 
+    "points": 25, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 10, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Director", 
+    "nominee": [
+      21, 
+      22, 
+      18, 
+      20, 
+      19
+    ], 
+    "winner": 18, 
+    "priority": 2, 
+    "points": 30, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 11, 
+  "model": "oscars.basecategory", 
+  "fields": {
+    "ceremony": 1, 
+    "name": "Best Picture", 
+    "nominee": [
+      6, 
+      8, 
+      10, 
+      4, 
+      5, 
+      7, 
+      11, 
+      12
+    ], 
+    "winner": 4, 
+    "priority": 1, 
+    "points": 35, 
+    "year": 2014, 
+    "active": true
+  }
+},
+{
+  "pk": 4, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Thomas Langmann", 
+    "name": "The Artist", 
+    "year": 2014
+  }
+},
+{
+  "pk": 5, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Jim Burke, Jim Taylor, and Alexander Payne", 
+    "name": "The Descendents", 
+    "year": 2014
+  }
+},
+{
+  "pk": 6, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Extremely Loud and Incredibly Close", 
+    "name": "Extremely Loud and Incredibly Close", 
+    "year": 2014
+  }
+},
+{
+  "pk": 7, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Brunson Green, Chris Columbus, and Michael Barnath", 
+    "name": "The Help", 
+    "year": 2014
+  }
+},
+{
+  "pk": 8, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Graham King and Martin Scorsese", 
+    "name": "Hugo", 
+    "year": 2014
+  }
+},
+{
+  "pk": 9, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Letty Aronson and Stephen Tenenbaum", 
+    "name": "Midnight in Paris", 
+    "year": 2014
+  }
+},
+{
+  "pk": 10, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Michael De Luca, Rachael Horovitz, and Brad Pitt", 
+    "name": "Moneyball", 
+    "year": 2014
+  }
+},
+{
+  "pk": 11, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Dede Gardner, Sarah Green, Grant Hill, and Bill Po", 
+    "name": "The Tree of Life", 
+    "year": 2014
+  }
+},
+{
+  "pk": 12, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Steven Spielberg and Kathleen Kennedy", 
+    "name": "War Horse", 
+    "year": 2014
+  }
+},
+{
+  "pk": 13, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Artist", 
+    "name": "Jean Dujardin", 
+    "year": 2014
+  }
+},
+{
+  "pk": 14, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "A Better Life", 
+    "name": "Demi\u00e1n Bichir", 
+    "year": 2014
+  }
+},
+{
+  "pk": 15, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Descendents", 
+    "name": "George Clooney", 
+    "year": 2014
+  }
+},
+{
+  "pk": 16, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Tinker Tailor Soldier Spy", 
+    "name": "Gary Oldman", 
+    "year": 2014
+  }
+},
+{
+  "pk": 17, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Moneyball", 
+    "name": "Brad Pitt", 
+    "year": 2014
+  }
+},
+{
+  "pk": 18, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Artist", 
+    "name": "Michel Hazanavicius", 
+    "year": 2014
+  }
+},
+{
+  "pk": 19, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Midnight in Paris", 
+    "name": "Woody Allen", 
+    "year": 2014
+  }
+},
+{
+  "pk": 20, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Tree of Life", 
+    "name": "Terrence Malick", 
+    "year": 2014
+  }
+},
+{
+  "pk": 21, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Descendents", 
+    "name": "Alexander Payne", 
+    "year": 2014
+  }
+},
+{
+  "pk": 22, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Hugo", 
+    "name": "Martin Scorsese", 
+    "year": 2014
+  }
+},
+{
+  "pk": 23, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Iron lady", 
+    "name": "Meryl Streep", 
+    "year": 2014
+  }
+},
+{
+  "pk": 24, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Albert Nobbs", 
+    "name": "Glenn Close", 
+    "year": 2014
+  }
+},
+{
+  "pk": 25, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Help", 
+    "name": "Viola Davis", 
+    "year": 2014
+  }
+},
+{
+  "pk": 26, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Girl with the Dragon Tattoo", 
+    "name": "Rooney Mara", 
+    "year": 2014
+  }
+},
+{
+  "pk": 27, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "My Week with Marylin", 
+    "name": "Michelle Williams", 
+    "year": 2014
+  }
+},
+{
+  "pk": 28, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Beginners", 
+    "name": "Christopher Plummer", 
+    "year": 2014
+  }
+},
+{
+  "pk": 29, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "My Week with Marilyn", 
+    "name": "Kenneth Branagh", 
+    "year": 2014
+  }
+},
+{
+  "pk": 30, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Moneyball", 
+    "name": "Jonah Hill ", 
+    "year": 2014
+  }
+},
+{
+  "pk": 31, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Warrior", 
+    "name": "Nick Nolte", 
+    "year": 2014
+  }
+},
+{
+  "pk": 32, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Extremely Loud and Incredibly Close", 
+    "name": "Max von Sydow ", 
+    "year": 2014
+  }
+},
+{
+  "pk": 33, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Help", 
+    "name": "Octavia Spencer ", 
+    "year": 2014
+  }
+},
+{
+  "pk": 34, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Artist", 
+    "name": "B\u00e9r\u00e9nice Bejo", 
+    "year": 2014
+  }
+},
+{
+  "pk": 35, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "The Help", 
+    "name": "Jessica Chastain", 
+    "year": 2014
+  }
+},
+{
+  "pk": 36, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Bridesmaids", 
+    "name": "Melissa McCarthy", 
+    "year": 2014
+  }
+},
+{
+  "pk": 37, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Albert Nobbs", 
+    "name": "Janet McTeer", 
+    "year": 2014
+  }
+},
+{
+  "pk": 38, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Bridesmaids", 
+    "name": "Kristen Wiig and Annie Mumolo", 
+    "year": 2014
+  }
+},
+{
+  "pk": 39, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "Margin Call", 
+    "name": "J. C. Chandor", 
+    "year": 2014
+  }
+},
+{
+  "pk": 40, 
+  "model": "oscars.nominee", 
+  "fields": {
+    "active": true, 
+    "secondary_name": "A Separation", 
+    "name": "Asghar Farhadi", 
+    "year": 2014
+  }
+}
+]

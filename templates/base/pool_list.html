@@ -1,0 +1,85 @@
+{% extends 'panel_core.html' %}
+
+{% block body %}
+        <h2>Your Pools:</h2>
+        <ul>
+            <h3>Oscar Pools</h3>
+            {% if cur_oscar_pools %}
+                <ol>
+
+                <ul>
+                {% for o in cur_oscar_pools %}
+                   <ol>
+                       <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <a href="{{ o.get_absolute_url }}">{{ o.name }}</a>
+                       &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ o.members.count|add:"1" }}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ o.administrator }}
+                       </div>
+                   </ol>
+                <br><br><br>
+                {% endfor %}
+                    </ul>
+                 </ol>
+            {% else %}
+                <ol style="padding-left:54px;">You are currently not in any Oscar pools.  Go Create or Join a pool!
+            {% endif %}
+
+        </ul>
+        <ul>
+            <h3>Survivor Pools</h3>
+            {% if cur_survivor_pools %}
+                <ol>
+                <ul>
+                {% for s in cur_survivor_pools %}
+                   <ol>
+                       <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <a href="{{ s.get_absolute_url }}">{{ s.name }}</a>
+                       &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ s.members.count|add:"1" }}
+                                  &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ s.administrator }}
+                       </div>
+                   </ol>
+                <br><br><br>
+                {% endfor %}
+                    </ul>
+                 </ol>
+            {% else %}
+                <ol style="padding-left:54px;">You are currently not in any Survivor pools.  Go Create or Join a pool!
+            {% endif %}
+
+        </ul>
+
+        {% if old_oscar_pools or old_survivor_pools %}
+        <h2>Past Pools:</h2>
+            {% if old_oscar_pools %}
+            <ul>
+                {% for o in old_oscar_pools %}
+                    <ol style="padding-left:54px;">
+                        <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <a href="{{ o.get_absolute_url }}">{{ o.name }}</a>
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ o.members.count|add:"1" }}
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ o.administrator }}
+                        </div>
+                    </ol>
+                <br><br><br>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if old_survivor_pools %}
+            <ul>
+                {% for s in old_survivor_pools %}
+                    <ol style="padding-left:54px;">
+                        <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <a href="{{ o.get_absolute_url }}">{{ s.name }}</a>
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ s.members.count|add:"1" }}
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ s.administrator }}
+                        </div>
+                    </ol>
+                <br><br><br>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endif %}
+
+
+
+{% endblock %}
