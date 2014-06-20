@@ -1,49 +1,54 @@
 {% extends 'panel_core.html' %}
 {% block body %}
 <h3>Sign Up</h3>
-<form method="post" class="span-15">{% csrf_token %}
+<form method="post" class="span-17">{% csrf_token %}
     <h2>Last step! Finish filling out your profile!</h2>
     <h3>Basic information</h3>
     <table>
         <tr>
-            <td class="span-5">{{ form.first_name.label }}</td>
-            <td>{{ form.first_name }}</td>
-            <td>{{ form.first_name.errors }}</td>
+            <td class="span-5">{{ form.first_name.label_tag }}</td>
+            <td>{{ form.first_name }}{{ form.first_name.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ form.last_name.label }}</td>
-            <td>{{ form.last_name }}</td>
-            <td>{{ form.last_name.errors }}</td>
+            <td>{{ form.last_name.label_tag }}</td>
+            <td>{{ form.last_name }}{{ form.last_name.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.line_1.label }}</td>
-            <td>{{ addr_form.line_1 }}</td>
-            <td>{{ addr_form.line_1.errors }}</td>
+            <td>{{ form.line_1.label_tag }}</td>
+            <td>{{ form.line_1 }}{{ addr_form.line_1.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.line_2.label }}</td>
-            <td>{{ addr_form.line_2 }}</td>
-            <td>{{ addr_form.line_2.errors }}</td>
+            <td>{{ form.line_2.label }}</td>
+            <td>{{ form.line_2 }}{{ addr_form.line_2.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.city.label }}</td>
-            <td>{{ addr_form.city }}</td>
-            <td>{{ addr_form.city.errors }}</td>
+            <td>{{ form.city.label_tag }}</td>
+            <td>{{ form.city }}{{ addr_form.city.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.state.label }}</td>
-            <td>{{ addr_form.state }}</td>
-            <td>{{ addr_form.state.errors }}</td>
+            <td>{{ form.state.label_tag }}</td>
+            <td>{{ form.state }}{{ addr_form.state.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.zip.label }}</td>
-            <td>{{ addr_form.zip }}</td>
-            <td>{{ addr_form.zip.errors }}</td>
+            <td>{{ form.zip.label_tag }}</td>
+            <td>{{ form.zip }}{{ addr_form.zip.errors }}</td>
+            <td></td>
         </tr>
         <tr>
-            <td>{{ addr_form.phone.label }}</td>
-            <td>{{ addr_form.phone }}</td>
-            <td>{{ addr_form.phone.errors }}</td>
+            <td>{{ form.phone.label_tag }}</td>
+            <td>{{ form.phone }}{{ addr_form.phone.errors }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ form.agree_to_terms.label_tag }}{{ form.agree_to_terms.errors }}</td>
+            <td><div style="float:left;">{{ form.agree_to_terms }}</div><div style="padding-left:20px;">{{ form.agree_to_terms.help_text }}</td>
+            <td></td>
         </tr>
     </table>
     <h3>Bonus Information</h3>

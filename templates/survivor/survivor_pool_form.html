@@ -1,11 +1,142 @@
 {% extends "panel_core.html" %}
+{% block menu %}
+    {{ block.super }}
+    {% if pool %}
+    <div class="container">
+        <div class="submenu">
+            <ul>
+                <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
+                <li id="ballots"><a href="{% url 'survivor_member_picksheets' pool.id %}">Member Picks</a></li>
+                <li><a href="{% url 'survivor_standings' pool.id %}">Standings</a></li>
+                <li><a href="{% url 'survivor_members' pool.id %}">Members</a></li>
+                <li><a href="{% url 'survivor_stats' pool.id %}">Stats</a></li>
+                {% if user == pool.administrator %}
+                <li><a style="color:orange;" href="{% url 'survivor_pool' pool.id %}">Settings</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
 {% block body %}
         {% if pool %}
             <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
-            <h4>You will not be able to edit the pool settings once the ceremony has started</h4>
+            <h4>You will not be able to edit the pool settings once the season has started</h4>
         {% else %}
             <h2>Create a Survivor pool</h2>
         {% endif %}
+        {% if pool and pool.is_past_due %}
+        <table class="span-18">
+        <tr>
+            <td class="span-3">{{ form.name.label_tag }}</td>
+            <td class="span-6">{{ form.name.value }}</td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password.value }}</td>
+            <td>{{ form.password.help_text }}</td>
+            <td>{{ form.password.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.entry_deadline.label_tag }}</td>
+            <td>{{ form.entry_deadline.value }}<br>
+                All time is in EST</td>
+            <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
+            <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.max_submissions.label_tag }}</td>
+            <td>{{ form.max_submissions.value }}</td>
+        </tr>
+       </table>
+        <div class="span-18">
+        <h3>Points Distribution</h3>
+            <h4 class="span-12">Each member of the pool will choose 4 castaways before the start of the season.
+        No two members can choose the same 4 castaways.  As the season goes on, each member
+        will get points depending on what their chosen castaways do.  Choose want
+        you want to give points for by checking the check marks below.</h4>
+        <hr width=0>
+        <table style="margin-top:-10px;margin-bottom:5px;">
+            <tr>
+                <td class="span-7"><u>Condition</u></td>
+                <td><u>Points</u></td>
+            </tr>
+            {% if pool.first_out %}
+            <tr>
+                <td>{{ form.first_out.label_tag }}</td>
+                <td>12 pts</td>
+                {% endif %}
+            </tr>
+            {% if pool.tribe_reward %}
+            <tr>
+                <td>{{ form.tribe_reward.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.tribe_immunity %}
+            <tr>
+                <td>{{ form.tribe_immunity.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.making_merge %}
+            <tr>
+                <td>{{ form.making_merge.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.individual_reward %}
+            <tr>
+                <td>{{ form.individual_reward.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.individual_immunity %}
+            <tr>
+                <td>{{ form.individual_immunity.label_tag }}</td>
+                <td>3 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.finding_immunity %}
+            <tr>
+                <td>{{ form.finding_immunity.label_tag }}</td>
+                <td>4 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.going_with_vote %}
+            <tr>
+                <td>{{ form.going_with_vote.label_tag }}</td>
+                <td>2 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.successful_idol_use %}
+            <tr>
+                <td>{{ form.successful_idol_use.label_tag }}</td>
+                <td>6 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.ri_victory %}
+            <tr>
+                <td>{{ form.ri_victory.label_tag }}</td>
+                <td>1 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.returned_from_ri %}
+            <tr>
+                <td>{{ form.returned_from_ri.label_tag }}</td>
+                <td>4 pts</td>
+            </tr>
+            {% endif %}
+            {% if pool.ftc_votes %}
+            <tr>
+                <td>{{ form.ftc_votes.label_tag }}</td>
+                <td>2 pts for each vote</td>
+            </tr>
+            {% endif %}
+        <table>
+            </div>
+{% else %}
 <form method="POST">{% csrf_token %}
     <table>
         <tr>
@@ -29,6 +160,12 @@
                 All time is in EST</td>
             <td>{{ form.entry_deadline.help_text }} The season starts on {{ season.start_date }}</td>
             <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.max_submissions.label_tag }}</td>
+            <td>{{ form.max_submissions }}</td>
+            <td>{{ form.max_submissions.help_text }}</td>
+            <td>{{ form.max_submissions.errors }}</td>
         </tr>
        </table>
         <h3>Set the Points</h3>
@@ -111,4 +248,5 @@
         {% endif %}
     </div>
 </form>
+{% endif %}
 {% endblock %}

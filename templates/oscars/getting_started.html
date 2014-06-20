@@ -1,0 +1,26 @@
+{% extends "panel_core.html" %}
+{% block body %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Oscars Pools: Getting Started</b></h2>
+        <h3><b>How it works:</b></h3>
+        <p style="width:70%;">Users can create and join Oscar Pools with their friends or co-workers where they will compete to see who
+            can correctly guess the winners of each category at the Academy Awards.  Members of each
+            pool will have up to the start of the Award Ceremony to fill out or make changes to their
+            Ballots.  During the ceremony our team will be updating the scores in real time, so you'll
+            know who in your pool is winning and losing throughout the entire ceremony!
+        <h3><b>Different Ways to Win:</b></h3>
+        <p style="width:70%;">The Admin of each pool will choose one of the following formats:</p>
+        <p style="width:70%;padding-left:30px"><b style="font-size:15px;">Win By Number of Correct Picks:</b><br>Its simple,
+            winners in this format are decied by who correctly guesses the most award winners.</p>
+        <p style="width:70%;padding-left:30px"><b style="font-size:15px;">Win By Accumulated Points:</b><br>In this format
+            the Admin of the Pool will assign points to each category.  So if a Member guesses the winner of a category worth
+            10 pts their Ballot will gain 10pts.  The Member whose ballot has the most points by the end of Award Ceremony wins.</p>
+        <h3><b>Predictions</b></h3>
+        <p style="width:70%;">As users fill out and submit their ballots you'll be able to see who the community thinks will win in
+            each category!</p>
+        <h3><b>Thats It!</b></h3>
+        <p style="width:70%;">Now go create an Oscar Pool and let us do all the hard work for you!</p>
+
+        <form method="GET" action="{% url 'create_oscar_pool' %}">{% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Create a Pool Now!"/>
+        </form>
+{% endblock %}

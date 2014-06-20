@@ -1,5 +1,6 @@
 import datetime
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from collections import Counter, OrderedDict
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
@@ -32,46 +33,37 @@ def pool_homepage(request,id=None):
 
     return render(request,"oscars/pool_home.html",context)
 
-def join_pool(request):
-
-    if request.user.is_anonymous():
-        messages.error(request,"Please log in first")
-        return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
-
-    form = oforms.JoinForm(request.POST or None)
-
-    if form.is_valid():
-        pool = get_object_or_404(bmodels.Pool,id=form.cleaned_data['pool_id'])
-        if pool.password == form.cleaned_data['password']:
-            pool.members.add(request.user)
-            messages.success(request,"You've successfully joined the pool!")
-            if hasattr(pool,"oscarpool"):
-                pool = pool.oscarpool
-                return HttpResponseRedirect(pool.get_absolute_url())
-        messages.error(request,"Either the ID and Password given do not match.")
-
-    return render(request,'oscars/join_form.html', {'form':form})
-
+@login_required
 def pool_members(request,id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if user is in this pool
     if request.user not in pool.members.all() and request.user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
+
     context = {
         'pool':pool,
         'join_url': request.build_absolute_uri(reverse("join_pool"))
     }
     return render(request,'oscars/members.html',context)
 
+@login_required
 def pool_ballot_list(request,id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if user is in this pool
     if request.user not in pool.members.all() and request.user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
 
     ballots = pool.ballot_set.all()
     your_ballots = ballots.filter(member=request.user)
     allow_new_ballots = True
+
+    if not pool.allow_new_ballots or (ballots.filter(member=request.user).count() >= pool.max_submissions):
+        allow_new_ballots = False
+
     if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
         allow_new_ballots = False
 
@@ -83,9 +75,12 @@ def pool_ballot_list(request,id=None):
     }
     return render(request,'oscars/ballots.html',context)
 
+@login_required
 def pool_ballot(request,id=None,ballot_id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if this user is in this pool
     if request.user not in pool.members.all() and request.user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
 
@@ -110,7 +105,7 @@ def pool_ballot(request,id=None,ballot_id=None):
             if datetime.timedelta(0) < (ballot.pool.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
                 ballot.delete()
                 messages.success(request,"The Ballot was successfully deleted")
-                return HttpResponseRedirect(reverse("pool_ballots",kwargs={'id':pool.id}))
+                return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
             else:
                 messages.error(request,"You cannot delete ballots after the Ceremony has started")
         elif ballot_form.is_valid():
@@ -139,7 +134,7 @@ def pool_ballot(request,id=None,ballot_id=None):
                             response_record.save()
                     if response_form.is_valid():
                         messages.success(request,"Ballot saved successfully")
-                        return HttpResponseRedirect(ballot_record.get_absolute_url())
+                        return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
             if ballot:
                 for response in ballot.response_set.all():
                     response_form = oforms.ResponseForm(response.category,allow_new_ballots,request.POST,prefix=response.category.name,instance=response)
@@ -156,7 +151,7 @@ def pool_ballot(request,id=None,ballot_id=None):
                         response_record.save()
                 if response_form.is_valid():
                     messages.success(request,"Ballot saved successfully")
-                    return HttpResponseRedirect(ballot_record.get_absolute_url())
+                    return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
 
         messages.error(request,"Please double check that you've filled out every field.")
 
@@ -176,9 +171,12 @@ def pool_ballot(request,id=None,ballot_id=None):
     }
     return render(request,'oscars/ballot_form.html',context)
 
+@login_required
 def pool_standings(request,id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if this user is in this pool
     if request.user not in pool.members.all() and request.user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
 
@@ -207,13 +205,10 @@ def pool_standings(request,id=None):
 
     return render(request,'oscars/standings.html',context)
 
+@login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
     ceremony = omodels.OscarCeremony.objects.latest('date')
-
-    if request.user.is_anonymous():
-        messages.error(request,"Please log in first")
-        return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
     if not id:
         today = datetime.datetime.utcnow()
@@ -228,8 +223,11 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
     if id:
         pool = get_object_or_404(omodels.OscarPool,id=id)
-        if request.user not in pool.members.all() and request.user != pool.administrator:
-            return HttpResponseRedirect(reverse("root"))
+
+        # check if user is admin for this pool
+        if request.user != pool.administrator:
+            return HttpResponseRedirect(pool.get_absolute_url())
+
         custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
     if 'delete' in request.POST:
         pool.delete()
@@ -289,11 +287,15 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
     return render(request,"oscars/oscar_pool_form.html",context)
 
+@login_required
 def pool_admin_message(request,id=None,form_class=oforms.AdminMessageForm):
     pool = None
 
     if id:
         pool = get_object_or_404(omodels.OscarPool,id=id)
+        # check if this user is in this pool
+        if request.user != pool.administrator:
+            return HttpResponseRedirect(pool.get_absolute_url())
 
     message_form = form_class(instance=pool)
 
@@ -312,36 +314,49 @@ def pool_admin_message(request,id=None,form_class=oforms.AdminMessageForm):
 
     return render(request,'oscars/admin_message_form.html',context)
 
-def leave_pool(request,id):
+@login_required
+def remove_ballot(request,id,ballot_id):
 
+    ballot = get_object_or_404(omodels.Ballot,id=ballot_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
+    # check if this user is the admin in this pool
     if request.user != pool.administrator:
-        pool.members.remove(request.user)
-        pool.ballot_set.filter(member=request.user).delete()
-        messages.success(request,"You have been removed from the pool")
-        return HttpResponseRedirect(reverse("root"))
-    else:
-        messages.error(request,"You cannot leave your own pool.  If you want to delete the pool, go to 'Settings'")
+        return HttpResponseRedirect(pool.get_absolute_url())
 
-    return HttpResponseRedirect(reverse("pool_members",kwargs={'id':pool.id}))
+    ballot.delete()
 
+    success_str="Successfully removed ballot from your pool."
+    messages.success(request,success_str)
+
+    return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
+
+@login_required
 def remove_member(request,id,member_id):
 
     member = get_object_or_404(User,id=member_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if this user is the admin in this pool
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
 
     pool.members.remove(member)
     pool.ballot_set.filter(member=member).delete()
     success_str="Successfully removed " + member.username + " from your pool."
     messages.success(request,success_str)
 
-    return HttpResponseRedirect(reverse("pool_members",kwargs={'id':pool.id}))
+    return HttpResponseRedirect(reverse("oscar_members",kwargs={'id':pool.id}))
 
+@login_required
 def predictions(request,id):
 
-
     pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if this user is in this pool
+    if request.user not in pool.members.all() and request.user != pool.administrator:
+        return HttpResponseRedirect(reverse("root"))
+
     categories={}
     all_winners={}
     for custom_category in pool.customcategory_set.all():
@@ -350,6 +365,8 @@ def predictions(request,id):
         for nominee in custom_category.base_category.nominee.all():
             counts[nominee] = omodels.Response.objects.filter(category__name=custom_category.name,predicted_winner__name=nominee.name).count()
         total_responses = omodels.Response.objects.filter(category__name=custom_category.name).count()
+        if total_responses == 0:
+            total_responses = 1
         for key,value in counts.items():
             percentages[key] = "%.2f%%" % ((float(value)/float(total_responses))*100)
         categories[custom_category.name] = percentages

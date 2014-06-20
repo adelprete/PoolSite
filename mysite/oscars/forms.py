@@ -21,6 +21,7 @@ class OscarPoolForm(forms.ModelForm):
         self.fields['name'].error_messages = {'required':'Required'}
         self.fields['password'].error_messages = {'required':'Required'}
         self.fields['entry_deadline'].error_messages = {'required':'Required'}
+        self.fields['max_submissions'].help_text = "This is the max number of ballots each member may submit"
 
     def clean_entry_deadline(self):
         data = self.cleaned_data['entry_deadline']
@@ -32,6 +33,12 @@ class OscarPoolForm(forms.ModelForm):
 
             if datetime.timedelta(0) > (ceremony.date - data):
                 raise forms.ValidationError("You can't have an entry deadline past the start of the Oscar Ceremony")
+        return data
+
+    def clean_max_submissions(self):
+        data = self.cleaned_data['max_submissions']
+        if data <= 0:
+            raise forms.ValidationError("Max submissions cannot be 0")
         return data
 
     class Meta:
@@ -53,7 +60,6 @@ class CustomCategoryForm(forms.ModelForm):
         if self.instance.id:
             if timezone.now() > self.instance.pool.oscarpool.oscar_ceremony.date:
                 pass
-
 
         self.fields['points'].widget.attrs['style'] = "width:60px"
 
@@ -100,7 +106,6 @@ class ResponseForm(forms.ModelForm):
 
         if allow_new_ballots == False:
             self.fields['predicted_winner'].widget.attrs['disabled'] = 'disabled'
-
 
     class Meta:
         model = omodels.Response

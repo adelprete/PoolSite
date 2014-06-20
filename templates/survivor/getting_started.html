@@ -1,0 +1,34 @@
+{% extends "panel_core.html" %}
+{% block body %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Survivor Pools: Getting Started</b></h2>
+        <h3><b>How it works:</b></h3>
+        <p style="width:70%;">Users can create and join Survivor Pools with their friends or co-workers.  Before the season starts,
+            each member will fill out picksheets where they will choose the 4 castaways who they think will be the best this season.
+            No combination of 4 castaways can be the same so act quick before someone in your pool picks the 4 castaways you want!</p>
+        <h3><b>How to Win:</b></h3>
+        <p style="width:70%;">Throughout the season your castaways will perform certain events that will net your pick sheet points.
+            So if your pick sheet has a castaway named Tony, and Tony finds a hidden immunity idol, your pick sheet will get 4 points!
+            (the point breakdown is below)  The pool member whose pick sheet accumulated the most points by the end of the season wins!</p>
+        <h3><b>Point Breakdown</b></h3>
+            <p>Your pick sheet will gain points when your castaways perform the following events:</p>
+            <p style="padding-left:30px">
+                <b>Castaway is the first person voted out</b>  -  12pts<br>
+                <b>Castaway's tribe wins reward</b>  -  2pts<br>
+                <b>Castaway's Tribe wins immunity</b>  -  2pts<br>
+                <b>Castaway is a part of the majority vote during a tribal council</b>  -  1pts<br>
+                <b>Castaway makes the Merge</b>  -  3pts
+                <b>Castaway wins an individual Immunity Challenge</b>  -  3pts<br>
+                <b>Castaway wins an individual reward</b>  -  3pts<br>
+                <b>Castaway won the challenge at redemption</b> island  -  1pts<br>
+                <b>Castaway finds a hidden immunity idol</b>  -  4pts<br>
+                <b>Castaway returned from Redemption Island</b>  -  4pts<br>
+                <b>Castaway used a hidden idol successfully</b>  -  6pts<br>
+                <b>Castaway gets two points for every vote at the final tribal counsel</b>  -  2pts<br>
+            </p>
+        <h3><b>Thats It!</b></h3>
+        <p style="width:70%;">Now go create a Survivor Pool and let us do all the hard work for you!</p>
+
+        <form method="GET" action="{% url 'create_survivor_pool' %}">{% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Create a Pool Now!"/>
+        </form>
+{% endblock %}

@@ -2,13 +2,13 @@
 {% block title %}Log In{% endblock %}
 {% block body %}
 <center>
-<h2>Log In</h2>
+<h2 style="font-family:Verdana, Geneva, sans-serif">Log In</h2>
 
 <div class="span-8 prepend-8" id="main-content-inner">
     <div class="post">
         <p id="top"></p>
         {% if form.errors %}
-            <p>Your username and password did not match. Please try again.</p>
+            <p style="color:red;">Your username and password did not match. <br>Please try again.</p>
         {% else %}
             <p>Please enter your username and password to proceed.</p>
         {% endif %}
@@ -25,9 +25,17 @@
                 </tr>
                 <tr>
                     <td><input type="submit" value="Login" /></td>
+
+        </form>
+                <form method="get" action="{% url 'registration_register'%}">{% csrf_token %}
+                    <td><input type="submit" value="Sign Up" /></td>
+                </tr>
+                </form>
+                <tr>
+                    <td colspan="2"><a href="{% url 'password_reset' %}">Forgot Password</a></td>
                 </tr>
             </table>
-        </form>
+
     </div>
 </div>
 {% endblock %}

@@ -12,6 +12,10 @@ class SurvivorPoolForm(forms.ModelForm):
         required=False
     )
 
+    def __init__(self,*args,**kwargs):
+        super(SurvivorPoolForm,self).__init__(*args,**kwargs)
+        self.fields['max_submissions'].help_text = "This is the max number of pick sheets each member may submit"
+
     def clean_entry_deadline(self):
         data = self.cleaned_data['entry_deadline']
         if self.instance.id:
@@ -22,6 +26,12 @@ class SurvivorPoolForm(forms.ModelForm):
 
             if datetime.timedelta(0) > (season.start_date - data):
                 raise forms.ValidationError("You can't have an entry deadline past the start of the Survivor Season")
+        return data
+
+    def clean_max_submissions(self):
+        data = self.cleaned_data['max_submissions']
+        if data <= 0:
+            raise forms.ValidationError("Max submissions cannot be 0")
         return data
 
     class Meta:
@@ -35,6 +45,7 @@ class SurvivorPickSheetForm(forms.ModelForm):
         self.user = user
         self.pool = pool
         super(SurvivorPickSheetForm,self).__init__(*args,**kwargs)
+        self.fields["four_picks"].queryset = smodels.CustomCastaway.objects.filter(survivor_pool=self.pool)
 
     def clean_four_picks(self):
         data = self.cleaned_data['four_picks']
@@ -58,4 +69,22 @@ class SurvivorPickSheetForm(forms.ModelForm):
 
     class Meta:
         model = smodels.SurvivorPickSheet
-        exclude = {'member','survivor_pool','total_score'}
+        exclude = {'member','survivor_pool','total_points'}
+
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s" % obj.base_castaway.first_name
+
+class SurvivorStatsForm(forms.Form):
+    castaways = MyModelChoiceField(queryset=smodels.CustomCastaway.objects.all(),empty_label=None)
+    def __init__(self,castaways,*args,**kwargs):
+        #castaway = forms.ChoiceField(choices=smodels.BaseCastaways.objects.all())
+        super(SurvivorStatsForm,self).__init__(*args,**kwargs)
+        self.fields['castaways'].queryset = castaways
+        self.fields['castaways'].widget.attrs = {'style':'width:100px;'}
+
+class AdminMessageForm(forms.ModelForm):
+
+    class Meta:
+        model = smodels.SurvivorPool
+        fields = {'admin_note'}

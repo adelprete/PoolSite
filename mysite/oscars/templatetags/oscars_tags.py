@@ -49,10 +49,17 @@ def remove_underscores(value):
 
 @register.assignment_tag
 def get_attr(item, attribute):
-
     try:
         if hasattr(item,attribute):
             return getattr(item,attribute)
+    except:
+        return None
+
+@register.assignment_tag
+def get_attr_verbose_name(item, attribute):
+    try:
+        if hasattr(item,attribute):
+            return item._meta.get_field_by_name(attribute)[0].verbose_name
     except:
         return None
 

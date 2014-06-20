@@ -6,43 +6,44 @@
     </script>
     <script>
         $(function(){
-            $("#all_picksheets").css("text-decoration","underline");
+            $("#all_picksheets").css("border-bottom","5px solid black");
             $(".your-picksheets-single").hide();
             $(".all-picksheets-single").show();
 
             $("#all_picksheets").click(function(){
-                $(this).css("text-decoration","underline");
-                $("#your_picksheets").css("text-decoration","none");
+                $(this).css("border-bottom","5px solid black");
+                $("#your_picksheets").css("border-bottom","none");
                 $(".your-picksheets-single").hide();
                 $(".all-picksheets-single").show();
             });
             $("#your_picksheets").click(function(){
-                $(this).css("text-decoration","underline");
-                $("#all_picksheets").css("text-decoration","none");
+                $(this).css("border-bottom","5px solid black");
+                $("#all_picksheets").css("border-bottom","none");
                 $(".your-picksheets-single").show();
                 $(".all-picksheets-single").hide();
             });
         });
     </script>
-
 {% endblock %}
 {% block body %}
         <h2 id="all_picksheets" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>All Pick sheets</b></h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <h2 id="your_picksheets" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>Your Pick sheets</b></h2>
         <hr>
-        {% if pool.allow_new_picksheets %}
+        {% if allow_new_picksheets %}
             <form action="{% url 'survivor_picksheet_create' pool.id %}" method="GET">{% csrf_token %}
                 <input type="submit" value="Fill Out a Pick Sheet" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your picks.
             </form>
         {% else %}
-            The entry deadline has been reached.  No new picks may be entered and existing picks can no longer be changed.
+            No new picks may be entered.  Either the Entry Deadline has past or you have reached the max amount of entries.
         {% endif %}
-
         <table class="span-15">
             <tr class="header">
                 <th style="border-bottom:1px solid black;"><b>Member</b></th>
                 <th style="border-bottom:1px solid black;"><b>Pick sheet</b></th>
                 <th><b>Picks</b></th>
+                {% if user == pool.administrator %}
+                    <th></th>
+                {% endif %}
             </tr>
         {% if picksheets %}
             <div id="all-picksheets-list">
@@ -64,6 +65,9 @@
                             {% endif %}
                         {% endfor %}
                     </td>
+                    {% if user == pool.administrator %}
+                        <td><a href="{% url 'survivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </div>
@@ -81,6 +85,9 @@
                                     {% endif %}
                                 {% endfor %}
                             </td>
+                            {% if user == pool.administrator %}
+                                <td><a href="{% url 'survivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}

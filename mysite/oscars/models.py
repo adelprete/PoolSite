@@ -1,11 +1,11 @@
 from django.utils import timezone
+import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from datetime import timedelta
 from mysite.base import models as bmodels
-from mysite.base import helpers as bhelpers
+from mysite.oscars import helpers as ohelpers
 
-# Create your models here.
 
 class OscarCeremony(bmodels.Definition):
     date = models.DateTimeField(help_text="Date and time of ceremony")
@@ -23,6 +23,11 @@ class OscarPool(bmodels.Pool):
             return True
         return False
 
+    def allow_new_ballots(self):
+        if datetime.timedelta(0) > (self.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return False
+        return True
+
     @property
     def can_display_winners(self):
         if timezone.now() > (self.oscar_ceremony.date + timedelta(hours=1)):
@@ -34,6 +39,12 @@ class OscarPool(bmodels.Pool):
 
     def get_absolute_url(self):
         return reverse("oscar_home",kwargs={'id':self.id})
+
+    def save(self):
+        if not self.admin_note:
+            self.admin_note = ohelpers.WELCOME_MESSAGE
+        super(OscarPool, self).save()
+        saved = True
 
 class Response(models.Model):
     ballot = models.ForeignKey('oscars.Ballot')
@@ -59,12 +70,11 @@ class Ballot(models.Model):
         return "%s -- %s" % (self.member,self.name)
 
     def get_absolute_url(self):
-        return reverse("oscar_pool_ballot",kwargs={'id':self.pool.id,'ballot_id':self.id})
+        return reverse("oscar_ballot",kwargs={'id':self.pool.id,'ballot_id':self.id})
 
     def save(self,update_last_save=False):
         if update_last_save == True:
             self.last_save_date = timezone.now()
-            print self.name
         super(Ballot, self).save()
         saved = True
 
@@ -123,8 +133,6 @@ class Nominee(bmodels.Definition):
             return "%s" % (self.secondary_name)
         elif self.name:
             return "%s  - %s" % (self.name,self.secondary_name)
-
-
 
 
 

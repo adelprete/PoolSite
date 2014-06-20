@@ -32,6 +32,7 @@ class Pool(models.Model):
     winner = models.IntegerField(blank=True,null=True)
     creation_date = models.DateField()
     admin_note = models.TextField(blank=True,null=True)
+    max_submissions = models.PositiveIntegerField(default=1)
 
     def save(self):
         if not self.identity:
@@ -44,42 +45,12 @@ class Pool(models.Model):
                         self.identity = identity
             except:
                 self.identity = 100
-        if not self.admin_note:
-            self.admin_note = bhelpers.WELCOME_MESSAGE
 
         if not self.creation_date:
             self.creation_date = datetime.date.today()
 
         super(Pool, self).save()
         saved = True
-
-"""
-class StandardBracket(Pool):
-    first_round_pts = models.IntegerField(default=1,null=True,blank=True,verbose_name="First Round")
-    second_round_pts = models.IntegerField(default=2,null=True,blank=True,verbose_name="Second Round")
-    sweet_sixteen_pts = models.IntegerField(default=4,null=True,blank=True,verbose_name="Sweet 16")
-    elite_eight_pts = models.IntegerField(default=8,null=True,blank=True,verbose_name="Elite 8")
-    final_four_pts = models.IntegerField(default=16,null=True,blank=True,verbose_name="Final Four")
-    national_championship_pts = models.IntegerField(default=32,null=True,blank=True,verbose_name="National Championship")
-    seed_bonus = models.BooleanField(default=False,blank=True,help_text="A seed bonus is added to each round victory", verbose_name="Seed Bonus")
-    multiple_brackets = models.BooleanField(default=False,blank=True,help_text="Check this box if you want to allow members of the pool to submit multiple brackets",verbose_name="Multiple Brackets")
-
-    def __unicode__(self):
-        return u'%s - %s' % (self.identity, self.name)
-
-    def save(self):
-        if not self.identity:
-            try:
-                self.identity = StandardBracket.objects.latest('entry_date').identity + 1
-            except:
-                self.identity = 100
-
-        if not self.entry_date:
-            self.entry_date = datetime.date.today()
-
-        super(Pool, self).save()
-        saved = True
-"""
 
 class MemberProfile(models.Model):
     user = models.OneToOneField('auth.User',editable=False)
@@ -88,16 +59,35 @@ class MemberProfile(models.Model):
     birth_date = models.DateField(null=True,blank=True)
     gender = models.CharField(max_length=5,null=True,blank=True, choices=bchoices.GENDER)
     creation_date = models.DateField(null=True, blank=True)
-    address = models.OneToOneField('base.Address',editable=False,)
+    agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use YourPoolHub.com for gambling purposes and to use it "
+                                                   "purely for entertainment?")
+    line_1 = models.CharField(max_length=60,null=True,verbose_name="Street Address")
+    line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
+    city = models.CharField(max_length=30,null=True)
+    state = USStateField(null=True)
+    zip = models.CharField(max_length=5,null=True)
+    phone = PhoneNumberField()
+
+    def __unicode__(self):
+        return "%s - %s" % (self.user.username,self.last_name)
 
     def save(self,*args,**kwargs):
-
         super(MemberProfile,self).save(*args,**kwargs)
 
+
 class Address(models.Model):
-    line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
+    line_1 = models.CharField(max_length=60,null=True,verbose_name="Street Address")
     line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
-    city = models.CharField(max_length=30,blank=True,null=True)
-    state = USStateField(blank=True,null=True)
-    zip = models.CharField(max_length=5,blank=True,null=True)
+    city = models.CharField(max_length=30,null=True)
+    state = USStateField(null=True)
+    zip = models.CharField(max_length=5,null=True)
     phone = PhoneNumberField()
+
+class Contact(models.Model):
+    email = models.CharField(max_length=60,blank=False)
+    subject = models.CharField(max_length=60,blank=False)
+    body = models.TextField(blank=False)
+    creation_date = models.DateField(blank=False)
+
+    def __unicode__(self):
+        return "%s" % self.subject

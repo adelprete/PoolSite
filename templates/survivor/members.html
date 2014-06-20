@@ -2,7 +2,7 @@
 {% block body %}
      <div class="span-14">
      <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Members</b></h2>
-        <form action="{% url 'leave_pool' pool.id %}"" method="GET">{% csrf_token %}
+        <form action="{% url 'leave_pool' pool.id %}" method="GET">{% csrf_token %}
           <input type="submit" value="Leave Pool" />
         </form>
      <table class="span-14">
@@ -22,7 +22,7 @@
                 <th>{{ member }}</th>
                 <th>{{ member.email }}</th>
                 {% if user == pool.administrator %}
-                <th><a href="{% url 'remove_member' pool.id member.id %}">Remove</a></th>
+                <th><a href="{% url 'survivor_remove_member' pool.id member.id %}">Remove</a></th>
                 {% endif %}
             </tr>
          {% endfor %}

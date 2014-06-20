@@ -3256,7 +3256,7 @@ button.close {
 .btn:focus {
   color: #333333;
   text-decoration: none;
-  background-position: 0 -15px;
+  background-position: 0 -28px;
   -webkit-transition: background-position 0.1s linear;
      -moz-transition: background-position 0.1s linear;
        -o-transition: background-position 0.1s linear;
@@ -3426,13 +3426,13 @@ input[type="button"].btn-block {
 .btn-danger {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #da4f49;
-  *background-color: #bd362f;
-  background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-  background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+  background-color: #cc240a;
+  *background-color: #cc240a;
+  background-image: -moz-linear-gradient(top, #cc240a, #cc240a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc240a), to(#cc240a));
+  background-image: -webkit-linear-gradient(top, #cc240a, #cc240a);
+  background-image: -o-linear-gradient(top, #cc240a, #cc240a);
+  background-image: linear-gradient(to bottom, #cc240a, #cc240a);
   background-repeat: repeat-x;
   border-color: #bd362f #bd362f #802420;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -3447,13 +3447,13 @@ input[type="button"].btn-block {
 .btn-danger.disabled,
 .btn-danger[disabled] {
   color: #ffffff;
-  background-color: #bd362f;
-  *background-color: #a9302a;
+  background-color: #27282C;
+  *background-color: #27282C;
 }
 
 .btn-danger:active,
 .btn-danger.active {
-  background-color: #942a25 \9;
+  background-color: #27282C \9;
 }
 
 .btn-success {

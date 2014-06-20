@@ -2,7 +2,7 @@
 {% load oscars_tags %}
 {% block body %}
         <h2 style="font-family:Verdana, Geneva, sans-serif"><b>{{ pool.name}} home page</b></h2>
-        <h3 class="span-7">Administrator Welcome Message:</h3>{% if user == pool.administrator %}<a href="{% url 'pool_admin_message' pool.id %}">edit</a>{% endif %}<br><br>
+        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'oscar_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
         <div style="margin-left:13px;">
         {{ pool.admin_note|safe }}
         </div>

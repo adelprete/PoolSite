@@ -1,7 +1,8 @@
 {% extends 'survivor/pool_home_core.html' %}
+{% load oscars_tags %}
 {% block body %}
         <h2 style="font-family:Verdana, Geneva, sans-serif"><b>{{ pool.name}} home page</b></h2>
-        <h3 class="span-7">Administrator Welcome Message:</h3>{% if user == pool.administrator %}<a href="">edit</a>{% endif %}<br><br>
+        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'survivor_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
         <div style="margin-left:13px;">
         {{ pool.admin_note|safe }}
         </div>
@@ -12,19 +13,15 @@
                     <h3 style="margin-bottom:10px;">When Does This Season of Survivor Start?</h3>
                     <font style="margin-left:13px;">{{ pool.survivorpool.season.start_date }}</font>
                     <br><br>
-                    <h3 style="margin-bottom:10px;">How to Win:</h3>
-                    {% if pool.how_to_win == 'points' %}
-                        <font style="margin-left:13px;">Correctly guessing the winners of each category nets you points. Be the one at the end with the most points and you'll be crowned the winner!</font>
-                        <br><br>
-                         <h3 style="margin-bottom:10px;">Point Distribution:</h3>
-                        {% for category in pool.customcategory_set.all %}
-                            {% if category.active %}
-                                <b style="margin-left:12px;">{{ category.name }}</b> -- {{ category.points }} points<br>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <font style="margin-left:13px;">Correctly guess more winners on you're ballot then anyone else and you win!</font>
-                    {% endif %}
+                    <h3 style="margin-bottom:10px;">How to Play:</h3>
+                    <font style="margin-left:13px;">Everyone will pick 4 castaways before the season starts.  You will get points when your castaways perform certain actions.
+                    The person whose 4 castaways have accumulated the most points at the end of the season wins!</font>
+                    <br><br>
+                     <h3 style="margin-bottom:10px;">Point Distribution:</h3>
+                     {% for key,value in points_categories.iteritems %}
+                        {% get_attr_verbose_name pool key as event_string %}
+                        <b style="margin-left:12px;">{{ event_string }}</b>&nbsp&nbsp-&nbsp&nbsp{{ value }}pts<br>
+                     {% endfor %}
                 </div>
             </div>
 {% endblock %}

@@ -12,7 +12,7 @@
                     $("label[for='" + this.id + "']").find('img').css("border", "solid 4px #CC240A");
                 }
                 else{
-                    $("label[for='" + this.id + "']").find('img').css("border", "");
+                    $("label[for='" + this.id + "']").find('img').css("border", "solid 4px white");
                 }
                 });
         });
@@ -33,11 +33,10 @@
     </div>
     {% endif %}
     <hr>
-    <label>Pick 4 castaways.  You cannot choose the same combination as someone else:</label>
+    <label style="font-size:15px;">Pick 4 castaways.  You cannot choose the same combination as someone else:</label>
     <div style="float:right;width:25%;">
         <label><u>Combinations already taken</u></label>
         {% for list in combinations_list %}
-
             {% for castaway in list %}
                 {{ castaway }}
                 {% if not forloop.last %}
@@ -55,7 +54,7 @@
             <td style="text-align:center;padding-bottom:15px;">
                 <label for="id_four_picks_{{ forloop.counter0 }}">
                     {{ choice }}<br>
-                    <img src="{{ STATIC_URL }}img/{{ pool.season.name }}/{{ choice }}.jpg"><br>
+                    <img src='{{ MEDIA_URL }}survivor/castaways/{{ choice|cut:"'" }}.jpg' style="border:solid 4px white;"><br>
                     <input id="id_four_picks_{{ forloop.counter0 }}" type="checkbox" value="{{ pk }}" name="four_picks"
                     {% if pk in form.initial.four_picks %}checked{% endif %}
                     {% if not pool.allow_new_picksheets %}disabled{% endif %}>

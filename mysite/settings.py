@@ -10,6 +10,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+SERVER_EMAIL = "YourPoolHub <no-reply@yourpoolhub.com>"
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
@@ -25,6 +28,11 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ADMINS = (
+    ('Anthony', 'adelprete87@gmail.com'),
+)
+
+
 ALLOWED_HOSTS = []
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -32,7 +40,6 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = "adelprete87@gmail.com"
 EMAIL_HOST_PASSWORD = "kb978caw"
 EMAIL_USE_TLS = True
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -46,6 +53,7 @@ INSTALLED_APPS = (
     'mysite.base',
     'mysite.oscars',
     'mysite.survivor',
+    'mysite.amazingrace',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -65,10 +73,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
-STATICFILES_DIRS = (
-    'C:/Users/Anthony/Desktop/March Madness Site/mysite/mysite/root/static/',
-)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -99,13 +103,10 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-STATIC_ROOT = 'C:/Users/Anthony/Desktop/March Madness Site/mysite/static/'
-STATIC_URL = '/static/'
-
-MEDIA_ROOT = 'C:/Users/Anthony/Desktop/March Madness Site/mysite/media/'
-MEDIA_URL = '/media/'
-#ADMIN_MEDIA_PREFIX = '/media/'
+REGISTRATION_OPEN = True
 
 OSCAR_POOLS_OPEN = True
+SURVIVOR_POOLS_OPEN = True
+AMAZING_RACE_POOLS_OPEN = False
+
+from mysite.private import *

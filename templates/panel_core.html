@@ -2,7 +2,7 @@
 <html>
     <head>
 
-        <title>YourPoolHub.com</title>
+        <title>OfficePoolHub.com</title>
         <meta charset="utf-8">
 
         {% block head %}
@@ -40,14 +40,16 @@
                 });
             });
         </script>
-
+        <style>
+            @font-face { font-family: 'Survivant'; src: url('survivant.ttf') format("truetype"); }
+        </style>
     </head>
     <body style="background:#d3d3d3;height:100%;">
     {% block body_override %}
         {% block banner %}
         <div id="main-banner">
             <div class="container">
-                <div class="span-14" id="main-banner-text">Welcome to YourPoolHub.com</div>
+                <div class="span-14" id="main-banner-text">OfficePoolHub.com</div>
                 <div class="span-9 screen last" style="text-align:right;">
                     {% if user.is_anonymous %}
                         <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a> |
@@ -64,17 +66,19 @@
             <div class="menu">
                 <div class="container">
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topfirst"><a href="{% url 'root' %}">Home</a></li>
+                        <li class="topmenu"><a href="{% url 'root' %}">Home</a></li>
                         {% if not user.is_anonymous %}
                         <li class="topmenu"><a href="{% url 'your_pools' %}">Your Pools</a>
                         {% endif %}
-                        <li class="topmenu"><a href="">Create a Pool</a>
-                        <ul>
-                            <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
-                            <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
-                            <li><a href="#">Item 1 2</a></li>
-                        </ul></li>
-                        <li class="toplast"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
+                        <li class="topmenu"><a style="cursor:context-menu;">Create a Pool</a>
+                            <ul>
+                                <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
+                                <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
+                                <li><a href="{% url 'create_amazing_race_pool' %}">Create an Amazing Race Pool</a></li>
+                            </ul>
+                        </li>
+                        <li class="topmenu"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
+                        <li class="topmenu"><a href="{% url 'faq' %}">FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,13 +87,78 @@
         {% include 'messages.html' %}
             <div style="padding-left:20px;padding-right:20px;">
                 {% block body %}
-                        <h3>Your premiere destination for easy pool management</h3>
+                        <h3>Your premiere destination for free and easy pool management.</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">SURVIVOR</font>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Verdana, Geneva, sans-serif;font-size:30px;color:yellow;">AMAZING RACE</font>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
+                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is it's absolutely FREE!<br><br>
+                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        Do you think you can guess who will be the best survivor contestants before the season starts?<br><br>
+                                        You and your friends will pick 4 castaways at the start.  Whose castaways are the most successful
+                                        through the entire season, wins!<br><br>Best part is it's absolutely FREE!<br><br>
+                                        <form method="GET" action="{% url 'survivor_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        <b>*COMING SOON*</b>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        <b>*COMING SOON*</b>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                 {% endblock %}
             </div>
         </div>
+        {% block footer %}
+            <div class="container" style="padding-top:50px;height:80px;bottom:0;left:0;background:white;">
+                <center><div style="width:70%;border-top:1px solid;"></div><br>
+                    <div style="width:60%;">YourPoolHub.com is in no way affiliated with any of the shows on this site nor with the networks that they air on.
+                    YourPoolHub is NOT a gambling site.  Any pools used for gambling will be terminated.<br><a href="{% url 'contact' %}">Contact</a></div></center>
+            </div>
+        {% endblock %}
+        </body>
     {% endblock %}
-    {% block bottom %}
-
-    {% endblock %}
-    </body>
 </html>

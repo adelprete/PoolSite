@@ -33,12 +33,12 @@
         <div class="submenu">
             <ul>
                 <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
-                <li><a href="{% url 'oscar_pool_ballots' pool.id %}">Ballots</a></li>
-                <li><a href="{% url 'oscar_pool_standings' pool.id %} ">Standings</a></li>
-                <li><a href="{% url 'oscar_pool_members' pool.id %}">Members</a></li>
-                <li><a href="{% url 'oscar_predictions' pool.id %}">Predictions/Results</a></li>
+                <li id="ballots"><a href="{% url 'oscar_pool_ballots' pool.id %}">Ballots</a></li>
+                <li><a href="{% url 'oscar_standings' pool.id %}">Standings</a></li>
+                <li><a href="{% url 'oscar_members' pool.id %}">Members</a></li>
+                <li><a href="{% url 'predictions' pool.id %}">Predictions/Results</a></li>
                 {% if user == pool.administrator %}
-                <li><a style="color:orange;" href="{% url 'oscar_pool' pool.id %}">Settings</a></li>
+                <li><a style="color:orange;" href="{% url 'oscar_settings' pool.id %}">Settings</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -121,6 +121,12 @@
                 All time is in EST</td>
             <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
             <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.max_submissions.label_tag }}</td>
+            <td>{{ form.max_submissions }}</td>
+            <td>{{ form.max_submissions.help_text }}</td>
+            <td>{{ form.max_submissions.errors }}</td>
         </tr>
        </table>
     <h3>Create the Ballot</h3>

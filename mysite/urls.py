@@ -1,20 +1,28 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
+from django.conf import settings
+from django.views.generic.base import TemplateView
+from mysite.base.views import CustomActivationView, RegistrationViewUniqueEmail
 
-from mysite.base.views import CustomActivationView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
+    url(r'^user/password/reset/$',     'django.contrib.auth.views.password_reset',      {'post_reset_redirect' : '/user/password/reset/done/'}, name="password_reset"),
+    url(r'^user/password/reset/done/$',  'django.contrib.auth.views.password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm',  name='password_reset_confirm'),
+    url(r'^user/password/done/$', 'django.contrib.auth.views.password_reset_complete',                              name="password_reset_complete"),
     #url(r'^accounts/login/$',       'django.contrib.auth.views.login',          {'template_name': 'login.html'},            name="login_user"),
     url(r'^accounts/logout/$',      'django.contrib.auth.views.logout_then_login',     name="logout_user"),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^oscars/', include('mysite.oscars.urls')),
     url(r'^survivor/', include('mysite.survivor.urls')),
+    url(r'^amazingrace/', include('mysite.amazingrace.urls')),
+    url(r'^user/register', RegistrationViewUniqueEmail.as_view(), name='registration_register'),
 ) + patterns('mysite.base.views',
+    url(r'^faq$',                                   TemplateView.as_view(template_name='base/faq.html'),            name='faq'),
     url(r'^activate/(?P<activation_key>\w+)/$',     CustomActivationView.as_view(),   name='registration_activate'),
     url(r'^$',                                      'root',                     name='root'),
     url(r'^signup/$',                               'signup',                   name='signup'),
@@ -23,5 +31,9 @@ urlpatterns = patterns('',
     url(r'^profile/$',                              'profile_basics',                   name='add_profile'),
     url(r'^(\d+)/profile/$',                        'profile_basics',                   name='profile_basics'),
     url(r'^pool/join/',                             'join_pool',              name='join_pool'),
-) + staticfiles_urlpatterns()
+    url(r'^pool/(?P<id>\d+)/leave$',                'leave_pool',           name='leave_pool'),
+    url(r'^contact/$',                              'contact',              name='contact'),
+) + staticfiles_urlpatterns() + patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}))
 

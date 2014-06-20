@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -12,19 +13,28 @@ from mysite.survivor import models as smodels
 from django.db.models import Q
 
 from registration.backends.default.views import ActivationView
+from registration.backends.default.views import RegistrationView
+from registration.forms import RegistrationFormUniqueEmail
+
+class RegistrationViewUniqueEmail(RegistrationView):
+    form_class = RegistrationFormUniqueEmail
 
 def root(request):
     context = {}
     return render(request, "panel_core.html",context)
 
+# Not sure if this is being used any more
 def signup(request,form=bforms.MemberProfileForm,addr_form=bforms.AddressForm):
 
     if request.POST:
         member_form = form(request.POST)
         member_addr_form = addr_form(request.POST)
-        import pdb;pdb.set_trace()
         if member_form.is_valid() and member_addr_form.is_valid():
-            import pdb;pdb.set_trace()
+            member_profile_record = member_form.save(commit=False)
+            member_addr_record = member_addr_form.save()
+            member_profile_record.address = member_addr_record
+            member_profile_record.creation_date = datetime.datetime.utcnow()
+            member_profile_record.save()
     context = {
         'form':form,
         'addr_form':addr_form,
@@ -50,22 +60,19 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm,addr_clas
         profile = get_object_or_404(bmodels.MemberProfile,id=id)
         address = profile.address
 
+    profile_form = form_class(instance=profile)
+    addr_form = addr_class(instance=address)
+
     if request.POST:
         profile_form = form_class(request.POST,instance=profile)
-        address_form = addr_class(request.POST,instance=address)
-
-        if profile_form.is_valid() and address_form.is_valid():
+        if profile_form.is_valid():
             profile_record = profile_form.save(commit=False)
-            profile_record.address = address_form.save()
             profile_record.user = request.user
+            profile_record.creation_date = datetime.datetime.utcnow()
             profile_record.save()
 
             messages.success(request,"Thank you for Signing Up!")
             return redirect(reverse("root"))
-
-
-    profile_form = form_class(instance=profile)
-    addr_form = addr_class(instance=address)
 
     context = {
         'form':profile_form,
@@ -115,6 +122,41 @@ def join_pool(request):
             if hasattr(pool,"oscarpool"):
                 pool = pool.oscarpool
                 return HttpResponseRedirect(pool.get_absolute_url())
+            if hasattr(pool,"survivorpool"):
+                pool = pool.survivorpool
+                return HttpResponseRedirect(pool.get_absolute_url())
         messages.error(request,"Either the ID and Password given do not match.")
 
     return render(request,'join_form.html', {'form':form})
+
+def leave_pool(request,id):
+
+    pool = get_object_or_404(bmodels.Pool,id=id)
+
+    if request.user != pool.administrator:
+        pool.members.remove(request.user)
+        if hasattr(pool,"oscarpool"):
+            pool.oscarpool.ballot_set.filter(member=request.user).delete()
+        if hasattr(pool,"survivorpool"):
+            pool.survivorpool.survivorpicksheet_set.filter(member=request.user).delete()
+        messages.success(request,"You have been removed from the pool")
+        return HttpResponseRedirect(reverse("root"))
+    else:
+        messages.error(request,"You cannot leave your own pool.  If you want to delete the pool, go to 'Settings'")
+
+    return HttpResponseRedirect(reverse("pool_members",kwargs={'id':pool.id}))
+
+def contact(request, form=bforms.ContactForm):
+
+    if request.POST:
+        form = form(request.POST)
+        if form.is_valid():
+            contact_record = form.save(commit=False)
+            contact_record.creation_date = datetime.datetime.utcnow()
+            contact_record.save()
+            messages.success(request,"We have received your message.")
+
+    context = {
+        "form":form,
+    }
+    return render(request,'base/contact.html',context)

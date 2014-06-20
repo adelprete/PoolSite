@@ -1,11 +1,14 @@
 import datetime
+from django.utils import timezone
 from django.db import models
 from django.core.urlresolvers import reverse
+from mysite.survivor import helpers as shelpers
 
 from mysite.base import models as bmodels
 
 class SurvivorSeason(bmodels.Definition):
     start_date = models.DateTimeField()
+    display_winners = models.BooleanField("Display the winners for all the pools for this season",default=False)
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -14,9 +17,9 @@ class SurvivorPool(bmodels.Pool):
     entry_deadline = models.DateTimeField()
     season = models.ForeignKey('survivor.SurvivorSeason')
 
-    making_merge = models.BooleanField("Making the Merge",default=True)
-    individual_immunity = models.BooleanField("Winning an individual Immunity Challenge",default=True)
-    individual_reward = models.BooleanField("Winning an individual reward",default=True)
+    making_merge = models.BooleanField("Castaway makes the Merge",default=True)
+    individual_immunity = models.BooleanField("Castaway wins an individual Immunity Challenge",default=True)
+    individual_reward = models.BooleanField("Castaway wins an individual reward",default=True)
     tribe_reward = models.BooleanField("Castaway's tribe wins reward",default=True)
     tribe_immunity = models.BooleanField("Castaway's Tribe wins immunity",default=True)
     finding_immunity = models.BooleanField("Castaway finds a hidden immunity idol",default=True)
@@ -24,8 +27,14 @@ class SurvivorPool(bmodels.Pool):
     successful_idol_use = models.BooleanField("Castaway used a hidden idol successfully",default=True)
     ri_victory = models.BooleanField("Castaway won the challenge at redemption island",default=True)
     returned_from_ri = models.BooleanField("Castaway returned from Redemption Island",default=True)
-    ftc_votes = models.BooleanField("Get two points for every vote at the final tribal counsel",default=True)
+    ftc_votes = models.BooleanField("Castaway gets two points for every vote at the final tribal counsel",default=True)
     first_out = models.BooleanField("Castaway is the first person voted out",default=True)
+
+    @property
+    def is_past_due(self):
+        if timezone.now() > self.season.start_date:
+            return True
+        return False
 
     def allow_new_picksheets(self):
         if datetime.timedelta(0) > (self.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
@@ -34,6 +43,11 @@ class SurvivorPool(bmodels.Pool):
 
     def get_absolute_url(self):
         return reverse("survivor_home",kwargs={'id':self.id})
+    def save(self):
+        if not self.admin_note:
+            self.admin_note = shelpers.WELCOME_MESSAGE
+        super(SurvivorPool, self).save()
+        saved = True
 
     def __unicode__(self):
         return "%s" % (self.name)
@@ -42,6 +56,7 @@ class BaseCastaway(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30,blank=True,null=True)
     season = models.ForeignKey('survivor.SurvivorSeason')
+    image_src = models.ImageField(upload_to = 'survivor/castaways/')
 
     #Each one is how many times it happened for the castaway
     making_merge = models.IntegerField(default=0)
@@ -71,7 +86,6 @@ class BaseCastaway(models.Model):
 
             custom.total_points = total_points
             custom.save()
-            import pdb;pdb.set_trace()
         return
 
     def save(self,*args,**kwargs):
