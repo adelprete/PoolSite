@@ -208,11 +208,15 @@ def pool_standings(request,id=None):
 @login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
+    if settings.OSCAR_POOLS_OPEN is False:
+        messages.error(request,"You've missed your chance to create a pool.  Come back when the Nominees are announced for next year's award show.")
+        return HttpResponseRedirect(reverse('root'))
+
     ceremony = omodels.OscarCeremony.objects.latest('date')
 
     if not id:
         today = datetime.datetime.utcnow()
-        if settings.OSCAR_POOLS_OPEN is False or datetime.timedelta(0) > (ceremony.date.replace(tzinfo=None) - today):
+        if datetime.timedelta(0) > (ceremony.date.replace(tzinfo=None) - today):
             messages.error(request,"You've missed your chance to create a pool.  Come back when the Nominees are announced for next year's award show.")
             return HttpResponseRedirect(reverse('root'))
 

@@ -34,6 +34,10 @@ def pool_homepage(request,id=None):
 @login_required
 def survivor_pool(request,id=None,form=sforms.SurvivorPoolForm):
 
+    if settings.SURVIVOR_POOLS_OPEN is False:
+        messages.error(request,"You've missed your chance to create a Survivor pool.  Come back when the cast is revealed for the next season.")
+        return HttpResponseRedirect(reverse('root'))
+
     season = smodels.SurvivorSeason.objects.latest('start_date')
 
     survivor_pool = None
@@ -41,7 +45,7 @@ def survivor_pool(request,id=None,form=sforms.SurvivorPoolForm):
 
     if not id:
         today = datetime.datetime.utcnow()
-        if settings.SURVIVOR_POOLS_OPEN is False or datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today):
+        if datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today):
             messages.error(request,"You've missed your chance to create a Survivor pool.  Come back when the cast is revealed for the next season.")
             return HttpResponseRedirect(reverse('root'))
 
