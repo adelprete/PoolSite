@@ -1,0 +1,321 @@
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+Traceback (most recent call last):
+  File "/usr/local/bin/gunicorn", line 9, in <module>
+    load_entry_point('gunicorn==19.0.0', 'console_scripts', 'gunicorn')()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py", line 74, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 166, in run
+    super(Application, self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/app/base.py", line 71, in run
+    Arbiter(self).run()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 169, in run
+    self.manage_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 477, in manage_workers
+    self.spawn_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 537, in spawn_workers
+    time.sleep(0.1 * random.random())
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 209, in handle_chld
+    self.reap_workers()
+  File "/usr/local/lib/python2.7/dist-packages/gunicorn/arbiter.py", line 459, in reap_workers
+    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+couldn't exec /home/live/env/bin/gunicorn_start: EACCES
+Starting PoolSite as live
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 26: authbind: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 26: authbind: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 26: authbind: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 26: authbind: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+/home/live/env/bin/gunicorn_start: line 12: whoami: command not found
+Starting PoolSite as 
+../env/bin/activate: line 60: basename: command not found
+../env/bin/activate: line 65: basename: command not found
+/home/live/env/bin/gunicorn_start: line 21: dirname: command not found
+usage: gunicorn [OPTIONS] [APP_MODULE]
+gunicorn: error: No application module specified.
+usage: gunicorn [OPTIONS] [APP_MODULE]
+gunicorn: error: No application module specified.
+usage: gunicorn [OPTIONS] [APP_MODULE]
+gunicorn: error: No application module specified.
+usage: gunicorn [OPTIONS] [APP_MODULE]
+gunicorn: error: No application module specified.
