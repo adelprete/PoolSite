@@ -32,6 +32,8 @@ ADMINS = (
     ('Anthony', 'adelprete87@gmail.com'),
 )
 
+SERVER_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
+
 
 ALLOWED_HOSTS = []
 
@@ -103,7 +105,7 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
 
-REGISTRATION_OPEN = True
+REGISTRATION_OPEN = False
 
 OSCAR_POOLS_OPEN = False
 SURVIVOR_POOLS_OPEN = False
