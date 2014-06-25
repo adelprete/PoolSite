@@ -34,7 +34,9 @@ SERVER_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
 DEFAULT_FROM_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'www.officepoolhub.com'
+]
 
 
 EMAIL_HOST = 'smtp.gmail.com'
