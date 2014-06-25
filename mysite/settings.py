@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-SERVER_EMAIL = "YourPoolHub <no-reply@yourpoolhub.com>"
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
@@ -34,14 +32,17 @@ ADMINS = (
 
 SERVER_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
+DEFAULT_FROM_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
 ALLOWED_HOSTS = []
 
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = "adelprete87@gmail.com"
+EMAIL_HOST_USER = "officepoolhub@gmail.com"
 EMAIL_HOST_PASSWORD = "kb978caw"
 EMAIL_USE_TLS = True
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -105,7 +106,7 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
 
-REGISTRATION_OPEN = False
+REGISTRATION_OPEN = True
 
 OSCAR_POOLS_OPEN = False
 SURVIVOR_POOLS_OPEN = False
