@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
     'www.officepoolhub.com',
     '127.0.0.1:9001',
     '50.116.20.10'
+    '127.0.0.1',
 ]
 
 
