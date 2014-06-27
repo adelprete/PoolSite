@@ -8,51 +8,27 @@
         <tr>
             <td class="span-5">{{ form.first_name.label_tag }}</td>
             <td>{{ form.first_name }}{{ form.first_name.errors }}</td>
-            <td></td>
         </tr>
         <tr>
             <td>{{ form.last_name.label_tag }}</td>
             <td>{{ form.last_name }}{{ form.last_name.errors }}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{ form.line_1.label_tag }}</td>
-            <td>{{ form.line_1 }}{{ addr_form.line_1.errors }}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{ form.line_2.label }}</td>
-            <td>{{ form.line_2 }}{{ addr_form.line_2.errors }}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{ form.city.label_tag }}</td>
-            <td>{{ form.city }}{{ addr_form.city.errors }}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{ form.state.label_tag }}</td>
-            <td>{{ form.state }}{{ addr_form.state.errors }}</td>
-            <td></td>
         </tr>
         <tr>
             <td>{{ form.zip.label_tag }}</td>
-            <td>{{ form.zip }}{{ addr_form.zip.errors }}</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{ form.phone.label_tag }}</td>
-            <td>{{ form.phone }}{{ addr_form.phone.errors }}</td>
-            <td></td>
+            <td>{{ form.zip }}{{ form.zip.errors }}</td>
         </tr>
         <tr>
             <td>{{ form.agree_to_terms.label_tag }}{{ form.agree_to_terms.errors }}</td>
             <td><div style="float:left;">{{ form.agree_to_terms }}</div><div style="padding-left:20px;">{{ form.agree_to_terms.help_text }}</td>
-            <td></td>
         </tr>
     </table>
     <h3>Bonus Information</h3>
     <table>
+        <tr>
+            <td>{{ form.phone.label }}</td>
+            <td>{{ form.phone }}</td>
+            <td>{{ form.phone.errors }}</td>
+        </tr>
         <tr>
             <td class="span-5">{{ form.birth_date.label }}</td>
             <td>{{ form.birth_date }}</td>

@@ -61,12 +61,12 @@ class MemberProfile(models.Model):
     creation_date = models.DateField(null=True, blank=True)
     agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use YourPoolHub.com for gambling purposes and to use it "
                                                    "purely for entertainment?")
-    line_1 = models.CharField(max_length=60,null=True,verbose_name="Street Address")
+    line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
     line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
-    city = models.CharField(max_length=30,null=True)
-    state = USStateField(null=True)
+    city = models.CharField(max_length=30,blank=True,null=True)
+    state = USStateField(null=True,blank=True)
     zip = models.CharField(max_length=5,null=True)
-    phone = PhoneNumberField()
+    phone = PhoneNumberField(blank=True,null=True)
 
     def __unicode__(self):
         return "%s - %s" % (self.user.username,self.last_name)

@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 
 from mysite.base import forms as bforms
 from mysite.base import models as bmodels
@@ -72,6 +73,8 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm,addr_clas
             profile_record.save()
 
             messages.success(request,"Thank you for Signing Up!")
+            send_mail('New Member!', 'A new member by the name of '+profile_record.user.username+' has joined the site.  Go say something!','officepoolhub@gmail.com',
+                      ['adelprete87@gmail.com'], fail_silently=False)
             return redirect(reverse("root"))
 
     context = {
@@ -162,7 +165,9 @@ def contact(request, form=bforms.ContactForm):
             contact_record = form.save(commit=False)
             contact_record.creation_date = datetime.datetime.utcnow()
             contact_record.save()
-            messages.success(request,"We have received your message.")
+            messages.success(request,"Thank You. We have received your message.")
+            send_mail('New Contact', 'Someone left us a message in the contact section','officepoolhub@gmail.com',
+                      ['adelprete87@gmail.com'], fail_silently=False)
 
     context = {
         "form":form,
