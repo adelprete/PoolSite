@@ -61,7 +61,7 @@ def pool_ballot_list(request,id=None):
     your_ballots = ballots.filter(member=request.user)
     allow_new_ballots = True
 
-    if not pool.allow_new_ballots or (ballots.filter(member=request.user).count() >= pool.max_submissions):
+    if not pool.allow_new_ballots() or (ballots.filter(member=request.user).count() >= pool.max_submissions):
         allow_new_ballots = False
 
     if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
