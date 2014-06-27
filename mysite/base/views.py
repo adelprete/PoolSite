@@ -87,13 +87,21 @@ def your_pools(request):
         messages.error(request,"Please log in first")
         return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
-    current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
-    cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
-    old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
+    if omodels.OscarCeremony.objects.all().count() == 0:
+        cur_oscar_pools = False
+        old_oscar_pools = False
+    else:
+        current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
+        cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
+        old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
 
-    current_survivor_season = smodels.SurvivorSeason.objects.latest('start_date')
-    cur_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_survivor_season).distinct()
-    old_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_survivor_season).distinct()
+    if smodels.SurvivorSeason.objects.all().count() == 0:
+        cur_survivor_pools = False
+        old_survivor_pools = False
+    else:
+        current_survivor_season = smodels.SurvivorSeason.objects.latest('start_date')
+        cur_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_survivor_season).distinct()
+        old_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_survivor_season).distinct()
 
     context = {
         'cur_oscar_pools':cur_oscar_pools,
