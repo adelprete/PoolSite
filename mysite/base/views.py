@@ -125,9 +125,10 @@ def join_pool(request):
 
     if form.is_valid():
 
-        pool = get_object_or_404(bmodels.Pool,identity=form.cleaned_data['pool_id'])
+        pool = bmodels.Pool.objects.filter(identity=form.cleaned_data['pool_id'])
 
-        if pool.password == form.cleaned_data['password']:
+        if pool and pool.password == form.cleaned_data['password']:
+            pool = pool[0]
             pool.members.add(request.user)
             messages.success(request,"You've successfully joined the pool!")
             if hasattr(pool,"oscarpool"):
@@ -136,7 +137,7 @@ def join_pool(request):
             if hasattr(pool,"survivorpool"):
                 pool = pool.survivorpool
                 return HttpResponseRedirect(pool.get_absolute_url())
-        messages.error(request,"Either the ID and Password given do not match.")
+        messages.error(request,"ID and Password given do not match any pools. Please try again")
 
     return render(request,'join_form.html', {'form':form})
 
