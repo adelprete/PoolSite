@@ -115,7 +115,7 @@ def survivor_member_picksheets(request,id=None):
     your_picksheets = picksheets.filter(member=request.user)
 
     allow_new_picksheets = True
-    if not pool.allow_new_picksheets or (picksheets.filter(member=request.user).count() >= pool.max_submissions):
+    if pool.allow_new_picksheets() == False or (picksheets.filter(member=request.user).count() >= pool.max_submissions):
         allow_new_picksheets = False
 
     context = {

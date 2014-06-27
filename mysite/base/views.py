@@ -122,22 +122,26 @@ def join_pool(request):
         return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
     form = bforms.JoinForm(request.POST or None)
-
+    pool = None
     if form.is_valid():
 
-        pool = bmodels.Pool.objects.filter(identity=form.cleaned_data['pool_id'])
+        try:
+            pool = bmodels.Pool.objects.get(identity=form.cleaned_data['pool_id'])
+        except:
+            messages.error(request,"Pool id did not match any pools in our system. Please try again")
 
-        if pool and pool.password == form.cleaned_data['password']:
-            pool = pool[0]
-            pool.members.add(request.user)
-            messages.success(request,"You've successfully joined the pool!")
-            if hasattr(pool,"oscarpool"):
-                pool = pool.oscarpool
-                return HttpResponseRedirect(pool.get_absolute_url())
-            if hasattr(pool,"survivorpool"):
-                pool = pool.survivorpool
-                return HttpResponseRedirect(pool.get_absolute_url())
-        messages.error(request,"ID and Password given do not match any pools. Please try again")
+        if pool:
+            if pool.password == form.cleaned_data['password']:
+                pool.members.add(request.user)
+                messages.success(request,"You've successfully joined the pool!")
+                if hasattr(pool,"oscarpool"):
+                    pool = pool.oscarpool
+                    return HttpResponseRedirect(pool.get_absolute_url())
+                if hasattr(pool,"survivorpool"):
+                    pool = pool.survivorpool
+                    return HttpResponseRedirect(pool.get_absolute_url())
+            else:
+                messages.error(request,"Pool id and Password given do not match any pools. Please try again")
 
     return render(request,'join_form.html', {'form':form})
 
