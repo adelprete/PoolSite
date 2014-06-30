@@ -19,10 +19,13 @@
     </script>
 {% endblock %}
 {% block body %}
+
 <form method="post" >{% csrf_token %}
     {% if picksheet %}
+        <title>{{ picksheet.name }} - {{ pool.name }} | Office Pool Hub</title>
         <h2>{{ picksheet.name }}<small style="padding-left:10px;">pick sheet created by: {{ picksheet.member }}</small></h2>
     {% else %}
+        <title>Pick Sheet Form - {{ pool.name }} | Office Pool Hub</title>
         <h2>Fill out your Pick Sheet!</h2>
     {% endif %}
     {% if pool.allow_new_picksheets %}

@@ -2,8 +2,10 @@
 {% block body %}
 <form method="post" class="span-15">{% csrf_token %}
     {% if ballot %}
+        <title>{{ ballot.name }} - {{ pool.name }} | Office Pool Hub</title>
         <h2>{{ ballot.name }}<small style="padding-left:10px;">ballot created by: {{ ballot.member }}</small></h2>
     {% else %}
+        <title>Ballot Form - {{ pool.name }} | Office Pool Hub</title>
         <h2>Fill out your Ballot!</h2>
     {% endif %}
     {% if allow_new_ballots %}

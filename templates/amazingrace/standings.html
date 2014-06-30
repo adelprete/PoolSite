@@ -1,6 +1,7 @@
 {% extends "amazingrace/pool_home_core.html" %}
 {% load amazingrace_tags %}
 {% block body %}
+        <title>Standings - {{ pool.name }} | Office Pool Hub</title>
         <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
             {% display_top_three %}
         <table>

@@ -20,9 +20,11 @@
 {% endblock %}
 {% block body %}
         {% if pool %}
+            <title>{{ pool.name }} | Office Pool Hub</title>
             <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
             <h4>You will not be able to edit the pool settings once the season has started</h4>
         {% else %}
+            <title>Create a Pool | Office Pool Hub</title>
             <h2>Create an Amazing Race pool</h2>
         {% endif %}
         {% if pool and pool.is_past_due %}

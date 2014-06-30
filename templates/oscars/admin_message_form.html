@@ -6,6 +6,7 @@
     </script>
 {% endblock %}
 {% block body %}
+    <title>{{ pool.name }} | Office Pool Hub</title>
     <form method="post">{% csrf_token %}
         <h3>Customize your welcome message</h3>
         {{ form.admin_note }}

@@ -1,5 +1,6 @@
 {% extends 'amazingrace/pool_home_core.html' %}
 {% block body %}
+     <title>Members - {{ pool.name }} | Office Pool Hub</title>
      <div class="span-14">
      <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Members</b></h2>
         <form action="{% url 'leave_pool' pool.id %}" method="GET">{% csrf_token %}
