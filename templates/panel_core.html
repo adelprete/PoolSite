@@ -86,7 +86,7 @@
         {% include 'messages.html' %}
             <div style="padding-left:20px;padding-right:20px;">
                 {% block body %}
-                        <h3>Your premiere destination for free and easy pool management.</h3>
+                        <h3>Your premiere destination for free and easy office pool management.</h3>
                         <table>
                             <tr>
                                 <td>
@@ -109,7 +109,7 @@
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
                                         Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
-                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is it's absolutely FREE!<br><br>
+                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
                                         <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
@@ -117,9 +117,10 @@
                                 </td>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        Do you think you can guess who will be the best survivor contestants before the season starts?<br><br>
+                                        Do you think you can guess who the best Survivor contestants will be before the season starts?<br><br>
                                         You and your friends will pick 4 castaways at the start.  Whose castaways are the most successful
-                                        through the entire season, wins!<br><br>Best part is it's absolutely FREE!<br><br>
+                                        through the entire season, wins!<br><br>Best part is, it's absolutely FREE!<br><br>
+                                        Hurry up, the season premieres on Sept 18th!<br><br>
                                         <form method="GET" action="{% url 'survivor_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
@@ -127,7 +128,13 @@
                                 </td>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        <b>*COMING SOON*</b>
+                                        Do you think you can guess who the best Amazing Race teams will be before the season starts?<br><br>
+                                        You and your friends will pick 3 teams at the start.  Whose teams are the most successful
+                                        through the entire season, wins!<br><br>Best part is it's absolutely FREE!<br><br>
+                                        Hurry up, the season premieres on Sept 26th!<br><br>
+                                        <form method="GET" action="{% url 'amazingrace_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

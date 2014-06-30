@@ -1,6 +1,6 @@
 {% extends "panel_core.html" %}
 {% block body %}
-        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Oscars Pools: Getting Started</b></h2>
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Oscar Office Pools: Getting Started</b></h2>
         <h3><b>How it works:</b></h3>
         <p style="width:70%;">Users can create and join Oscar Pools with their friends or co-workers where they will compete to see who
             can correctly guess the winners of each category at the Academy Awards.  Members of each
@@ -18,7 +18,7 @@
         <p style="width:70%;">As users fill out and submit their ballots you'll be able to see who the community thinks will win in
             each category!</p>
         <h3><b>Thats It!</b></h3>
-        <p style="width:70%;">Now go create an Oscar Pool and let us do all the hard work for you!</p>
+        <p style="width:70%;">Now go create an Oscar Pool and let us do all the hard work for you!  Be sure to watch the Oscars live on ABC to follow along!</p>
 
         <form method="GET" action="{% url 'create_oscar_pool' %}">{% csrf_token %}
             <input type="submit" class="btn btn-danger" value="Create a Pool Now!"/>

@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
 
-
 urlpatterns = patterns('mysite.survivor.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='survivor/getting_started.html'),            name='survivor_getting_started'),
     url(r'^create/',                                        'survivor_pool',              name='create_survivor_pool'),

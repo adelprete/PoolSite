@@ -58,7 +58,7 @@ def get_attr(item, attribute):
 @register.assignment_tag
 def get_attr_verbose_name(item, attribute):
     try:
-        if hasattr(item,attribute):
+        if getattr(item,attribute):
             return item._meta.get_field_by_name(attribute)[0].verbose_name
     except:
         return None

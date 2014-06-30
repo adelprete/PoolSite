@@ -1,0 +1,27 @@
+{% extends "panel_core.html" %}
+{% block body %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Amazing Race Office Pools: Getting Started</b></h2>
+        <h3><b>How it works:</b></h3>
+        <p style="width:70%;">Users can create and join Amazing Race Pools with their friends or co-workers.  Before the season starts,
+            each member will fill out picksheets where they will choose the 3 teams who they think will be the best this season.
+            No combination of 3 teams can be the same so act quick before someone in your pool picks the 3 teams you wanted!</p>
+        <h3><b>How to Win:</b></h3>
+        <p style="width:70%;">Throughout the season your teams will perform certain events that will net your pick sheet points.
+            So if your pick sheet has a team named Dave & Conner, and Dave & Conner gets first place on a leg, your pick sheet will get 1 point!
+            (the point breakdown is below)  The pool member whose pick sheet accumulated the most points by the end of the season wins!</p>
+        <h3><b>Point Breakdown</b></h3>
+            <p>Your pick sheet will gain points when your teams perform the following events:</p>
+            <p style="padding-left:30px">
+                <b>Team is the first to complete the Detour/Roadblock</b>  -  1pt<br>
+                <b>Team used an Obstacle on another team(UTurn,Yield,etc)</b>  -  1pt<br>
+                <b>Team completes a leg</b>  -  1pt<br>
+                <b>Team are first to arrive at the pit stop</b>  -  1pt<br>
+                <b>Team was the first to be eliminated</b>  -  6pts<br>
+            </p>
+        <h3><b>Thats It!</b></h3>
+        <p style="width:70%;">Now go create a Survivor Pool and let us do all the hard work for you!  Hurry up, the season premieres on Sept 26th on CBS!</p>
+
+        <form method="GET" action="{% url 'create_survivor_pool' %}">{% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Create a Pool Now!"/>
+        </form>
+{% endblock %}

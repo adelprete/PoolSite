@@ -10,6 +10,7 @@ from mysite.base import forms as bforms
 from mysite.base import models as bmodels
 from mysite.oscars import models as omodels
 from mysite.survivor import models as smodels
+from mysite.amazingrace import models as amodels
 
 from django.db.models import Q
 
@@ -24,7 +25,7 @@ def root(request):
     context = {}
     return render(request, "panel_core.html",context)
 
-# Not sure if this is being used any more
+
 def signup(request,form=bforms.MemberProfileForm,addr_form=bforms.AddressForm):
 
     if request.POST:
@@ -90,6 +91,7 @@ def your_pools(request):
         messages.error(request,"Please log in first")
         return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
+    #Oscar Pools
     if omodels.OscarCeremony.objects.all().count() == 0:
         cur_oscar_pools = False
         old_oscar_pools = False
@@ -98,6 +100,7 @@ def your_pools(request):
         cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
         old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
 
+    #Survivor Pools
     if smodels.SurvivorSeason.objects.all().count() == 0:
         cur_survivor_pools = False
         old_survivor_pools = False
@@ -106,11 +109,23 @@ def your_pools(request):
         cur_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_survivor_season).distinct()
         old_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_survivor_season).distinct()
 
+    #Amazing Race Pools
+    if amodels.AmazingRaceSeason.objects.all().count() == 0:
+        cur_amazingrace_pools = False
+        old_amazingrace_pools = False
+    else:
+        current_amazingrace_season = amodels.AmazingRaceSeason.objects.latest('start_date')
+        cur_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_amazingrace_season).distinct()
+        old_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_amazingrace_season).distinct()
+
+
     context = {
         'cur_oscar_pools':cur_oscar_pools,
         'old_oscar_pools':old_oscar_pools,
         'cur_survivor_pools':cur_survivor_pools,
         'old_survivor_pools':old_survivor_pools,
+        'cur_amazingrace_pools':cur_amazingrace_pools,
+        'old_amazingrace_pools':old_amazingrace_pools,
     }
 
     return render(request,"base/pool_list.html",context)
@@ -139,6 +154,9 @@ def join_pool(request):
                     return HttpResponseRedirect(pool.get_absolute_url())
                 if hasattr(pool,"survivorpool"):
                     pool = pool.survivorpool
+                    return HttpResponseRedirect(pool.get_absolute_url())
+                if hasattr(pool,"amazingracepool"):
+                    pool = pool.amazingracepool
                     return HttpResponseRedirect(pool.get_absolute_url())
             else:
                 messages.error(request,"Pool id and Password given do not match any pools. Please try again")

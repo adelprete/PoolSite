@@ -1,8 +1,8 @@
-{% extends 'survivor/pool_home_core.html' %}
+{% extends 'amazingrace/pool_home_core.html' %}
 {% load oscars_tags %}
 {% block body %}
         <h2 style="font-family:Verdana, Geneva, sans-serif"><b>{{ pool.name}} home page</b></h2>
-        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'survivor_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
+        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'amazingrace_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
         <div style="margin-left:13px;">
         {{ pool.admin_note|safe }}
         </div>
@@ -10,12 +10,12 @@
             <div>
             <h3><b>Pool Format:</b></h3>
                 <div style="margin-left:13px;">
-                    <h3 style="margin-bottom:10px;">When Does This Season of Survivor Start?</h3>
-                    <font style="margin-left:13px;">{{ pool.survivorpool.season.start_date }}</font>
+                    <h3 style="margin-bottom:10px;">When Does This Season of The Amazing Race Start?</h3>
+                    <font style="margin-left:13px;">{{ pool.amazingracepool.season.start_date }}</font>
                     <br><br>
                     <h3 style="margin-bottom:10px;">How to Play:</h3>
-                    <font style="margin-left:13px;">Everyone will pick 4 castaways before the season starts.  You will get points when your castaways perform certain actions.
-                    The person whose 4 castaways have accumulated the most points at the end of the season wins!</font>
+                    <font style="margin-left:13px;">Everyone will pick 3 teams before the season starts.  You will get points when your teams perform certain actions.
+                    The person whose 3 teams have accumulated the most points at the end of the season wins!</font>
                     <br><br>
                      <h3 style="margin-bottom:10px;">Point Distribution:</h3>
                      {% for key,value in points_categories.iteritems %}
