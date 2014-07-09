@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 from mysite.base import forms as bforms
 from mysite.base import models as bmodels
@@ -130,11 +131,11 @@ def your_pools(request):
 
     return render(request,"base/pool_list.html",context)
 
-def join_pool(request):
+@login_required
+def join_pool(request, id=None, password=None):
 
-    if request.user.is_anonymous():
-        messages.error(request,"Please log in first")
-        return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
+    if id and password:
+        messages.info(request,"Enter " + id + " for the Pool id, and " + password + " for the password.")
 
     form = bforms.JoinForm(request.POST or None)
     pool = None
@@ -147,22 +148,26 @@ def join_pool(request):
 
         if pool:
             if pool.password == form.cleaned_data['password']:
-                pool.members.add(request.user)
-                messages.success(request,"You've successfully joined the pool!")
-                if hasattr(pool,"oscarpool"):
-                    pool = pool.oscarpool
-                    return HttpResponseRedirect(pool.get_absolute_url())
-                if hasattr(pool,"survivorpool"):
-                    pool = pool.survivorpool
-                    return HttpResponseRedirect(pool.get_absolute_url())
-                if hasattr(pool,"amazingracepool"):
-                    pool = pool.amazingracepool
-                    return HttpResponseRedirect(pool.get_absolute_url())
+                if pool.administrator != request.user and request.user not in pool.members.all():
+                    pool.members.add(request.user)
+                    messages.success(request,"You've successfully joined the pool!")
+                    if hasattr(pool,"oscarpool"):
+                        pool = pool.oscarpool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"survivorpool"):
+                        pool = pool.survivorpool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"amazingracepool"):
+                        pool = pool.amazingracepool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                else:
+                    messages.error(request,"You are already in this pool")
             else:
                 messages.error(request,"Pool id and Password given do not match any pools. Please try again")
 
     return render(request,'join_form.html', {'form':form})
 
+@login_required
 def leave_pool(request,id):
 
     pool = get_object_or_404(bmodels.Pool,id=id)
