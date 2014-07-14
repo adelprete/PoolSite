@@ -3,7 +3,10 @@ from django.views.generic.base import TemplateView
 from mysite.amazingrace import models as amodels
 from mysite.base.views import PublicPools
 
-current_season = amodels.AmazingRaceSeason.objects.latest('start_date')
+try:
+    current_season = amodels.AmazingRaceSeason.objects.latest('start_date')
+except:
+    current_season = None
 
 urlpatterns = patterns('mysite.amazingrace.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='amazingrace/getting_started.html'),            name='amazingrace_getting_started'),

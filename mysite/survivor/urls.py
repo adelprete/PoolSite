@@ -3,7 +3,10 @@ from django.views.generic.base import TemplateView
 from mysite.base.views import PublicPools
 from mysite.survivor import models as smodels
 
-current_season = smodels.SurvivorSeason.objects.latest('start_date')
+try:
+    current_season = smodels.SurvivorSeason.objects.latest('start_date')
+except:
+    current_season = None
 
 urlpatterns = patterns('mysite.survivor.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='survivor/getting_started.html'),            name='survivor_getting_started'),

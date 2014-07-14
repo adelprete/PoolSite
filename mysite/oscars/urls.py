@@ -3,7 +3,10 @@ from django.views.generic.base import TemplateView
 from mysite.oscars import models as omodels
 from mysite.base.views import PublicPools
 
-current_ceremony = omodels.OscarCeremony.objects.latest('date')
+try:
+    current_ceremony = omodels.OscarCeremony.objects.latest('date')
+except:
+    current_ceremony = None
 
 urlpatterns = patterns('mysite.oscars.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='oscars/getting_started.html'),            name='oscars_getting_started'),
