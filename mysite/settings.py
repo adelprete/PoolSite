@@ -30,9 +30,9 @@ ADMINS = (
     ('Anthony', 'adelprete87@gmail.com'),
 )
 
-SERVER_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
+#SERVER_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
-DEFAULT_FROM_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
+#DEFAULT_FROM_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
 ALLOWED_HOSTS = [
     'www.officepoolhub.com',
