@@ -1,4 +1,27 @@
 {% extends "panel_core.html" %}
+{% block head %}
+{{ block.super }}
+    <script>
+        $(function(){
+
+        if ($("input#id_public").prop('checked')) {
+                $("#row_password").hide();
+            } else {
+                $("#row_password").show();
+            }
+
+        $("input#id_public").click(function(){
+             if ($("input#id_public").prop('checked')) {
+                $("#row_password").hide();
+            } else {
+                $("#row_password").show();
+            }
+        });
+
+
+        });
+    </script>
+{% endblock %}
 {% block menu %}
     {{ block.super }}
     {% if pool %}
@@ -35,11 +58,18 @@
             <td>{{ form.name.errors }}</td>
         </tr>
         <tr>
+            <td>{{ form.public.label_tag }}</td>
+            <td>{{ form.public.value }}</td>
+            <td>{{ form.public.help_text }}</td>
+        </tr>
+        {% if form.public.value == False %}
+        <tr>
             <td>{{ form.password.label_tag }}</td>
             <td>{{ form.password.value }}</td>
             <td>{{ form.password.help_text }}</td>
             <td>{{ form.password.errors }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>{{ form.entry_deadline.label_tag }}</td>
             <td>{{ form.entry_deadline.value }}<br>
@@ -50,6 +80,7 @@
         <tr>
             <td>{{ form.max_submissions.label_tag }}</td>
             <td>{{ form.max_submissions.value }}</td>
+            <td>{{ form.max_submissions.help_text }}</td>
         </tr>
        </table>
         <div class="span-18">
@@ -105,6 +136,11 @@
             <td>{{ form.name.errors }}</td>
         </tr>
         <tr>
+            <td>{{ form.public.label_tag }}</td>
+            <td>{{ form.public }}</td>
+            <td>{{ form.public.help_text }}</td>
+        </tr>
+        <tr id="row_password">
             <td>{{ form.password.label_tag }}</td>
             <td>{{ form.password }}</td>
             <td>{{ form.password.help_text }}</td>

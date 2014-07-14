@@ -34,6 +34,17 @@ class AmazingRacePoolForm(forms.ModelForm):
             raise forms.ValidationError("Max submissions cannot be 0")
         return data
 
+    def clean(self):
+        cleaned_data = super(AmazingRacePoolForm, self).clean()
+
+        if cleaned_data.get('public') == False:
+            if cleaned_data.get('password').__len__() < 6:
+                self._errors["password"] = self.error_class(["The password must be at least 6 characters long"])
+            elif (' ' in cleaned_data.get('password')) == True:
+                self._errors['password'] = self.error_class(["There cannot be any spaces in the password"])
+
+        return cleaned_data
+
     class Meta:
         model = amodels.AmazingRacePool
         exclude = {'season','identity','creation_date'}

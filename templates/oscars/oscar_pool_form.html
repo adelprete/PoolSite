@@ -22,6 +22,20 @@
                     $("#points").show();
                     }
                     });
+
+            if ($("input#id_public").prop('checked')) {
+                    $("#row_password").hide();
+                } else {
+                    $("#row_password").show();
+                }
+
+            $("input#id_public").click(function(){
+                 if ($("input#id_public").prop('checked')) {
+                    $("#row_password").hide();
+                } else {
+                    $("#row_password").show();
+                }
+            });
         });
 
     </script>
@@ -61,18 +75,30 @@
             <td class="span-6">{{ form.name.value }}</td>
             <td>{{ form.name.errors }}</td>
         </tr>
+        {% if form.public.value == False %}
         <tr>
             <td>{{ form.password.label_tag }}</td>
             <td>{{ form.password.value }}</td>
             <td>{{ form.password.help_text }}</td>
             <td>{{ form.password.errors }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>{{ form.entry_deadline.label_tag }}</td>
             <td>{{ form.entry_deadline.value }}<br>
                 All time is in EST</td>
             <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
             <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.max_submissions.label_tag }}</td>
+            <td>{{ form.max_submissions.value }}</td>
+            <td>{{ form.max_submissions.help_text }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.public.label_tag }}</td>
+            <td>{{ form.public.value }}</td>
+            <td>{{ form.public.help_text }}</td>
         </tr>
        </table>
         <div class="span-18">
@@ -86,9 +112,9 @@
         </table>
         <table>
         <tr>
-                <td class="span-4"><u>Award</u></td>
-                <td id="points"><u>Awarded points</u></td>
-            </tr>
+            <td class="span-4"><u>Award</u></td>
+            <td id="points"><u>Awarded points</u></td>
+        </tr>
         {% for c in category_forms %}
             {% if c.active.value == True %}
             <tr>
@@ -108,6 +134,11 @@
             <td>{{ form.name.errors }}</td>
         </tr>
         <tr>
+            <td>{{ form.public.label_tag }}</td>
+            <td>{{ form.public }}</td>
+            <td>{{ form.public.help_text }}</td>
+        </tr>
+        <tr id="row_password">
             <td>{{ form.password.label_tag }}</td>
             <td>{{ form.password }}</td>
             <td>{{ form.password.help_text }}</td>

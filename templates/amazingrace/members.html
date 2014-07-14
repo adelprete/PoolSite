@@ -34,7 +34,9 @@
         <h2 style="color:orangered;">Invite others to your pool!</h2>
          <div style="margin-left:10px;font-size:15px;"><b>Just email them the following!</b><br><br><b>URL:</b> {{ join_url }}<br>
              <b>Pool ID:</b> {{ pool.identity }}<br>
+             {% if pool.public == False %}
              <b>Pool Password:</b> {{ pool.password }}
+             {% endif %}
          </div>
      </div>
         {% endif %}

@@ -60,7 +60,8 @@ class AddressForm(forms.ModelForm):
 
 class JoinForm(forms.Form):
     pool_id = forms.IntegerField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(),required=False)
+
 
 class ContactForm(forms.ModelForm):
 

@@ -34,18 +34,18 @@ def pool_homepage(request,id=None):
 @login_required
 def amazingrace_pool(request,id=None,form=aforms.AmazingRacePoolForm):
 
-    if not settings.AMAZING_RACE_POOLS_OPEN:
+    try:
+        season = amodels.AmazingRaceSeason.objects.latest('start_date')
+    except:
         messages.error(request,"You've missed your chance to create an Amazing Race pool. If you are a registered user, you will be notified when the cast is revealed for the next season.")
         return HttpResponseRedirect(reverse('root'))
-
-    season = amodels.AmazingRaceSeason.objects.latest('start_date')
 
     amazingrace_pool = None
     custom_teams = None
 
     if not id:
         today = datetime.datetime.utcnow()
-        if datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today):
+        if datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today) or settings.AMAZING_RACE_POOLS_OPEN is False:
             messages.error(request,"You've missed your chance to create an Amazing Race pool.  If you are a registered user, you will be notified when the cast is revealed for the next season.")
             return HttpResponseRedirect(reverse('root'))
 

@@ -135,10 +135,13 @@ def your_pools(request):
 def join_pool(request, id=None, password=None):
 
     if id and password:
-        messages.info(request,"Enter " + id + " for the Pool id, and " + password + " for the password.")
+        messages.info(request,"Enter " + id + " for the Pool id, and " + password + " for the password to join their pool")
+    elif id and not password:
+        messages.info(request,"Enter " + id + " for the Pool id, and leave the password field blank to join their pool")
 
     form = bforms.JoinForm(request.POST or None)
     pool = None
+
     if form.is_valid():
 
         try:
@@ -147,7 +150,24 @@ def join_pool(request, id=None, password=None):
             messages.error(request,"Pool id did not match any pools in our system. Please try again")
 
         if pool:
-            if pool.password == form.cleaned_data['password']:
+
+            if pool.public:
+                if pool.administrator != request.user and request.user not in pool.members.all():
+                    pool.members.add(request.user)
+                    messages.success(request,"You've successfully joined the pool!")
+                    if hasattr(pool,"oscarpool"):
+                        pool = pool.oscarpool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"survivorpool"):
+                        pool = pool.survivorpool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"amazingracepool"):
+                        pool = pool.amazingracepool
+                        return HttpResponseRedirect(pool.get_absolute_url())
+                else:
+                    messages.error(request,"You are already in this pool")
+
+            elif pool.password == form.cleaned_data['password']:
                 if pool.administrator != request.user and request.user not in pool.members.all():
                     pool.members.add(request.user)
                     messages.success(request,"You've successfully joined the pool!")
@@ -166,6 +186,44 @@ def join_pool(request, id=None, password=None):
                 messages.error(request,"Pool id and Password given do not match any pools. Please try again")
 
     return render(request,'join_form.html', {'form':form})
+
+from django.views.generic import View
+
+class PublicPools(View):
+    queryset = None
+    title = None
+    def get(self, request):
+
+        context = {
+            'title':self.title,
+            'pools':self.queryset,
+        }
+        return render(request,'base/public_pools.html',context)
+
+    def get_queryset(self):
+        pass
+
+@login_required
+def join_public_pool(request,id=None):
+    if id:
+        pool = bmodels.Pool.objects.get(identity=id)
+        pool.members.add(request.user)
+        pool.save()
+        messages.success(request,"You've successfully joined the pool!")
+        if hasattr(pool,"oscarpool"):
+            pool = pool.oscarpool
+            return HttpResponseRedirect(pool.get_absolute_url())
+        if hasattr(pool,"survivorpool"):
+            pool = pool.survivorpool
+            return HttpResponseRedirect(pool.get_absolute_url())
+        if hasattr(pool,"amazingracepool"):
+            pool = pool.amazingracepool
+            return HttpResponseRedirect(pool.get_absolute_url())
+    else:
+        messages.error(request,"Pool Not Found")
+
+    return
+
 
 @login_required
 def leave_pool(request,id):

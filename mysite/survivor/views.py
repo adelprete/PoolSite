@@ -34,18 +34,18 @@ def pool_homepage(request,id=None):
 @login_required
 def survivor_pool(request,id=None,form=sforms.SurvivorPoolForm):
 
-    if settings.SURVIVOR_POOLS_OPEN is False:
+    try:
+        season = smodels.SurvivorSeason.objects.latest('start_date')
+    except:
         messages.error(request,"You've missed your chance to create a Survivor pool. If you are a registered user, you will be notified when the cast is revealed for the next season.")
         return HttpResponseRedirect(reverse('root'))
-
-    season = smodels.SurvivorSeason.objects.latest('start_date')
 
     survivor_pool = None
     custom_castaways = None
 
     if not id:
         today = datetime.datetime.utcnow()
-        if datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today):
+        if datetime.timedelta(0) > (season.start_date.replace(tzinfo=None) - today) or settings.SURVIVOR_POOLS_OPEN is False:
             messages.error(request,"You've missed your chance to create a Survivor pool.  If you are a registered user, you will be notified when the cast is revealed for the next season.")
             return HttpResponseRedirect(reverse('root'))
 
@@ -191,6 +191,12 @@ def survivor_standings(request,id=None):
     }
 
     return render(request,'survivor/standings.html',context)
+
+from mysite.base.views import PublicPools
+@login_required
+class SurvivorPublicPools(PublicPools):
+    def get_querysey(self):
+        return smodels.SurvivorPool.objects.filter(public=True).distinct()
 
 @login_required
 def leave_pool(request,id):

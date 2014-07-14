@@ -26,13 +26,14 @@ class Definition(models.Model):
 class Pool(models.Model):
     administrator = models.ForeignKey('auth.User',blank=True,null=True)
     name = models.CharField(max_length=30,verbose_name='Pool Name')
-    password = models.CharField("Pool password",max_length=30,help_text="Must be 6 characters long.  Members will use this to join your pool.")
+    password = models.CharField("Pool password",blank=True,max_length=30,help_text="Must be 6 characters long.  Members will use this to join your pool.")
     members = models.ManyToManyField('auth.User',related_name='member_set',blank=True,null=True)
     identity = models.BigIntegerField(unique=True)
     winner = models.IntegerField(blank=True,null=True)
     creation_date = models.DateField()
     admin_note = models.TextField(blank=True,null=True)
     max_submissions = models.PositiveIntegerField(default=1)
+    public = models.BooleanField(default=False,help_text="By making your pool public, random people will be able to join your pool.")
 
     def save(self):
         if not self.identity:

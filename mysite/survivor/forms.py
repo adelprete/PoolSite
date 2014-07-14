@@ -18,14 +18,15 @@ class SurvivorPoolForm(forms.ModelForm):
 
     def clean_entry_deadline(self):
         data = self.cleaned_data['entry_deadline']
-        if self.instance.id:
-            if datetime.timedelta(0) > (self.instance.season.start_date - data):
-                raise forms.ValidationError("You can't have an entry deadline past the start of the Survivor Season")
-        else:
-            season = smodels.SurvivorSeason.objects.latest('start_date')
+        if data:
+            if self.instance.id:
+                if datetime.timedelta(0) > (self.instance.season.start_date - data):
+                    raise forms.ValidationError("You can't have an entry deadline past the start of the Survivor Season")
+            else:
+                season = smodels.SurvivorSeason.objects.latest('start_date')
 
-            if datetime.timedelta(0) > (season.start_date - data):
-                raise forms.ValidationError("You can't have an entry deadline past the start of the Survivor Season")
+                if datetime.timedelta(0) > (season.start_date - data):
+                    raise forms.ValidationError("You can't have an entry deadline past the start of the Survivor Season")
         return data
 
     def clean_max_submissions(self):
@@ -33,6 +34,17 @@ class SurvivorPoolForm(forms.ModelForm):
         if data <= 0:
             raise forms.ValidationError("Max submissions cannot be 0")
         return data
+
+    def clean(self):
+        cleaned_data = super(SurvivorPoolForm, self).clean()
+
+        if cleaned_data.get('public') == False:
+            if cleaned_data.get('password').__len__() < 6:
+                self._errors["password"] = self.error_class(["The password must be at least 6 characters long"])
+            elif (' ' in cleaned_data.get('password')) == True:
+                self._errors['password'] = self.error_class(["There cannot be any spaces in the password"])
+
+        return cleaned_data
 
     class Meta:
         model = smodels.SurvivorPool

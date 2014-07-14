@@ -1,0 +1,30 @@
+{% extends 'panel_core.html' %}
+{% block body %}
+<h2>{{ title }} Public Pools</h2>
+ <table class="span-14">
+     <tr class="header">
+         <th>Pool Name</th>
+         <th>Admin</th>
+         <th>Members</th>
+         <th></th>
+     </tr>
+     {% for pool in pools %}
+        <tr>
+            <th>{% if user in pool.members.all or user == pool.administrator %}
+                <a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a>
+                {% else %}
+                {{ pool.name }}
+                {% endif %}
+            </th>
+            <th>{{ pool.administrator }}</th>
+            <th>{{ pool.members.count|add:"1" }}</th>
+            <th>{% if user in pool.members.all or user == pool.administrator %}
+                Already Joined
+                {% else %}
+                <a href="{% url 'join_public_pool' pool.identity %}">Join Pool</a>
+                {% endif %}
+            </th>
+        </tr>
+     {% endfor %}
+ </table>
+{% endblock %}

@@ -1,9 +1,16 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
+from mysite.base.views import PublicPools
+from mysite.survivor import models as smodels
+
+current_season = smodels.SurvivorSeason.objects.latest('start_date')
 
 urlpatterns = patterns('mysite.survivor.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='survivor/getting_started.html'),            name='survivor_getting_started'),
     url(r'^create/',                                        'survivor_pool',              name='create_survivor_pool'),
+    url(r'^public-pools/',
+        PublicPools.as_view(title='Survivor',queryset=smodels.SurvivorPool.objects.filter(season=current_season,public=True).distinct()),
+        name='survivor_public_pools'),
     url(r'^(?P<id>\d+)/settings$',                          'survivor_pool',              name='survivor_pool'),
     url(r'^(?P<id>\d+)/home$',                              'pool_homepage',              name='survivor_home'),
     url(r'^(?P<id>\d+)/picksheets$',                        'survivor_member_picksheets', name='survivor_member_picksheets'),
