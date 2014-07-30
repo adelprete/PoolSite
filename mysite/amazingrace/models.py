@@ -2,6 +2,7 @@ import datetime
 from django.utils import timezone
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from mysite.amazingrace import helpers as ahelpers
 
 from mysite.base import models as bmodels
@@ -31,6 +32,8 @@ class AmazingRacePool(bmodels.Pool):
 
     def allow_new_picksheets(self):
         if datetime.timedelta(0) > (self.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return False
+        if settings.AMAZING_RACE_PICKSHEETS_OPEN == False:
             return False
         return True
 

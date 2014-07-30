@@ -35,7 +35,12 @@
                 <input type="submit" value="Fill Out a Pick Sheet" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your picks.
             </form>
         {% else %}
-            No new picks may be entered.  Either the Entry Deadline has past or you have reached the max amount of entries.
+            No new pick sheets may be entered.
+            {% if cast %}
+                Either the Entry Deadline has past or you have reached the max amount of entries.
+            {% else %}
+                <br>
+            {% endif %}
         {% endif %}
         <table class="span-16">
             <tr class="header">
@@ -106,7 +111,7 @@
             </table>
         {% else %}
             <tr>
-               <td colspan=3>No picks have been submitted yet</td>
+               <td colspan=3>No pick sheets have been submitted yet</td>
             </tr>
             </table>
         {% endif %}

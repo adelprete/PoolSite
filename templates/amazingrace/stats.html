@@ -33,6 +33,7 @@
 {% block body %}
     <title>Stats - {{ pool.name }} | Office Pool Hub</title>
     <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Amazing Race Stats</b></h2><hr>
+        {% if cast %}
         <div style="float:left;margin-right:40px;font-size:15px;">
             {{ form.teams }}<br>
             <img id="team_image_src" style="width:160px;height:200px;"><br>
@@ -72,6 +73,8 @@
                 <font id="team_pick_percentage" style="font-size:70px;"></font>%
             </center>
         </div>
-
+        {% else %}
+            Come back to this page when the season starts to see stats about for each castaway.
+        {% endif %}
 
 {% endblock %}
