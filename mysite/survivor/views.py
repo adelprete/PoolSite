@@ -118,11 +118,15 @@ def survivor_member_picksheets(request,id=None):
     if pool.allow_new_picksheets() == False or (picksheets.filter(member=request.user).count() >= pool.max_submissions):
         allow_new_picksheets = False
 
+    if settings.SURVIVOR_PICKSHEETS_OPEN == False:
+        messages.info(request,"Come back to this page when the Cast is revealed to start filling out your Pick Sheets")
+
     context = {
         'pool':pool,
         'picksheets':picksheets,
         'your_picksheets':your_picksheets,
         'allow_new_picksheets':allow_new_picksheets,
+        'cast': settings.SURVIVOR_PICKSHEETS_OPEN,
     }
     return render(request,'survivor/picksheet_list.html',context)
 
@@ -242,6 +246,7 @@ def stats(request,id):
         'pool':pool,
         'castaways':castaways,
         'categories':POINTS_CATEGORIES,
+        'cast':settings.SURVIVOR_PICKSHEETS_OPEN,
     }
 
     return render(request,'survivor/stats.html',context)

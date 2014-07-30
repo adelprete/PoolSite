@@ -86,7 +86,7 @@
             <ul>
                 {% for o in old_oscar_pools %}
                     <ol style="padding-left:54px;">
-                        <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <div class="span-13" style="border:1px solid black;padding:10px;">
                               <a href="{{ o.get_absolute_url }}">{{ o.name }}</a>
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ o.members.count|add:"1" }}
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ o.administrator }}
@@ -100,7 +100,7 @@
             <ul>
                 {% for s in old_survivor_pools %}
                     <ol style="padding-left:54px;">
-                        <div class="span-9" style="border:1px solid black;padding:10px;">
+                        <div class="span-13" style="border:1px solid black;padding:10px;">
                         <a href="{{ s.get_absolute_url }}">{{ s.name }}</a>
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ s.members.count|add:"1" }}
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ s.administrator }}
@@ -114,7 +114,7 @@
             <ul>
                 {% for a in old_amazingrace_pools %}
                     <ol style="padding-left:54px;">
-                        <div class="span-11" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
+                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
                               Amazing Race
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ a.members.count|add:"1" }}
