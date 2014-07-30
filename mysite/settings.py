@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'mysite.oscars',
     'mysite.survivor',
     'mysite.amazingrace',
+    'mysite.marchmadness',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

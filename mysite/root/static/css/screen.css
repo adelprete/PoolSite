@@ -66,6 +66,12 @@ tr.header {
     color:white;
     }
 
+input.bracket_field {
+    width:110px !important;
+    height: 18px !important;
+    font-size:10px;
+}
+
 table
 /*
 .header-title {
