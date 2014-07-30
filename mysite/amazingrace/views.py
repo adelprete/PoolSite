@@ -316,3 +316,19 @@ def remove_member(request,id,member_id):
     messages.success(request,success_str)
 
     return HttpResponseRedirect(reverse("amazingrace_members",kwargs={'id':pool.id}))
+
+from mysite.base.views import PublicPools
+@login_required
+class AmazingRacePublicPools(PublicPools):
+
+    def get_title(self):
+        return 'Amazing Race'
+
+    def get_queryset(self):
+
+        try:
+            current_season = amodels.AmazingRaceSeason.objects.latest('start_date')
+        except:
+            current_season = None
+
+        return amodels.AmazingRacePool.objects.filter(season=current_season,public=True).distinct()

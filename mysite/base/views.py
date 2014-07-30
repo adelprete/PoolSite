@@ -189,18 +189,24 @@ def join_pool(request, id=None, password=None):
 
 from django.views.generic import View
 
-class PublicPools(View):
-    queryset = None
-    title = None
-    def get(self, request):
+class PublicPools(object):
+
+    def __new__(cls, request, *args, **kwargs):
+        obj = super(PublicPools,cls).__new__(cls)
+        return obj(request, *args, **kwargs)
+
+    def __call__(self,request,*args,**kwargs):
 
         context = {
-            'title':self.title,
-            'pools':self.queryset,
+            'title':self.get_title,
+            'pools':self.get_queryset,
         }
         return render(request,'base/public_pools.html',context)
 
     def get_queryset(self):
+        pass
+
+    def get_title(self):
         pass
 
 @login_required

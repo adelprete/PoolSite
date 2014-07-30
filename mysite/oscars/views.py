@@ -383,3 +383,19 @@ def predictions(request,id):
         'winners':all_winners,
     }
     return render(request,'oscars/predictions.html',context)
+
+from mysite.base.views import PublicPools
+@login_required
+class OscarPublicPools(PublicPools):
+
+    def get_title(self):
+        return 'Oscar'
+
+    def get_queryset(self):
+
+        try:
+            current_ceremony = omodels.OscarCeremony.objects.latest('date')
+        except:
+            current_ceremony = None
+
+        return omodels.OscarPool.objects.filter(season=current_ceremony,public=True).distinct()

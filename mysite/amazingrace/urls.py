@@ -1,19 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
-from mysite.amazingrace import models as amodels
-from mysite.base.views import PublicPools
-
-try:
-    current_season = amodels.AmazingRaceSeason.objects.latest('start_date')
-except:
-    current_season = None
 
 urlpatterns = patterns('mysite.amazingrace.views',
     url(r'^getting-started$',                               TemplateView.as_view(template_name='amazingrace/getting_started.html'),            name='amazingrace_getting_started'),
     url(r'^create/',                                        'amazingrace_pool',              name='create_amazing_race_pool'),
-        url(r'^public-pools/',
-        PublicPools.as_view(title='Amazing Race',queryset=amodels.AmazingRacePool.objects.filter(season=current_season,public=True).distinct()),
-        name='amazingrace_public_pools'),
+    url(r'^public-pools/',                                  'AmazingRacePublicPools',        name='amazingrace_public_pools'),
     url(r'^(?P<id>\d+)/settings$',                          'amazingrace_pool',              name='amazingrace_pool'),
     url(r'^(?P<id>\d+)/home$',                              'pool_homepage',                 name='amazingrace_home'),
     url(r'^(?P<id>\d+)/picksheets$',                        'amazingrace_member_picksheets', name='amazingrace_member_picksheets'),

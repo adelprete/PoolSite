@@ -199,8 +199,18 @@ def survivor_standings(request,id=None):
 from mysite.base.views import PublicPools
 @login_required
 class SurvivorPublicPools(PublicPools):
-    def get_querysey(self):
-        return smodels.SurvivorPool.objects.filter(public=True).distinct()
+
+    def get_title(self):
+        return 'Survivor'
+
+    def get_queryset(self):
+
+        try:
+            current_season = smodels.SurvivorSeason.objects.latest('start_date')
+        except:
+            current_season = None
+
+        return smodels.SurvivorPool.objects.filter(season=current_season,public=True).distinct()
 
 @login_required
 def leave_pool(request,id):

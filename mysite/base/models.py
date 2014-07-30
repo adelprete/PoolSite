@@ -60,7 +60,7 @@ class MemberProfile(models.Model):
     birth_date = models.DateField(null=True,blank=True)
     gender = models.CharField(max_length=5,null=True,blank=True, choices=bchoices.GENDER)
     creation_date = models.DateField(null=True, blank=True)
-    agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use YourPoolHub.com for gambling purposes and to use it "
+    agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it "
                                                    "purely for entertainment?")
     line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
     line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
