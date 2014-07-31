@@ -100,11 +100,6 @@
                         <table>
                             <tr>
                                 <td>
-                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
-                                    </div>
-                                </td>
-                                <td>
                                     <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
                                         <font style="font-family:Georgia, serif;font-size:30px;color:orange;">SURVIVOR</font>
                                     </div>
@@ -114,17 +109,13 @@
                                         <font style="font-family:Verdana, Geneva, sans-serif;font-size:30px;color:yellow;">AMAZING RACE</font>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
-                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
+                                <td>
+                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
                                         Do you think you can guess who the best Survivor contestants will be before the season starts?<br><br>
@@ -143,6 +134,15 @@
                                         through the entire season, wins!<br><br>Best part is it's absolutely FREE!<br><br>
                                         Hurry up, the season premieres on Sept 26th!<br><br>
                                         <form method="GET" action="{% url 'amazingrace_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
+                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
+                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
                                     </div>

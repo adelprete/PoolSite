@@ -27,9 +27,12 @@
                 <b>Castaway gets two points for every vote at the final tribal counsel</b>  -  2pts<br>
             </p>
         <h3><b>Thats It!</b></h3>
-        <p style="width:70%;">Now go create a Survivor Pool and let us do all the hard work for you!  Hurry up, the season premieres on Sept 18th on CBS!</p>
+        <p style="width:70%;">Now go create a Survivor Pool and let us do all the hard work for you!  Hurry up, the season premieres on Sept 24th on CBS!</p>
 
-        <form method="GET" action="{% url 'create_survivor_pool' %}">{% csrf_token %}
+        <form method="GET" action="{% url 'create_survivor_pool' %}" style="float:left;">{% csrf_token %}
             <input type="submit" class="btn btn-danger" value="Create a Pool Now!"/>
+        </form>
+        <form method="GET" action="{% url 'survivor_public_pools' %}">{% csrf_token %}
+            &nbsp&nbsp or <input type="submit" class="btn btn-danger" style="margin-left:10px;" value="Join a Public Pool!"/>
         </form>
 {% endblock %}
