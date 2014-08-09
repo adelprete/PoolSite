@@ -63,6 +63,8 @@ INSTALLED_APPS = (
     'mysite.survivor',
     'mysite.amazingrace',
     'mysite.marchmadness',
+    'mysite.nflbase',
+    'mysite.nflsurvivor',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -115,7 +117,8 @@ LOGIN_REDIRECT_URL = '/'
 REGISTRATION_OPEN = True
 
 OSCAR_POOLS_OPEN = False
-SURVIVOR_POOLS_OPEN = False
+SURVIVOR_POOLS_OPEN = True
 AMAZING_RACE_POOLS_OPEN = False
+NFL_SURVIVOR_POOLS_OPEN = True
 
 from mysite.private import *

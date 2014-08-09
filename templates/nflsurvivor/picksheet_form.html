@@ -1,0 +1,103 @@
+{% extends 'nflsurvivor/pool_home_core.html' %}
+{% block head %}
+    {{ block.super }}
+    <script>
+        $(function(){
+
+            $("input[id$='{{ chosen_team }}']").prop("checked", true);
+
+            $("input:checked").each(function(){
+                $("label[for='" + this.id + "']").css("font-weight", "bold");
+            });
+
+            $("input[type='radio']").click(function(){
+                if(this.checked){
+                    $("label[for='" + this.id + "']").css("font-weight", "bold");
+                }
+                $("input[type='radio']").each(function(){
+                    if(!$(this).is(':checked')){
+                        $("label[for='" + this.id + "']").css("font-weight", "normal");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<form method="POST">{% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {{ form.name.label_tag }}
+    {% if allow_new_picksheets %}
+        {{ form.name }}
+    {% else %}
+        <font style="margin-left:10px;font-size:14px;">{{ form.name.value }}</font>
+    {% endif %}
+    {{ form.name.errors }}
+<br><br>
+<ul style="margin-left:-25px;font-size:15px;">
+    <li style="display: inline;list-style-type:None;padding:2px;">
+        Week :
+    </li>
+    {% for week in weeks %}
+    <li style="display: inline;list-style-type:None;padding:2px;">
+        {% if week.1 == week_num %}
+            <font style="background-color:#cc240a;color:white;padding:4px;">{{ week.0|cut:"week" }}</font>
+        {% else %}
+            {% if picksheet %}
+            <a href="{% url 'nflsurvivor_picksheet' pool.id picksheet.id week.0|cut:'week' %}">{{ week.0|cut:"week" }}</a>
+            {% else %}
+                {{ week.0|cut:"week" }}
+            {% endif %}
+        {% endif %}
+        {% if not forloop.last %}
+            |
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<div class="span-15">
+    <h3>{{ week_num }}</h3>
+    <hr>
+    <center>
+    <table class="span-14" style="font-size:16px;">
+        {% for matchup in matchups %}
+                <tr>
+                    <td class="span-5" style="text-align: right;">
+                        <label for="team_{{ matchup.away_team }}" style="font-weight:normal;">
+                        <input id="team_{{ matchup.away_team }}" type="radio" name="team" style="margin-top:-2px;" value="{{ matchup.away_team }}"
+                                {% if not allow_new_picksheets %}disabled{% endif %}>&nbsp&nbsp{{ matchup.away_team}}
+                        </label>
+                    </td>
+                    <td class="span-3" style="text-align: center;"> VS </td>
+                    <td class="span-5" style="text-align: left;">
+                        <label for="team_{{ matchup.home_team }}" style="font-weight:normal;">
+                        {{ matchup.home_team }}&nbsp&nbsp<input id="team_{{ matchup.home_team }}" type="radio" name="team" style="margin-top:-2px;" value="{{ matchup.home_team }}"
+                                {% if not allow_new_picksheets %}disabled{% endif %}>
+                        </label>
+                    </td>
+                </tr>
+        {% endfor %}
+    </table>
+    </center>
+    {% if allow_new_picksheets %}
+        <hr>
+        <input class="submit" type="submit" name="submit" value="Save Pick" />&nbsp
+        <input class="submit" type="submit" name="continue" value="Save Pick and continue to next week" />&nbsp
+        {% if picksheet %}
+            <input class="submit" type="submit" name="clear" value="Clear Pick for this week" />
+        {% endif %}
+    {% endif %}
+</div>
+{% if picksheet %}
+    <div class="span-6" style="padding:10px;border:2px solid #cc240a;">
+            <h3><u>Picks</u></h3>
+            {% for pick in picks %}
+                <font style="font-size:13px;">Week {{ forloop.counter }}: &nbsp&nbsp{{ pick }}</font><br>
+            {% endfor %}
+    </div>
+{% endif %}
+</form>
+
+{% endblock %}
