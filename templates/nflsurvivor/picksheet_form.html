@@ -92,7 +92,9 @@
     {% if allow_new_picksheets and is_users_picksheet %}
         <hr>
         <input class="submit" type="submit" name="submit" value="Save Pick" />&nbsp
-        <input class="submit" type="submit" name="continue" value="Save Pick and continue to next week" />&nbsp
+        {% if week_num != "Week 17" %}
+            <input class="submit" type="submit" name="continue" value="Save Pick and continue to next week" />&nbsp
+        {% endif %}
         {% if picksheet %}
             <input class="submit" type="submit" name="clear" value="Clear Pick for this week" />
         {% endif %}
