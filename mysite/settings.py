@@ -62,6 +62,9 @@ INSTALLED_APPS = (
     'mysite.oscars',
     'mysite.survivor',
     'mysite.amazingrace',
+    'mysite.marchmadness',
+    'mysite.nflbase',
+    'mysite.nflsurvivor',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -118,5 +121,6 @@ SURVIVOR_POOLS_OPEN = True
 SURVIVOR_PICKSHEETS_OPEN = False
 AMAZING_RACE_POOLS_OPEN = True
 AMAZING_RACE_PICKSHEETS_OPEN = False
+NFL_SURVIVOR_POOLS_OPEN = True
 
 from mysite.private import *

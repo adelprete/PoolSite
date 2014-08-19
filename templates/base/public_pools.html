@@ -10,26 +10,28 @@
      </tr>
      {% if pools %}
          {% for pool in pools %}
-            <tr>
-                <th>{% if user in pool.members.all or user == pool.administrator %}
-                    <a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a>
-                    {% else %}
-                    {{ pool.name }}
-                    {% endif %}
-                </th>
-                <th>{{ pool.administrator }}</th>
-                <th>{{ pool.members.count|add:"1" }}</th>
-                <th>{% if user in pool.members.all or user == pool.administrator %}
-                    Already Joined
-                    {% else %}
-                    <a href="{% url 'join_public_pool' pool.identity %}">Join Pool</a>
-                    {% endif %}
-                </th>
-            </tr>
+            {% if pool.allow_new_picksheets %}
+                <tr>
+                    <th>{% if user in pool.members.all or user == pool.administrator %}
+                        <a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a>
+                        {% else %}
+                        {{ pool.name }}
+                        {% endif %}
+                    </th>
+                    <th>{{ pool.administrator }}</th>
+                    <th>{{ pool.members.count|add:"1" }}</th>
+                    <th>{% if user in pool.members.all or user == pool.administrator %}
+                        Already Joined
+                        {% else %}
+                        <a href="{% url 'join_public_pool' pool.identity %}">Join Pool</a>
+                        {% endif %}
+                    </th>
+                </tr>
+            {% endif %}
          {% endfor %}
      {% else %}
         <tr>
-            <td colspan="4">There are no Public Pools yet.</td>
+            <td colspan="4">There are no open Public Pools at this time.</td>
         </tr>
      {% endif %}
  </table>

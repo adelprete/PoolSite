@@ -1,0 +1,35 @@
+{% extends 'nflsurvivor/pool_home_core.html' %}
+{% load oscars_tags %}
+{% block body %}
+        <title>{{ pool.name }} | Office Pool Hub</title>
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>{{ pool.name}} home page</b></h2>
+        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'nflsurvivor_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
+        <div style="margin-left:13px;">
+        {{ pool.admin_note|safe }}
+        </div>
+        <br>
+            <div>
+            <h3><b>Pool Format:</b></h3>
+                <div style="margin-left:13px;">
+                    <h3 style="margin-bottom:10px;">When Does This Pool Start?</h3>
+                    {% if pool.nflsurvivorpool.start_week == 'wk1' %}
+                        <font style="margin-left:13px;">{{ pool.nflsurvivorpool.season.start_date }}</font>
+                    {% else %}
+                        <font style="margin-left:13px;">{{ pool.nflsurvivorpool.season.start_date2 }}</font>
+                    {% endif %}
+                    <br><br>
+                    <h3 style="margin-bottom:10px;">How to Play:</h3>
+
+                        <p style="margin-left:10px;">For each week of the season you will select a team that you think will win.<br>
+                            You cannot choose the same team twice so choose wisely for each week.<br>
+                            {% if pool.nflsurvivorpool.selection_process == 'weekly' %}
+                            Each week you will have until the start of the first game of the week to make your selection.<br>
+                            <b>A new week starts on Thursdays so be sure to save your picks for that week BEFORE the game on Thursday starts.</b><br>
+                            {% else %}
+                            You will submit all of your picks before the start of {{ pool.nflsurvivorpool.get_start_week_display }}.<br>
+                            {% endif %}
+                            You lose once the team you chose to win loses their game that week.<br>
+                            The last remaining member of the pool who still hasn't had a team lose wins the pool.</p>
+                </div>
+            </div>
+{% endblock %}

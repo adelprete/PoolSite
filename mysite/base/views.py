@@ -119,6 +119,17 @@ def your_pools(request):
         cur_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_amazingrace_season).distinct()
         old_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_amazingrace_season).distinct()
 
+    from mysite.nflsurvivor import models as nflsmodels
+    from mysite.nflbase import models as nflbmodels
+    #NFL Survivor Pools
+    if nflbmodels.Season.objects.all().count() == 0:
+        cur_nflsurvivor_pools = False
+        old_nflsurvivor_pools = False
+    else:
+        current_nflsurvivor_season = nflbmodels.Season.objects.latest('start_date')
+        cur_nflsurvivor_pools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_nflsurvivor_season).distinct()
+        old_nflsurvivor_pools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_nflsurvivor_season).distinct()
+
 
     context = {
         'cur_oscar_pools':cur_oscar_pools,
@@ -127,6 +138,8 @@ def your_pools(request):
         'old_survivor_pools':old_survivor_pools,
         'cur_amazingrace_pools':cur_amazingrace_pools,
         'old_amazingrace_pools':old_amazingrace_pools,
+        'cur_nflsurvivor_pools':cur_nflsurvivor_pools,
+        'old_nflsurvivor_pools':old_nflsurvivor_pools,
     }
 
     return render(request,"base/pool_list.html",context)
@@ -157,29 +170,35 @@ def join_pool(request, id=None, password=None):
                     messages.success(request,"You've successfully joined the pool!")
                     if hasattr(pool,"oscarpool"):
                         pool = pool.oscarpool
-                        return HttpResponseRedirect(pool.get_absolute_url())
                     if hasattr(pool,"survivorpool"):
                         pool = pool.survivorpool
-                        return HttpResponseRedirect(pool.get_absolute_url())
                     if hasattr(pool,"amazingracepool"):
                         pool = pool.amazingracepool
-                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"nflsurvivorpool"):
+                        pool = pool.amazingracepool
+
+                    return HttpResponseRedirect(pool.get_absolute_url())
                 else:
                     messages.error(request,"You are already in this pool")
 
             elif pool.password == form.cleaned_data['password']:
                 if pool.administrator != request.user and request.user not in pool.members.all():
-                    pool.members.add(request.user)
-                    messages.success(request,"You've successfully joined the pool!")
+
                     if hasattr(pool,"oscarpool"):
                         pool = pool.oscarpool
-                        return HttpResponseRedirect(pool.get_absolute_url())
                     if hasattr(pool,"survivorpool"):
                         pool = pool.survivorpool
-                        return HttpResponseRedirect(pool.get_absolute_url())
                     if hasattr(pool,"amazingracepool"):
                         pool = pool.amazingracepool
-                        return HttpResponseRedirect(pool.get_absolute_url())
+                    if hasattr(pool,"nflsurvivorpool"):
+                        if pool.members.count() >= pool.max_members - 1:
+                            messages.error(request,"This Pool is Full")
+                            return render(request,'join_form.html', {'form':form})
+                        pool = pool.amazingracepool
+
+                    pool.members.add(request.user)
+                    messages.success(request,"You've successfully joined the pool!")
+                    return HttpResponseRedirect(pool.get_absolute_url())
                 else:
                     messages.error(request,"You are already in this pool")
             else:
@@ -218,13 +237,15 @@ def join_public_pool(request,id=None):
         messages.success(request,"You've successfully joined the pool!")
         if hasattr(pool,"oscarpool"):
             pool = pool.oscarpool
-            return HttpResponseRedirect(pool.get_absolute_url())
         if hasattr(pool,"survivorpool"):
             pool = pool.survivorpool
-            return HttpResponseRedirect(pool.get_absolute_url())
         if hasattr(pool,"amazingracepool"):
             pool = pool.amazingracepool
-            return HttpResponseRedirect(pool.get_absolute_url())
+        if hasattr(pool,"nflsurvivorpool"):
+            pool = pool.nflsurvivorpool
+            pool.save()
+
+        return HttpResponseRedirect(pool.get_absolute_url())
     else:
         messages.error(request,"Pool Not Found")
 
@@ -242,12 +263,17 @@ def leave_pool(request,id):
             pool.oscarpool.ballot_set.filter(member=request.user).delete()
         if hasattr(pool,"survivorpool"):
             pool.survivorpool.survivorpicksheet_set.filter(member=request.user).delete()
+        if hasattr(pool,"amazingracepool"):
+            pool.amazingracepool.amazingracepicksheet_set.filter(member=request.user).delete()
+        if hasattr(pool,"nflsurvivorpool"):
+            pool.nflsurvivorpool.picksheet_set.filter(member=request.user).delete()
+            pool.nflsurvivorpool.save()
         messages.success(request,"You have been removed from the pool")
         return HttpResponseRedirect(reverse("root"))
     else:
         messages.error(request,"You cannot leave your own pool.  If you want to delete the pool, go to 'Settings'")
 
-    return HttpResponseRedirect(reverse("pool_members",kwargs={'id':pool.id}))
+    return
 
 def contact(request, form=bforms.ContactForm):
 

@@ -13,6 +13,7 @@ body {
     font-size:35px;
     text-shadow: 2px 2px 1px black;
     color:white;
+    font-weight: bold;
 }
 
 #main-banner a:link, #main-banner a:visited {
@@ -64,6 +65,10 @@ tr.header {
     background:#27282C;
     color:white;
     }
+
+input.short {
+    width:40px !important;
+}
 
 table
 /*

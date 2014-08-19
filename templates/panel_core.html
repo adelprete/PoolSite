@@ -81,6 +81,7 @@
                                 <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
                                 <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
                                 <li><a href="{% url 'create_amazing_race_pool' %}">Create an Amazing Race Pool</a></li>
+                                <li><a href="{% url 'create_nflsurvivor_pool' %}">Create an NFL Survivor Pool</a></li>
                             </ul>
                         </li>
                         <li class="topmenu"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
@@ -101,6 +102,11 @@
                             <tr>
                                 <td>
                                     <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">NFL SURVIVOR</font>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
                                         <font style="font-family:Georgia, serif;font-size:30px;color:orange;">SURVIVOR</font>
                                     </div>
                                 </td>
@@ -109,13 +115,20 @@
                                         <font style="font-family:Verdana, Geneva, sans-serif;font-size:30px;color:yellow;">AMAZING RACE</font>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
-                                    </div>
-                                </td>
                             </tr>
                             <tr>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        The 'ol classic.  All you have to do is pick one winner from each week of the season.  Be the last
+                                        one in your pool to not pick a loser and you win.  The tricky thing is that you can't pick the same team
+                                        twice.  Sounds easy right?<br><br>Round up your friends and compete with one another to see who
+                                        can survive the longest without picking a losing team.  Don't have any friends? Join a Public
+                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>Season Starts Sept 4th!<br><br>
+                                        <form method="GET" action="{% url 'nflsurvivor_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
+                                    </div>
+                                </td>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
                                         Do you think you can guess who the best Survivor contestants will be before the season starts?<br><br>
@@ -138,17 +151,13 @@
                                         </form>
                                     </div>
                                 </td>
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
-                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             <tr>
+                                <td>
+                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
                                         <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
@@ -158,6 +167,15 @@
                                 <td></td>
                             </tr>
                             <tr>
+                                <td style="vertical-align:top;">
+                                    <div class="span-7">
+                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
+                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
+                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
+                                    </div>
+                                </td>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
                                         <b>*COMING SOON*</b>

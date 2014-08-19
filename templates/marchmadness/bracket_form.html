@@ -1,0 +1,499 @@
+{% extends "panel_core.html" %}
+{% block head %}
+    {{ block.super }}
+    <style type="text/css">
+    table {
+      border-collapse: collapse;
+      border: none;
+      font: small arial, helvetica, sans-serif;
+    }
+    td {
+      vertical-align: middle;
+      text-align:center;
+      width: 10em;
+      margin: 0;
+      padding: 0;
+    }
+    td p {
+      margin: 0;
+      padding: 0px 0px 0px 0px;
+      cursor: pointer;
+      font-size:10px;
+    }
+
+    td p:hover {
+        font-weight:bold;
+    }
+
+    .bracket_field {
+        cursor: pointer;
+     }
+     .bracket_field:hover {
+        font-weight:bold;
+     }
+     input[type=text] {
+        border:1px solid #a3a3a3;
+     }
+    </style>
+    <script>
+        $(function(){
+            var previous;
+
+            $("p").live('click',function(){
+                var team = $("#id_" + this.id).val();
+                previous = $("#id_" + this.id).val();
+
+                $("#id_" + this.id).val($(this).html());
+
+                $('#id_' + this.id).trigger('change');
+            });
+
+            $("input[id^='id_B']").live('click',function(){
+                $(this).blur();
+                var num = parseInt($(this).attr('id').replace(/id_B/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+                previous = $("#id_C" + num.toString()).val();
+                $("#id_C" + num.toString()).val($(this).val());
+                $('#id_C' + num.toString()).trigger('change');
+            }).keydown(function(){
+                return false;
+            });
+            $("input[id^='id_B']").change(function(){
+                var num = parseInt($(this).attr('id').replace(/id_B/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+                if($("#id_C" + num.toString()).val() != ''){
+                    if($("#id_C" + num.toString()).val() == previous){
+                        $("#id_C" + num.toString()).val($(this).val());
+
+                        $("#id_C" + num.toString()).trigger('change');
+                    }
+                }
+
+            });
+
+            $("input[id^='id_C']").live('click',function(){
+                $(this).blur();
+                var num = parseInt($(this).attr('id').replace(/id_C/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+
+                previous =  $("#id_D" + num.toString()).val();
+                $("#id_D" + num.toString()).val($(this).val());
+                $('#id_D' + num.toString()).trigger('change');
+            });
+            $("input[id^='id_C']").change(function(){
+                var num = parseInt($(this).attr('id').replace(/id_C/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+                if($("#id_D" + num.toString()).val() != ''){
+                    if($("#id_D" + num.toString()).val() == previous){
+                        $("#id_D" + num.toString()).val($(this).val());
+
+                        $("#id_D" + num.toString()).trigger('change');
+                    }
+                }
+            }).keydown(function(){
+                return false;
+            });
+
+            $("input[id^='id_D']").live('click',function(){
+                $(this).blur();
+                var num = parseInt($(this).attr('id').replace(/id_D/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+
+                previous = $(".E" + num.toString()).val();;
+                $(".E" + num.toString()).val($(this).val());
+                $('.E' + num.toString()).trigger('change');
+            }).change(function(){
+                var num = parseInt($(this).attr('id').replace(/id_D/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+                if($("#id_E" + num.toString()).val() != ''){
+                    if($("#id_E" + num.toString()).val() == previous){
+                        $(".E" + num.toString()).val($(this).val());
+
+                        $(".E" + num.toString()).trigger('change');
+                    }
+                }
+            }).keydown(function(){
+                return false;
+            });
+
+            $("input[class*='E']").live('click',function(){
+                $(this).blur();
+                var num = parseInt($(this).attr('id').replace(/id_E/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+
+                previous = $("#id_F" + num.toString()).val();;
+                $("#id_F" + num.toString()).val($(this).val());
+                $('#id_F' + num.toString()).trigger('change');
+            }).change(function(){
+                var num = parseInt($(this).attr('id').replace(/id_E/, ''),10);
+                if(num % 2 === 1){
+                    num = num + 1;
+                }
+                num = num / 2;
+                if($("#id_F" + num.toString()).val() != ''){
+                    if($("#id_F" + num.toString()).val() == previous){
+                        $("#id_F" + num.toString()).val($(this).val());
+
+                        $("#id_F" + num.toString()).trigger('change');
+                    }
+                }
+            }).keydown(function(){
+                return false;
+            });
+
+
+            $("input[id^='id_F']").live('click',function(){
+                $(this).blur();
+                $("#id_champ").val($(this).val());
+            }).change(function(){
+
+                if($("#id_champ").val() != ''){
+                    if($("#id_champ").val() == previous){
+                        $("#id_champ").val($(this).val());
+                    }
+                }
+            }).keydown(function(){
+                return false;
+            });
+            $("#id_champ").keydown(function(){
+                return false;
+            }).live('click',function(){
+                $(this).blur();
+            });
+        });
+    </script>
+{% endblock %}
+{% block body %}
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        <hr>
+            <h2 style="float:left;"style="float:left;">South</h2><h2 style="text-align:right;">West</h2>
+            <table summary="Tournament Bracket" class="span-12" style="margin-left:-25px;float:left;">
+             <tr>
+                 <td style="text-align:center;"><u>Round of 64</u></td>
+                 <td style="text-align:center;"><u>Round of 32</u></td>
+                 <td style="text-align:center;"><u>Sweet 16</u></td>
+                 <td style="text-align:center;"><u>Elite 8</u></td>
+             </tr>
+             <tr>
+              <td><p id="B1">1. Florida</p></td>
+              <td rowspan="2">{{ form.B1 }}</td>
+              <td rowspan="4">{{ form.C1 }}</td>
+              <td rowspan="8">{{ form.D1 }}</td>
+             </tr>
+             <tr>
+              <td><p id="B1">16. Albany</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B2">8. Colorado</p></td>
+              <td rowspan="2">{{ form.B2 }}</td>
+             </tr>
+             <tr>
+              <td><p id="B2">9. Pittsburgh</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B3">5. VCU</p></td>
+              <td rowspan="2">{{ form.B3 }}</td>
+              <td rowspan="4">{{ form.C2 }}</td>
+             </tr>
+             <tr>
+              <td><p id="B3">12. SF Austin</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B4">4. UCLA</p></td>
+              <td rowspan="2">{{ form.B4 }}</td>
+             </tr>
+             <tr>
+              <td><p id="B4">13. Tulsa</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B5">6. Ohio State</p></td>
+              <td rowspan="2"><p>{{ form.B5 }}</p></td>
+              <td rowspan="4"><p>{{ form.C3 }}</p></td>
+              <td rowspan="8"><p>{{ form.D2 }}</p></td>
+             </tr>
+             <tr>
+              <td><p id="B5">11. Dayton</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:10px;"><p id="B6">3. Syracuse</p></td>
+              <td rowspan="2"><p>{{ form.B6 }}</p></td>
+             </tr>
+             <tr>
+              <td><p id="B6">14. W Michigan</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B7">7. New Mexico</p></td>
+              <td rowspan="2"><p>{{ form.B7 }}</p></td>
+              <td rowspan="4"><p>{{ form.C4 }}</p></td>
+             </tr>
+             <tr>
+              <td><p id="B7">10. Stanford</p></td>
+             </tr>
+             <tr>
+              <td style="padding-top:5px;"><p id="B8">2. Kansas</p></td>
+              <td rowspan="2"><p>{{ form.B8 }}</p></td>
+             </tr>
+             <tr>
+              <td><p id="B8">15. E Kentucky</p></td>
+             </tr>
+            </table>
+
+            <table summary="Tournament Bracket" class="span-12" style="margin-right:-25px;">
+             <tr>
+                 <td style="text-align:center;"><u>Elite 8</u></td>
+                 <td style="text-align:center;"><u>Sweet 16</u></td>
+                 <td style="text-align:center;"><u>Round of 32</u></td>
+                 <td style="text-align:center;"><u>Round of 64</u></td>
+             </tr>
+             <tr>
+                 <td rowspan="8">{{ form.D5 }}</td>
+                 <td rowspan="4">{{ form.C9 }}</td>
+                 <td rowspan="2">{{ form.B17 }}</td>
+                 <td><p id="B17">1. Arizona</p></td>
+             </tr>
+             <tr>
+              <td><p id="B17">16. Weber State</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="2">{{ form.B18 }}</td>
+                 <td style="padding-top:5px;"><p id="B18">8. Gonzaga</p></td>
+             </tr>
+             <tr>
+              <td><p id="B18">9. Oklahoma State</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="4">{{ form.C10 }}</td>
+                 <td rowspan="2">{{ form.B19 }}</td>
+                 <td style="padding-top:5px;"><p id="B19">5. Oklahoma</p></td>
+             </tr>
+             <tr>
+              <td><p id="B19">12. North Dakota St</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="2">{{ form.B20 }}</td>
+                 <td style="padding-top:5px;"><p id="B20">4. San Diego State</p></td>
+             </tr>
+             <tr>
+              <td><p id="B20">13. New Mexico St</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="8"><p>{{ form.D6 }}</p></td>
+                 <td rowspan="4"><p>{{ form.C11 }}</p></td>
+                 <td rowspan="2"><p>{{ form.B21 }}</p></td>
+                 <td style="padding-top:5px;"><p id="B21">6. Baylor</p></td>
+             </tr>
+             <tr>
+              <td><p id="B21">11. Nebraska</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="2"><p>{{ form.B22 }}</p></td>
+                 <td style="padding-top:5px;"><p id="B22">3. Creighton</p></td>
+             </tr>
+             <tr>
+              <td><p id="B22">14. LA-Lafayette</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="4"><p>{{ form.C12 }}</p></td>
+                 <td rowspan="2"><p>{{ form.B23 }}</p></td>
+                 <td style="padding-top:5px;"><p id="B23">7. Oregon</p></td>
+             </tr>
+             <tr>
+              <td><p id="B23">10. BYU</p></td>
+             </tr>
+             <tr>
+                 <td rowspan="2"><p>{{ form.B24 }}</p></td>
+                 <td style="padding-top:5px;"><p id="B24">2. Wisconsin</p></td>
+             </tr>
+             <tr>
+                 <td><p id="B24">15. American U</p></td>
+             </tr>
+            </table>
+        <hr>
+        <center>
+        <h2>Final Four</h2>
+        </center>
+        <table summary="Tournament Bracket" class="span-12" style="margin: 0px 220px;">
+                <tr>
+                    <td colspan="4" style="text-align:center;">{{ form.champ.label_tag }}<br style="margin-bottom:-10px">{{ form.champ }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.E1 }}</td>
+                    <td rowspan="2">{{ form.F1 }}</td>
+                    <td rowspan="2">{{ form.F2 }}</td>
+                    <td>{{ form.E3 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.E2 }}</td>
+                    <td>{{ form.E4 }}</td>
+                </tr>
+        </table>
+
+        <hr>
+
+        <h2 style="float:left;">East</h2><h2 style="text-align:right;">MidWest</h2>
+        <table summary="Tournament Bracket" class="span-12" style="margin-left:-25px;float:left;">
+         <tr>
+                <td style="text-align:center;"><u>Round of 64</u></td>
+                 <td style="text-align:center;"><u>Round of 32</u></td>
+                 <td style="text-align:center;"><u>Sweet 16</u></td>
+                 <td style="text-align:center;"><u>Elite 8</u></td>
+         </tr>
+         <tr>
+          <td><p id="B9">1. Virgina</p></td>
+          <td rowspan="2">{{ form.B9 }}</td>
+          <td rowspan="4">{{ form.C5 }}</td>
+          <td rowspan="8">{{ form.D3 }}</td>
+         </tr>
+         <tr>
+          <td><p id="B9">16. Coast Carolina</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B10">8. Memphis</p></td>
+          <td rowspan="2">{{ form.B10 }}</td>
+         </tr>
+         <tr>
+          <td><p id="B10">9. G. Washington</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B11">5. Cincinnati</p></td>
+          <td rowspan="2">{{ form.B11 }}</td>
+          <td rowspan="4">{{ form.C6 }}</td>
+         </tr>
+         <tr>
+          <td><p id="B11">12. Harvard</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B12">4. Michigan State</p></td>
+          <td rowspan="2">{{ form.B12 }}</td>
+         </tr>
+         <tr>
+          <td><p id="B12">13. Delaware</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B13">6. North Carolina</p></td>
+          <td rowspan="2"><p>{{ form.B13 }}</p></td>
+          <td rowspan="4"><p>{{ form.C7 }}</p></td>
+          <td rowspan="8"><p>{{ form.D4 }}</p></td>
+         </tr>
+         <tr>
+          <td><p id="B13">11. Providence</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B14">3. Iowa State</p></td>
+          <td rowspan="2"><p>{{ form.B14 }}</p></td>
+         </tr>
+         <tr>
+          <td><p id="B14">14. N Carolina central</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B15">7. Connecticut</p></td>
+          <td rowspan="2"><p>{{ form.B15 }}</p></td>
+          <td rowspan="4"><p>{{ form.C8 }}</p></td>
+         </tr>
+         <tr>
+          <td><p id="B15">10. Saint Joseph's</p></td>
+         </tr>
+         <tr>
+          <td style="padding-top:5px;"><p id="B16">2. Villanova</p></td>
+          <td rowspan="2"><p>{{ form.B16 }}</p></td>
+         </tr>
+         <tr>
+          <td><p id="B16">15. Milwaukee</p></td>
+         </tr>
+        </table>
+
+        <table summary="Tournament Bracket" class="span-12" style="margin-right:-25px;">
+        <tr>
+                 <td style="text-align:center;"><u>Elite 8</u></td>
+                 <td style="text-align:center;"><u>Sweet 16</u></td>
+                 <td style="text-align:center;"><u>Round of 32</u></td>
+                 <td style="text-align:center;"><u>Round of 64</u></td>
+         </tr>
+        <tr>
+            <td rowspan="8">{{ form.D7 }}</td>
+            <td rowspan="4">{{ form.C13 }}</td>
+            <td rowspan="2">{{ form.B25 }}</td>
+            <td><p id="B25">1. Wichita State</p></td>
+         </tr>
+         <tr>
+            <td><p id="B25">16. Cal Poly</p></td>
+         </tr>
+         <tr>
+            <td rowspan="2">{{ form.B26 }}</td>
+            <td style="padding-top:5px;"><p id="B26">8. Kentucky</p></td>
+         </tr>
+         <tr>
+          <td><p id="B26">9. Kansas State</p></td>
+         </tr>
+         <tr>
+             <td rowspan="4">{{ form.C14 }}</td>
+             <td rowspan="2">{{ form.B27 }}</td>
+             <td style="padding-top:5px;"><p id="B27">5. Saint Louis</p></td>
+         </tr>
+         <tr>
+          <td><p id="B27">12. NC State</p></td>
+         </tr>
+         <tr>
+             <td rowspan="2">{{ form.B28 }}</td>
+             <td style="padding-top:5px;"><p id="B28">4. Louisville</p></td>
+         </tr>
+         <tr>
+          <td><p id="B28">13. Manhattan</p></td>
+         </tr>
+         <tr>
+             <td rowspan="8"><p>{{ form.D8 }}</p></td>
+             <td rowspan="4"><p>{{ form.C15 }}</p></td>
+             <td rowspan="2"><p>{{ form.B29 }}</p></td>
+             <td style="padding-top:5px;"><p id="B29">6. Massachusetts</p></td>
+         </tr>
+         <tr>
+          <td><p id="B29">11. Tennessee</p></td>
+         </tr>
+         <tr>
+             <td rowspan="2"><p>{{ form.B30 }}</p></td>
+             <td style="padding-top:5px;"><p id="B30">3. Duke</p></td>
+         </tr>
+         <tr>
+          <td><p id="B30">14. Mercer</p></td>
+         </tr>
+         <tr>
+             <td rowspan="4"><p>{{ form.C16 }}</p></td>
+             <td rowspan="2"><p>{{ form.B31 }}</p></td>
+             <td style="padding-top:5px;"><p id="B31">7. Texas</p></td>
+         </tr>
+         <tr>
+          <td><p id="B31">10. Arizona State</p></td>
+         </tr>
+         <tr>
+             <td rowspan="2"><p>{{ form.B32 }}</p></td>
+             <td style="padding-top:5px;"><p id="B32">2. Michigan</p></td>
+         </tr>
+         <tr>
+          <td><p id="B32">15. Wofford</p></td>
+         </tr>
+        </table>
+        <hr>
+
+{% endblock %}

@@ -34,6 +34,8 @@ class Pool(models.Model):
     admin_note = models.TextField(blank=True,null=True)
     max_submissions = models.PositiveIntegerField(default=1)
     public = models.BooleanField(default=False,help_text="By making your pool public, random people will be able to join your pool.")
+    max_members =  models.PositiveIntegerField(default=12)
+    is_full = models.BooleanField(default=False)
 
     def save(self):
         if not self.identity:
@@ -49,6 +51,12 @@ class Pool(models.Model):
 
         if not self.creation_date:
             self.creation_date = datetime.date.today()
+
+        if self.id:
+            if (self.members.count() + 1) == self.max_members:
+                self.is_full = True
+            else:
+                self.is_full = False
 
         super(Pool, self).save()
         saved = True

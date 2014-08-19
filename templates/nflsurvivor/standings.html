@@ -1,0 +1,35 @@
+{% extends "nflsurvivor/pool_home_core.html" %}
+{% load nflsurvivor_tags %}
+{% block body %}
+        <title>Standings - {{ pool.name }} | Office Pool Hub</title>
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
+            {% display_top_three %}
+        <table class="span-17">
+            <tr class="header">
+                <th><b>Member</b></th>
+                <th><b>Pick Sheet</b></th>
+                <th><b># of Correct Picks</b></th>
+                <th><b>Status</b></th>
+            </tr>
+        {% if picksheets %}
+        {% for picksheet in picksheets %}
+            <tr>
+                <td>{{ picksheet.member }}</td>
+                <td>{{ picksheet.name }}</td>
+                <td>{{ picksheet.total_points }}</td>
+                <td>
+                    {% if picksheet.still_alive %}
+                        <font style="color:green;"><b>ALIVE</b></font>
+                    {% else %}
+                        <font style="color:red;"><b>DEAD</b></font>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+               <td colspan=3>No pick sheets have been submitted yet</td>
+            </tr>
+        {% endif %}
+        </table>
+{% endblock %}

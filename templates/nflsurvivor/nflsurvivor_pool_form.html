@@ -1,0 +1,166 @@
+{% extends "panel_core.html" %}
+{% block head %}
+{{ block.super }}
+    <script>
+        $(function(){
+        $("font#start_date1").hide();
+        $("font#start_date2").hide();
+
+        if($("select#id_start_week").val() == 'wk1'){
+                $("font#start_date1").show();
+                $("font#start_date2").hide();
+        }
+        if($("select#id_start_week").val() == 'wk2'){
+            $("font#start_date1").hide();
+            $("font#start_date2").show();
+        }
+
+        if ($("input#id_public").prop('checked')) {
+                $("#row_password").hide();
+            } else {
+                $("#row_password").show();
+            }
+
+        $("input#id_public").click(function(){
+             if ($("input#id_public").prop('checked')) {
+                $("#row_password").hide();
+            } else {
+                $("#row_password").show();
+            }
+        });
+
+        $("select#id_start_week").change(function(){
+            if($("select#id_start_week").val() == 'wk1'){
+                $("font#start_date1").show();
+                $("font#start_date2").hide();
+            }
+
+            if($("select#id_start_week").val() == 'wk2'){
+                $("font#start_date1").hide();
+                $("font#start_date2").show();
+            }
+        });
+
+        });
+    </script>
+{% endblock %}
+{% block menu %}
+    {{ block.super }}
+    {% if pool %}
+    <div class="container">
+        <div class="submenu">
+            <ul>
+                <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
+                <li><a href="{% url 'nflsurvivor_member_picksheets' pool.id %}">Member Picks</a></li>
+                <li><a href="{% url 'nflsurvivor_standings' pool.id %}">Standings</a></li>
+                <li><a href="{% url 'nflsurvivor_members' pool.id %}">Members</a></li>
+                <li><a href="{% url 'nflsurvivor_stats' pool.id %}">Stats</a></li>
+                {% if user == pool.administrator %}
+                <li><a style="color:orange;" href="{% url 'nflsurvivor_pool' pool.id %}">Settings</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block body %}
+        {% if pool %}
+            <title>Settings - {{ pool.name }} | Office Pool Hub</title>
+            <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
+            <h4>You will not be able to edit the pool settings once your pool has started</h4>
+        {% else %}
+            <title>Create NFL Survivor Office Pool | Office Pool Hub</title>
+            <h2>Create an NFL Survivor pool</h2>
+        {% endif %}
+        {% if pool and pool.is_past_due %}
+        <table class="span-18">
+        <tr>
+            <td class="span-3">{{ form.name.label_tag }}</td>
+            <td class="span-6">{{ form.name.value }}</td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.public.label_tag }}</td>
+            <td>{{ form.public.value }}</td>
+            <td>{{ form.public.help_text }}</td>
+        </tr>
+        {% if form.public.value == False %}
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password.value }}</td>
+            <td>{{ form.password.help_text }}</td>
+            <td>{{ form.password.errors }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td>{{ form.entry_deadline.label_tag }}</td>
+            <td>{{ form.entry_deadline.value }}<br>
+                All time is in EST</td>
+            <td>{{ form.entry_deadline.help_text }} Season Premiere airs on {{ season.date }}</td>
+            <td>{{ form.entry_deadline.errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.max_submissions.label_tag }}</td>
+            <td>{{ form.max_submissions.value }}</td>
+            <td>{{ form.max_submissions.help_text }}</td>
+        </tr>
+       </table>
+        {% else %}
+        <form method="POST">{% csrf_token %}
+        <table>
+            <tr>
+                <td class="span-3">{{ form.name.label_tag }}</td>
+                <td class="span-6">{{ form.name }}</td>
+                <td>{{ form.name.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.public.label_tag }}</td>
+                <td>{{ form.public }}</td>
+                <td>{{ form.public.help_text }}</td>
+            </tr>
+            <tr id="row_password">
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+                <td>{{ form.password.help_text }}</td>
+                <td>{{ form.password.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.start_week.label_tag }}</td>
+                <td>{{ form.start_week }}</td>
+                <td>{{ form.start_week.help_text }}</td>
+                <td>{{ form.start_week.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.entry_deadline.label_tag }}</td>
+                <td>{{ form.entry_deadline }}<br>
+                    All time is in EST</td>
+                <td>{{ form.entry_deadline.help_text }} Your pool starts on <font id="start_date1">{{ season.start_date }}</font><font id="start_date2">{{ season.start_date2 }}</font></td>
+                <td>{{ form.entry_deadline.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.max_members.label_tag }}</td>
+                <td>{{ form.max_members }}</td>
+                <td>{{ form.max_members.help_text }}</td>
+                <td>{{ form.max_members.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.selection_process.label_tag }}</td>
+                <td>{{ form.selection_process }}</td>
+                <td>{{ form.selection_process.help_text }}</td>
+                <td>{{ form.selection_process.errors }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.max_submissions.label_tag }}</td>
+                <td>{{ form.max_submissions }}</td>
+                <td>{{ form.max_submissions.help_text }}</td>
+                <td>{{ form.max_submissions.errors }}</td>
+            </tr>
+        </table>
+        <div>
+            <input class="submit" type="submit" name="submit" value="{% if pool %}Save{% else %}Create Pool{% endif %}" />
+            {% if form.instance.id %}
+            <input class="submit delete" type="submit" name="delete" id="delete" value="Delete Pool" />
+            {% endif %}
+        </div>
+        {% endif %}
+{% endblock %}

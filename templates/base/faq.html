@@ -9,6 +9,7 @@
             $("#oscar-questions").hide();
             $("#survivor-questions").hide();
             $("#amazingrace-questions").hide();
+            $("#nflsurvivor-questions").hide();
 
             $("#account").click(function(){
                 $("#account").css("background","#CC240A");
@@ -16,10 +17,12 @@
                 $("#oscar").css("background","").css("color","black");
                 $("#survivor").css("background","").css("color","black");
                 $("#amazingrace").css("background","").css("color","black");
+                $("#nflsurvivor").css("background","").css("color","black");
                 $("#account-questions").show();
                 $("#oscar-questions").hide();
                 $("#survivor-questions").hide();
                 $("#amazingrace-questions").hide();
+                $("#nflsurvivor-questions").hide();
             });
             $("#oscar").click(function(){
                 $("#oscar").css("background","#CC240A");
@@ -27,9 +30,11 @@
                 $("#account").css("background","").css("color","black");
                 $("#survivor").css("background","").css("color","black");
                 $("#amazingrace").css("background","").css("color","black");
+                $("#nflsurvivor").css("background","").css("color","black");
                 $("#account-questions").hide();
                 $("#survivor-questions").hide();
                 $("#amazingrace-questions").hide();
+                $("#nflsurvivor-questions").hide();
                 $("#oscar-questions").show();
             });
             $("#survivor").click(function(){
@@ -38,9 +43,11 @@
                 $("#account").css("background","").css("color","black");
                 $("#oscar").css("background","").css("color","black");
                 $("#amazingrace").css("background","").css("color","black");
+                $("#nflsurvivor").css("background","").css("color","black");
                 $("#account-questions").hide();
                 $("#oscar-questions").hide();
                 $("#amazingrace-questions").hide();
+                $("#nflsurvivor-questions").hide();
                 $("#survivor-questions").show();
             });
             $("#amazingrace").click(function(){
@@ -49,10 +56,25 @@
                 $("#account").css("background","").css("color","black");
                 $("#oscar").css("background","").css("color","black");
                 $("#survivor").css("background","").css("color","black");
+                $("#nflsurvivor").css("background","").css("color","black");
                 $("#account-questions").hide();
                 $("#oscar-questions").hide();
                 $("#survivor-questions").hide();
+                $("#nflsurvivor-questions").hide();
                 $("#amazingrace-questions").show();
+            });
+            $("#nflsurvivor").click(function(){
+                $("#nflsurvivor").css("background","#CC240A");
+                $("#nflsurvivor").css("color","white");
+                $("#account").css("background","").css("color","black");
+                $("#oscar").css("background","").css("color","black");
+                $("#amazingrace").css("background","").css("color","black");
+                $("#survivor").css("background","").css("color","black");
+                $("#account-questions").hide();
+                $("#oscar-questions").hide();
+                $("#amazingrace-questions").hide();
+                $("#survivor-questions").hide();
+                $("#nflsurvivor-questions").show();
             });
         });
     </script>
@@ -67,6 +89,7 @@
                     <div id="oscar" style="cursor: pointer;padding:3px;">Oscar Pool Questions</div><br>
                     <div id="survivor" style="cursor: pointer;padding:3px;">Survivor Pool Questions</div><br>
                     <div id="amazingrace" style="cursor: pointer;padding:3px;">Amazing Race Pool Questions</div><br>
+                    <div id="nflsurvivor" style="cursor: pointer;padding:3px;">NFL Survivor Pool Questions</div><br>
                 </center>
             </div>
         </div>
@@ -82,4 +105,8 @@
         <div id="amazingrace-questions" class="span-16">
             {% include "amazingrace/faq.html" %}
         </div>
+        <div id="nflsurvivor-questions" class="span-16">
+            {% include "nflsurvivor/faq.html" %}
+        </div>
+
 {% endblock %}
