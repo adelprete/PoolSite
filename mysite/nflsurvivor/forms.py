@@ -59,6 +59,15 @@ class NFLSurvivorPoolForm(forms.ModelForm):
 
 class PickSheetForm(forms.ModelForm):
 
+    def __init__(self,*args,**kwargs):
+        super(PickSheetForm,self).__init__(*args,**kwargs)
+
+        try:
+            if self.instance and not self.instance.survivor_pool.allow_new_picksheets():
+                del self.fields['name']
+        except:
+            pass
+
     def clean(self):
         cleaned_data = super(PickSheetForm, self).clean()
 
@@ -70,7 +79,7 @@ class PickSheetForm(forms.ModelForm):
                 picks.append(getattr(picksheet,'week'+str(week)))
 
             if self.data['team'] in picks:
-                raise forms.ValidationError('You have already chosen this team in a previous week')
+                raise forms.ValidationError('You have already chosen this team')
 
         return cleaned_data
 

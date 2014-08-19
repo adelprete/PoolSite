@@ -27,12 +27,12 @@
 {% block body %}
 <form method="POST">{% csrf_token %}
     {{ form.non_field_errors }}
-
     {{ form.name.label_tag }}
-    {% if allow_new_picksheets and user == picksheet.member %}
+    {% if pool.allow_new_picksheets and is_users_picksheet %}
         {{ form.name }}
     {% else %}
-        <font style="margin-left:10px;font-size:14px;">{{ form.name.value }}</font>
+        <font style="font-weight:bold;">Pick Sheet:</font><br>
+        <font style="margin-left:10px;font-size:15px;">{{ picksheet.name }}</font>
     {% endif %}
     {{ form.name.errors }}
 <br><br>
@@ -75,21 +75,21 @@
                     <td class="span-5" style="text-align: right;">
                         <label for="team_{{ matchup.away_team }}" style="font-weight:normal;">
                         <input id="team_{{ matchup.away_team }}" type="radio" name="team" style="margin-top:-2px;" value="{{ matchup.away_team }}"
-                                {% if not allow_new_picksheets or user != picksheet.member %}disabled{% endif %}>&nbsp&nbsp{{ matchup.away_team}}
+                                {% if not allow_new_picksheets or not is_users_picksheet %}disabled{% endif %}>&nbsp&nbsp{{ matchup.away_team}}
                         </label>
                     </td>
                     <td class="span-3" style="text-align: center;"> VS </td>
                     <td class="span-5" style="text-align: left;">
                         <label for="team_{{ matchup.home_team }}" style="font-weight:normal;">
                         {{ matchup.home_team }}&nbsp&nbsp<input id="team_{{ matchup.home_team }}" type="radio" name="team" style="margin-top:-2px;" value="{{ matchup.home_team }}"
-                                {% if not allow_new_picksheets or user != picksheet.member %}disabled{% endif %}>
+                                {% if not allow_new_picksheets or not is_users_picksheet %}disabled{% endif %}>
                         </label>
                     </td>
                 </tr>
         {% endfor %}
     </table>
     </center>
-    {% if allow_new_picksheets and user == picksheet.member %}
+    {% if allow_new_picksheets and is_users_picksheet %}
         <hr>
         <input class="submit" type="submit" name="submit" value="Save Pick" />&nbsp
         <input class="submit" type="submit" name="continue" value="Save Pick and continue to next week" />&nbsp

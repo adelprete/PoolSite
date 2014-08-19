@@ -121,8 +121,11 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
 
     matchups = nflsmodels.Matchup.objects.filter(week = wk,season=pool.season)
 
+    is_users_picksheet = True
     if picksheet_id:
         picksheet = get_object_or_404(nflsmodels.PickSheet,id=picksheet_id)
+        if picksheet.member != request.user:
+            is_users_picksheet = False
 
 
     if pool.selection_process == 'weekly':
@@ -186,6 +189,7 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
         'picksheet':picksheet,
         'picks':picks,
         'allow_new_picksheets':allow_new_picksheets,
+        'is_users_picksheet': is_users_picksheet,
     }
 
     return render(request,'nflsurvivor/picksheet_form.html',context)
