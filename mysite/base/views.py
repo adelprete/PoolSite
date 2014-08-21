@@ -175,7 +175,7 @@ def join_pool(request, id=None, password=None):
                     if hasattr(pool,"amazingracepool"):
                         pool = pool.amazingracepool
                     if hasattr(pool,"nflsurvivorpool"):
-                        pool = pool.amazingracepool
+                        pool = pool.nflsurvivorpool
 
                     return HttpResponseRedirect(pool.get_absolute_url())
                 else:
@@ -194,7 +194,7 @@ def join_pool(request, id=None, password=None):
                         if pool.members.count() >= pool.max_members - 1:
                             messages.error(request,"This Pool is Full")
                             return render(request,'join_form.html', {'form':form})
-                        pool = pool.amazingracepool
+                        pool = pool.nflsurvivorpool
 
                     pool.members.add(request.user)
                     messages.success(request,"You've successfully joined the pool!")
