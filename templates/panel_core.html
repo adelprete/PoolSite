@@ -90,13 +90,19 @@
                 </div>
             </div>
         {% endblock %}
+        <div style="width:120px;margin-right:40px;border:1px solid;float:right;font-size:15px;height:600px;text-align:center;text-align:center;">
+            Advertise Here!
+        </div>
+        <div style="width:120px;margin-left:40px;border:1px solid;float:left;font-size:15px;height:600px;text-align:center;">
+            Advertise Here!
+        </div>
         <div class="container" style="padding-top:30px;margin:0 auto;min-height:100%;margin-bottom:0px;background-color:white;">
         {% include 'messages.html' %}
             <div style="padding-left:20px;padding-right:20px;">
                 {% block body %}
                         <title>Office Pool Hub</title>
                         <center><h2>Your premiere destination for free and easy office pool management.</h2>
-                        <h3>To celebrate the launch of OfficePool Hub, one lucky person will win an Amazon $10 gift card just for signing up!<br>Contest ends Sept 24th 2014 so act quick!  The winner will be contacted on Sept 25th. </h3>
+                        <h3>To celebrate the launch of Office Pool Hub, one lucky person will win an Amazon $10 gift card just for signing up!<br>Contest ends Sept 24th 2014 so act quick!  The winner will be contacted on Sept 25th. </h3>
                         </center>
                         <table>
                             <tr>
@@ -198,12 +204,17 @@
             </div>
         </div>
         {% block footer %}
-            <div class="container" style="padding-top:50px;height:80px;bottom:0;left:0;background:white;">
-                <center><a href="https://www.facebook.com/officepoolhub"><img src="{{ MEDIA_URL }}site/Facebook-logo-small.png"></a>
+            <div class="container" style="padding-top:50px;bottom:0;left:0;background:white;">
+                <center>
+                    <div style="width:468px;border:1px solid;font-size:15px;height:60px;margin-bottom:10px;text-align:center;">
+                            Advertise Here!
+                    </div>
+                    <a href="https://www.facebook.com/officepoolhub"><img src="{{ MEDIA_URL }}site/Facebook-logo-small.png"></a>
                         <a href="https://twitter.com/OfficePoolHub"><img src="{{ MEDIA_URL }}site/twitter-logo-small.png"></a>
                     <br><div style="width:70%;border-top:1px solid;"></div><br>
                     <div style="width:60%;">OfficePoolHub.com is in no way affiliated with any of the shows on this site nor with the networks that they air on.
-                    OfficePoolHub is NOT a gambling site.  Any pools used for gambling will be terminated.<br><a href="{% url 'contact' %}">Contact</a></div></center>
+                    OfficePoolHub is NOT a gambling site.  Any pools used for gambling will be terminated.<br><a href="{% url 'contact' %}">Contact</a></div>
+                </center>
             </div>
         {% endblock %}
         </body>
