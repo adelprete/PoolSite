@@ -57,7 +57,7 @@
             <td style="text-align:center;padding-bottom:15px;">
                 <label for="id_four_picks_{{ forloop.counter0 }}">
                     {{ choice }}<br>
-                    <img src='{{ MEDIA_URL }}survivor/castaways/{{ choice|cut:"'" }}.jpg' style="border:solid 4px white;"><br>
+                    <img src='{{ MEDIA_URL }}survivor/castaways/{{ choice|cut:"'" }}.jpg' style="width:136px;height:auto;border:solid 4px white;"><br>
                     <input id="id_four_picks_{{ forloop.counter0 }}" type="checkbox" value="{{ pk }}" name="four_picks"
                     {% if pk in form.initial.four_picks %}checked{% endif %}
                     {% if not pool.allow_new_picksheets %}disabled{% endif %}>
