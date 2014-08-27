@@ -323,7 +323,6 @@ def remove_member(request,id,member_id):
     return HttpResponseRedirect(reverse("amazingrace_members",kwargs={'id':pool.id}))
 
 from mysite.base.views import PublicPools
-@login_required
 class AmazingRacePublicPools(PublicPools):
 
     def get_title(self):

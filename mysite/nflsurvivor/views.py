@@ -329,7 +329,6 @@ def pool_admin_message(request,id=None,form_class=nflsforms.AdminMessageForm):
 
 from mysite.base.views import PublicPools
 import datetime
-@login_required
 class NFLSurvivorPublicPools(PublicPools):
 
     def get_title(self):

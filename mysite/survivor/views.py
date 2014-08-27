@@ -197,7 +197,6 @@ def survivor_standings(request,id=None):
     return render(request,'survivor/standings.html',context)
 
 from mysite.base.views import PublicPools
-@login_required
 class SurvivorPublicPools(PublicPools):
 
     def get_title(self):

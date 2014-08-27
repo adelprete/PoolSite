@@ -385,7 +385,6 @@ def predictions(request,id):
     return render(request,'oscars/predictions.html',context)
 
 from mysite.base.views import PublicPools
-@login_required
 class OscarPublicPools(PublicPools):
 
     def get_title(self):
