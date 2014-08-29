@@ -18,11 +18,10 @@ class NFLSurvivorPool(bmodels.Pool):
 
     @property
     def is_past_due(self):
-
         if self.start_week == 'wk1':
             if timezone.now() > self.season.start_date:
                 return True
-        elif self.start_date == 'wk2':
+        elif self.start_week == 'wk2':
             if timezone.now() > self.season.start_date2:
                 return True
         return False
