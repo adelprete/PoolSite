@@ -35,7 +35,7 @@
         {{ form.name.errors }}
     </div>
     {% endif %}
-    <hr>
+    <br><br><br><div style="margin-top:15px;width:70%;border-top:1px solid;"></div><br>
     <label style="font-size:15px;">Pick 3 teams.  You cannot choose the same combination as someone else:</label>
     <div style="float:right;width:25%;">
         <center>
@@ -62,7 +62,7 @@
             <td style="text-align:center;padding-bottom:15px;">
                 <label for="id_picks_{{ forloop.counter0 }}">
                     {{ choice }}<br>
-                    <img src='{{ MEDIA_URL }}amazingrace/teams/{{ choice|cut:" "|cut:"&" }}.png' style="border:solid 4px white;"><br>
+                    <img src='{{ MEDIA_URL }}amazingrace/teams/{{ choice|cut:" "|cut:"&"|lower }}.jpg' style="border:solid 4px white;"><br>
                     <input id="id_picks_{{ forloop.counter0 }}" type="checkbox" value="{{ pk }}" name="picks"
                     {% if pk in form.initial.picks %}checked{% endif %}
                     {% if not pool.allow_new_picksheets %}disabled{% endif %}>
