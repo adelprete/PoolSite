@@ -185,6 +185,7 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
 
     chosen_team = None
     picks = []
+    picksheet_results = 0
     if picksheet:
         chosen_team = getattr(picksheet,'week'+str(week_num))
         for week in range(1,18):
