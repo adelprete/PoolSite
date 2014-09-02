@@ -55,16 +55,8 @@
                             <a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a>
                         {% endif %}
                     </td>
-                    <td>
-                        {% for pick in picksheet.four_picks.all %}
-                            {{ pick.base_castaway.first_name }}
-                            {% if not forloop.last %}
-                             -
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                    {% if user == pool.administrator %}
-                        <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
+                    {% if user == pool.administrator or user == picksheet.member %}
+                        <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}" style="color:red;">[delete]</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}
@@ -76,7 +68,7 @@
                             <td class="span-4">{{ picksheet.member }}</td>
                             <td class="span-4"><a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a></td>
                             {% if user == picksheet.member %}
-                                <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
+                                <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}" style="color:red;">[delete]</a></td>
                             {% endif %}
                         </tr>
                     {% endfor %}
