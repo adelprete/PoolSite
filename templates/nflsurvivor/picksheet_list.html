@@ -41,10 +41,7 @@
             <tr class="header">
                 <th style="border-bottom:1px solid black;"><b>Member</b></th>
                 <th style="border-bottom:1px solid black;"><b>Pick sheet</b></th>
-                <th><b>Picks</b></th>
-                {% if user == pool.administrator %}
-                    <th></th>
-                {% endif %}
+                <th></th>
             </tr>
         {% if picksheets %}
             <div id="all-picksheets-list">
@@ -78,16 +75,8 @@
                         <tr class="your-picksheets-single">
                             <td class="span-4">{{ picksheet.member }}</td>
                             <td class="span-4"><a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a></td>
-                            <td>
-                                {% for pick in picksheet.four_picks.all %}
-                                    {{ pick.base_castaway.first_name }}
-                                    {% if not forloop.last %}
-                                     -
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                            {% if user == pool.administrator %}
-                                <td><a href="{% url 'survivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
+                            {% if user == picksheet.member %}
+                                <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}">Remove</a></td>
                             {% endif %}
                         </tr>
                     {% endfor %}
