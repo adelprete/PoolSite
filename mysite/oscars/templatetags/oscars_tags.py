@@ -66,3 +66,7 @@ def get_attr_verbose_name(item, attribute):
 @register.assignment_tag
 def get_winner(dictionary,key):
     return dictionary.get(key)
+
+@register.assignment_tag
+def subtract(value, arg):
+    return value - arg

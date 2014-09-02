@@ -59,7 +59,8 @@ class NFLSurvivorPoolForm(forms.ModelForm):
 
 class PickSheetForm(forms.ModelForm):
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self,wk,*args,**kwargs):
+        self.week = wk
         super(PickSheetForm,self).__init__(*args,**kwargs)
 
         try:
@@ -78,7 +79,7 @@ class PickSheetForm(forms.ModelForm):
             for week in range(1,18):
                 picks.append(getattr(picksheet,'week'+str(week)))
 
-            if self.data['team'] in picks:
+            if self.data['team'] in picks and self.data['team'] != getattr(picksheet,self.week):
                 raise forms.ValidationError('You have already chosen this team')
 
         return cleaned_data

@@ -1,4 +1,6 @@
 {% extends 'nflsurvivor/pool_home_core.html' %}
+{% load static %}
+{% load oscars_tags %}
 {% block head %}
     {{ block.super }}
     <script>
@@ -101,10 +103,36 @@
     {% endif %}
 </div>
 {% if picksheet %}
+    <div class="span-6" style="padding:10px;">
+        <center>
+        {% if picksheet.still_alive %}
+
+                <font style="font-size:20px;">Status: <font style="color:green">ALIVE</font></font>
+
+        {% else %}
+            <font style="font-size:20px;">Status: <font style="color:red">DEAD</font></font>
+        {% endif %}
+        </center>
+    </div>
     <div class="span-6" style="padding:10px;border:2px solid #cc240a;">
             <h3><u>Picks</u></h3>
             {% for pick in picks %}
-                <font style="font-size:13px;">Week {{ forloop.counter }}: &nbsp&nbsp{% if pool.start_week == 'wk2' and forloop.counter == 1 %}N/A{% else %}{{ pick }}{% endif %}</font><br>
+                {% subtract forloop.counter picksheet_results as difference %}
+                <font style="font-size:13px;">
+                    Week {{ forloop.counter }}:
+                    &nbsp&nbsp
+                    {% if pool.start_week == 'wk2' and forloop.counter == 1 %}
+                        N/A
+                    {% else %}
+                        <font
+                        {% if picksheet_results >= forloop.counter %}
+                            style="color:green;"
+                        {% elif difference == 1 and not picksheet.still_alive %}
+                            style="color:red;"
+                        {% endif %}
+                        >{{ pick }}</font>
+                    {% endif %}
+                </font><br>
             {% endfor %}
     </div>
 {% endif %}

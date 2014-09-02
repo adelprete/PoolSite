@@ -11,25 +11,43 @@
             <div>
             <h3><b>Pool Format:</b></h3>
                 <div style="margin-left:13px;">
+                    <h3 style="margin-bottom:10px;">How-To-Play:</h3>
+                    <p style="margin-left:13px;">For each week of the season you will select a team that you think will win.<br>
+                            You cannot choose the same team twice so choose wisely for each week.<br>
+                            You lose once the team you chose to win loses their game that week.<br>
+                            The last remaining member of the pool who still hasn't had a team lose wins the pool.</p>
+
                     <h3 style="margin-bottom:10px;">When Does This Pool Start?</h3>
                     {% if pool.nflsurvivorpool.start_week == 'wk1' %}
-                        <font style="margin-left:13px;">{{ pool.nflsurvivorpool.season.start_date }}</font>
+                        <font style="margin-left:13px;">{{ pool.nflsurvivorpool.season.start_date }} Eastern Time</font>
                     {% else %}
                         <font style="margin-left:13px;">{{ pool.nflsurvivorpool.season.start_date2 }}</font>
                     {% endif %}
                     <br><br>
-                    <h3 style="margin-bottom:10px;">How to Play:</h3>
 
-                        <p style="margin-left:10px;">For each week of the season you will select a team that you think will win.<br>
-                            You cannot choose the same team twice so choose wisely for each week.<br>
-                            {% if pool.nflsurvivorpool.selection_process == 'weekly' %}
-                            Each week you will have until the start of the first game of the week to make your selection.<br>
-                            <b>A new week starts on Thursdays so be sure to save your picks for that week BEFORE the game on Thursday starts.</b><br>
-                            {% else %}
-                            You will submit all of your picks before the start of {{ pool.nflsurvivorpool.get_start_week_display }}.<br>
-                            {% endif %}
-                            You lose once the team you chose to win loses their game that week.<br>
-                            The last remaining member of the pool who still hasn't had a team lose wins the pool.</p>
+                    {% if pool.nflsurvivorpool.entry_deadline != pool.nflsurvivorpool.season.start_date and pool.nflsurvivorpool.entry_deadline != pool.nflsurvivorpool.season.start_date2 %}
+                        <h3 style="margin-bottom:10px;">What is the Entry Deadline?</h3>
+                        <p style="margin-left:13px;">The last date that members may join this pool and create a pick sheet is on <b>{{ pool.nflsurvivorpool.entry_deadline }} Eastern Time</b>.</p>
+                    {% endif %}
+
+                    <h3 style="margin-bottom:10px;">How many Pick Sheets can I submit?</h3>
+                    {% if pool.nflsurvivorpool.max_submissions == 1 %}
+                        <p style="margin-left:13px;">Each member may submit one pick sheet.  Your pick sheet will hold all of your picks for the year. So when Week 2 comes around,
+                        go back to your pick sheet and select a winner for Week 2.  You do not create a pick sheet for each week.  You use the same pick sheets throughout the year.</p>
+                    {% else %}
+                        <p style="margin-left:13px;">Each member can submit up to {{ pool.nflsurvivorpool.max_submissions }} pick sheets for the year.  So when Week 2 comes around,
+                        go back to your pick sheets and select a winner for Week 2.  You do not create a pick sheet for each week.</p>
+                    {% endif %}
+
+                    <h3 style="margin-bottom:10px;">What's the Selection Process</h3>
+                        {% if pool.nflsurvivorpool.selection_process == 'weekly' %}
+                            <p style="margin-left:13px;">This Pool selected 'Week By Week'.  This means that you'll have until the start of a week to get in
+                                your pick for that week.  So when the first game of the week starts, and you don't have a pick for that week, your pick sheet will
+                                be eliminated.  <font style="font-weight:bold;">Remember, most weeks start on Thursday night.</font></p>
+                        {% else %}
+                            <p style="margin-left:13px;">This Pool selected 'All At Once'.  This means that you must fill out your entire pick sheet with who you think
+                            is going to win each week of the season before your pool starts.  You will not have a chance to edit your picks once this pool has started.</p>
+                        {% endif %}
                 </div>
             </div>
 {% endblock %}

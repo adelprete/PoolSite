@@ -141,10 +141,22 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
     else:
         allow_new_picksheets = pool.allow_new_picksheets()
 
-    picksheet_form = form(instance=picksheet)
+    picksheet_form = form(wk,instance=picksheet)
     if request.POST and allow_new_picksheets:
 
-        picksheet_form = form(request.POST,instance=picksheet)
+        # This is to catch members trying to go over their max submission count
+        if not picksheet:
+            picksheets = pool.picksheet_set.all()
+            if picksheets.filter(member=request.user).count() >= pool.max_submissions:
+                if pool.max_submissions == 1:
+                    messages.error(request,"This pool doesn't allow more than " + str(pool.max_submissions) + " picksheet submission")
+                else:
+                    messages.error(request,"This pool doesn't allow more than " + str(pool.max_submissions) + " picksheet submissions")
+
+                return HttpResponseRedirect(reverse("nflsurvivor_member_picksheets",kwargs={'id':pool.id}))
+
+
+        picksheet_form = form(wk,request.POST,instance=picksheet)
         if 'team' in request.POST:
 
             if picksheet_form.is_valid():
@@ -178,6 +190,9 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
         for week in range(1,18):
             picks.append(getattr(picksheet,'week'+str(week)))
 
+        picksheet_results = picksheet.total_points
+        if pool.start_week == 'wk2':
+            picksheet_results += 1
 
     context = {
         'pool':pool,
@@ -190,6 +205,7 @@ def pool_picksheet(request,week_num=1,id=None,picksheet_id=None,form=nflsforms.P
         'picks':picks,
         'allow_new_picksheets':allow_new_picksheets,
         'is_users_picksheet': is_users_picksheet,
+        'picksheet_results':int(picksheet_results),
     }
 
     return render(request,'nflsurvivor/picksheet_form.html',context)
