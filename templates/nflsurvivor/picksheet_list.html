@@ -1,4 +1,5 @@
 {% extends 'nflsurvivor/pool_home_core.html' %}
+{% load oscars_tags %}
 {% block head %}
 {{ block.super }}
     <script type="text/javascript">
@@ -41,6 +42,7 @@
             <tr class="header">
                 <th style="border-bottom:1px solid black;"><b>Member</b></th>
                 <th style="border-bottom:1px solid black;"><b>Pick sheet</b></th>
+                <th style="border-bottom:1px solid black;"><b>Pick This Week</b></th>
                 <th></th>
             </tr>
         {% if picksheets %}
@@ -49,10 +51,22 @@
                 <tr class="all-picksheets-single">
                     <td class="span-4">{{ picksheet.member }}</td>
                     <td class="span-4">
-                        {% if pool.allow_new_picksheets %}
+                        {% if pool.allow_new_picksheets or pool.selection_process == 'weekly' and user != picksheet.member %}
                             {{ picksheet.name }}
+                        {% elif pool.selection_process == 'weekly' and user == picksheet.member %}
+                            <a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a>
                         {% else %}
                             <a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% get_attr picksheet pool.season.get_current_week as pick%}
+                        {% if pick == None %}
+                            Hidden
+                        {% elif pick == "" %}
+                            No Pick
+                        {% else %}
+                            {{ pick }}
                         {% endif %}
                     </td>
                     {% if user == pool.administrator or user == picksheet.member %}
@@ -67,6 +81,16 @@
                         <tr class="your-picksheets-single">
                             <td class="span-4">{{ picksheet.member }}</td>
                             <td class="span-4"><a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a></td>
+                            <td>
+                                {% get_attr picksheet pool.season.get_current_week as pick%}
+                                {% if pick == None %}
+                                    Hidden
+                                {% elif pick == "" %}
+                                    No Pick
+                                {% else %}
+                                    {{ pick }}
+                                {% endif %}
+                            </td>
                             {% if user == picksheet.member %}
                                 <td><a href="{% url 'nflsurvivor_remove_picksheet' pool.id picksheet.id %}" style="color:red;">[delete]</a></td>
                             {% endif %}

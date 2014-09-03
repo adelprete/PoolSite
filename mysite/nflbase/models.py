@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from mysite.base import models as bmodels
 from mysite.nflbase import helpers as nflbhelpers
@@ -25,6 +26,44 @@ class Season(bmodels.Definition):
 
     def __unicode__(self):
         return "%s" % (self.name)
+
+    def get_current_week(self):
+
+        if datetime.timedelta(0) > (self.week17.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week17'
+        if datetime.timedelta(0) > (self.week16.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week16'
+        if datetime.timedelta(0) > (self.week15.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week15'
+        if datetime.timedelta(0) > (self.week14.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week14'
+        if datetime.timedelta(0) > (self.week13.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week13'
+        if datetime.timedelta(0) > (self.week12.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week12'
+        if datetime.timedelta(0) > (self.week11.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week11'
+        if datetime.timedelta(0) > (self.week10.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week10'
+        if datetime.timedelta(0) > (self.week9.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week9'
+        if datetime.timedelta(0) > (self.week8.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week8'
+        if datetime.timedelta(0) > (self.week7.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week7'
+        if datetime.timedelta(0) > (self.week6.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week6'
+        if datetime.timedelta(0) > (self.week5.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week5'
+        if datetime.timedelta(0) > (self.week4.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week4'
+        if datetime.timedelta(0) > (self.week3.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week3'
+        if datetime.timedelta(0) > (self.start_date2.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week2'
+        if datetime.timedelta(0) > (self.start_date.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return 'week1'
+        return None
 
 class Team(models.Model):
     city = models.CharField(max_length=30)

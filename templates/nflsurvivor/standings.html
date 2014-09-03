@@ -1,4 +1,5 @@
 {% extends "nflsurvivor/pool_home_core.html" %}
+{% load oscars_tags %}
 {% load nflsurvivor_tags %}
 {% block body %}
         <title>Standings - {{ pool.name }} | Office Pool Hub</title>
@@ -9,6 +10,7 @@
                 <th><b>Member</b></th>
                 <th><b>Pick Sheet</b></th>
                 <th><b># of Correct Picks</b></th>
+                <th><b>Pick This Week</b></th>
                 <th><b>Status</b></th>
             </tr>
         {% if picksheets %}
@@ -17,6 +19,16 @@
                 <td>{{ picksheet.member }}</td>
                 <td>{{ picksheet.name }}</td>
                 <td>{{ picksheet.total_points }}</td>
+                <td>
+                    {% get_attr picksheet pool.season.get_current_week as pick%}
+                    {% if pick == None %}
+                        Hidden
+                    {% elif pick == "" %}
+                        No Pick
+                    {% else %}
+                        {{ pick }}
+                    {% endif %}
+                </td>
                 <td>
                     {% if picksheet.still_alive %}
                         <font style="color:green;"><b>ALIVE</b></font>
