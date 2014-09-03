@@ -129,8 +129,8 @@
             <ul>
                 {% for a in old_amazingrace_pools %}
                     <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+                        <div class="span-13" style="border:1px solid black;padding:10px;">
+                              <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ a.members.count|add:"1" }}
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ a.administrator }}
                         </div>
