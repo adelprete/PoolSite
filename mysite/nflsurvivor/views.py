@@ -239,7 +239,7 @@ def standings(request,id=None):
 
     picksheets = pool.picksheet_set.filter(survivor_pool=pool).distinct()
 
-    picksheets.order_by('-total_points')
+    picksheets = picksheets.order_by('-total_points')
 
     context = {
         'pool':pool,

@@ -64,13 +64,18 @@ class Matchup(models.Model):
                 '{0}'.format('still_alive'): True,
             }
             home_team_picksheets = PickSheet.objects.filter(**kwargs)
+            if self.week == 'week1':
+                home_team_picksheets = home_team_picksheets.exclude(survivor_pool__start_week = 'wk2')
 
             kwargs = {
                 '{0}'.format(self.week): self.away_team,
                 '{0}'.format('still_alive'): True,
             }
             away_team_picksheets = PickSheet.objects.filter(**kwargs)
+            if self.week == 'week1':
+                away_team_picksheets = away_team_picksheets.exclude(survivor_pool__start_week = 'wk2')
 
+            import pdb;pdb.set_trace()
             if self.winner == 'home_team':
                 for sheet in home_team_picksheets:
                     #if self.week == 1 and not sheet.nflsurvivorpool.start_week == 'wk2':
