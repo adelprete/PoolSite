@@ -75,7 +75,6 @@ class Matchup(models.Model):
             if self.week == 'week1':
                 away_team_picksheets = away_team_picksheets.exclude(survivor_pool__start_week = 'wk2')
 
-            import pdb;pdb.set_trace()
             if self.winner == 'home_team':
                 for sheet in home_team_picksheets:
                     #if self.week == 1 and not sheet.nflsurvivorpool.start_week == 'wk2':
