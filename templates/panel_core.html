@@ -68,6 +68,13 @@
         {% block menu %}
             <div class="menu">
                 <div class="container">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="float:right;padding:6px;">
+                    <font style="color:white;font:14px Arial;">Help keep this site going!</font>
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="ED39L7D7V57WW">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    </form>
                     <ul id="css3menu1" class="topmenu">
                         <li class="topmenu"><a href="{% url 'root' %}">Home</a></li>
                         {% if not user.is_anonymous %}
@@ -126,7 +133,7 @@
                                         one in your pool to not pick a loser and you win.  The tricky thing is that you can't pick the same team
                                         twice.  Sounds easy right?<br><br>Round up your friends and compete with one another to see who
                                         can survive the longest without picking a losing team.  Don't have any friends? Join a Public
-                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>Season Starts Sept 4th!<br><br>
+                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>Create your pools before Week 2 starts on Sept 11th!<br><br>
                                         <form method="GET" action="{% url 'nflsurvivor_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
