@@ -38,6 +38,13 @@
              <b>Pool Password:</b> {{ pool.password }}
              {% endif %}
          </div>
+         <br>
+         <div style="margin-left:10px;font-size:15px;"><b>Or <div class="fb-share-button" data-href="https://www.officepoolhub.com/pool/join/" style="padding-left:3px;padding-right:3px;"></div> it on Facebook!</b><br><br>
+             Make sure the Pool ID is in your post along with the password if you have one.<br>
+             {% if pool.public == False %}
+             <b>Pool Password:</b> {{ pool.password }}
+             {% endif %}
+         </div>
      </div>
         {% endif %}
 {% endblock %}

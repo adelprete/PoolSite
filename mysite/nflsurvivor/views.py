@@ -91,7 +91,7 @@ def member_picksheets(request,id=None):
     pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
 
     # check if the user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     picksheets = pool.picksheet_set.all()
@@ -286,7 +286,7 @@ def stats(request,id):
     pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
 
     # check if the user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
     current_season = nflbmodels.Season.objects.latest('start_date')
     all_picksheets = nflsmodels.PickSheet.objects.filter(survivor_pool__season=current_season).distinct()

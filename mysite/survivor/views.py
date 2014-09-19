@@ -93,7 +93,7 @@ def pool_members(request,id=None):
     pool = get_object_or_404(smodels.SurvivorPool,id=id)
 
     # check if the user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     context = {
@@ -108,7 +108,7 @@ def survivor_member_picksheets(request,id=None):
     pool = get_object_or_404(smodels.SurvivorPool,id=id)
 
     # check if the user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     picksheets = pool.survivorpicksheet_set.all()
@@ -137,7 +137,7 @@ def survivor_picksheet(request,id=None,picksheet_id=None,form=sforms.SurvivorPic
     picksheet = None
 
     # check if the user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     if picksheet_id:
@@ -175,7 +175,7 @@ def survivor_standings(request,id=None):
     pool = get_object_or_404(smodels.SurvivorPool,id=id)
 
     # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     picksheets = pool.survivorpicksheet_set.filter(survivor_pool=pool).select_related('four_picks').distinct()
