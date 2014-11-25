@@ -37,6 +37,8 @@ urlpatterns = patterns('',
     url(r'^pool/join/',                             'join_pool',              name='join_pool'),
     url(r'^pool/(?P<id>\d+)/leave$',                'leave_pool',           name='leave_pool'),
     url(r'^contact/$',                              'contact',              name='contact'),
+
+    url(r'^maltingame$',                                   TemplateView.as_view(template_name='base/maltingame.html')),
 ) + staticfiles_urlpatterns() + patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}))
