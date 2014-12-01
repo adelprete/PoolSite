@@ -18,9 +18,6 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '35&(($ud!+#l%+u8p(o3^9^#_kj-z09h#+owd^k(y^kqrel52u'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,13 +37,6 @@ ALLOWED_HOSTS = [
     '50.116.20.10',
     '127.0.0.1',
 ]
-
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = "officepoolhub@gmail.com"
-EMAIL_HOST_PASSWORD = "kb978caw"
-EMAIL_USE_TLS = True
 
 
 INSTALLED_APPS = (
@@ -84,20 +74,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'central',
-        'HOST':'',
-        'USER':'root',
-        'PASSWORD': 'needsmoredev',
-        'PORT': 10061,
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
