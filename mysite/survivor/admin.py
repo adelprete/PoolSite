@@ -14,7 +14,8 @@ class SurvivorPoolAdmin(admin.ModelAdmin):
     pass
 
 class SurvivorPickSheetAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['member','name','total_points']
+    ordering = ['member','name','total_points']
 
 admin.site.register(smodels.SurvivorSeason,SurvivorSeasonAdmin)
 admin.site.register(smodels.BaseCastaway,BaseCastawayAdmin)
