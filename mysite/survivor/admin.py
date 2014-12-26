@@ -11,11 +11,19 @@ class CustomCastawayAdmin(admin.ModelAdmin):
     pass
 
 class SurvivorPoolAdmin(admin.ModelAdmin):
-    pass
+
+    def total_members(obj):
+        return obj.members.count() + 1
+
+    def total_picksheets(obj):
+        return obj.survivorpicksheet_set.count()
+
+    list_display = ['name','administrator',total_members,total_picksheets]
+    ordering = ['name','administrator']
 
 class SurvivorPickSheetAdmin(admin.ModelAdmin):
-    list_display = ['member','name','total_points']
-    ordering = ['member','name','total_points']
+    list_display = ['member','name','survivor_pool','total_points']
+    ordering = ['member','name','survivor_pool','total_points']
 
 admin.site.register(smodels.SurvivorSeason,SurvivorSeasonAdmin)
 admin.site.register(smodels.BaseCastaway,BaseCastawayAdmin)

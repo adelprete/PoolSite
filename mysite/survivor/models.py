@@ -42,6 +42,8 @@ class SurvivorSeason(bmodels.Definition):
                 except:
                     pool.third_place_id = None
 
+                pool.save()
+
         super(SurvivorSeason, self).save()
 
 
