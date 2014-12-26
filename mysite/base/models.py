@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import USStateField, PhoneNumberField
 from mysite.base import helpers as bhelpers
+from django.core.urlresolvers import reverse
 import datetime
 
 from mysite.base import choices as bchoices
@@ -29,13 +30,17 @@ class Pool(models.Model):
     password = models.CharField("Pool password",blank=True,max_length=30,help_text="Must be 6 characters long.  Members will use this to join your pool.")
     members = models.ManyToManyField('auth.User',related_name='member_set',blank=True,null=True)
     identity = models.BigIntegerField(unique=True)
-    winner = models.IntegerField(blank=True,null=True)
     creation_date = models.DateField()
     admin_note = models.TextField(blank=True,null=True)
     max_submissions = models.PositiveIntegerField(default=1)
     public = models.BooleanField(default=False,help_text="By making your pool public, random people will be able to join your pool.")
     max_members =  models.PositiveIntegerField(default=12)
     is_full = models.BooleanField(default=False)
+
+    #Top 3
+    winner = models.ForeignKey('auth.User',null=True,blank=True,related_name='winner_set')
+    second_place = models.ForeignKey('auth.User',null=True,blank=True,related_name='second_place_set')
+    third_place = models.ForeignKey('auth.User',null=True,blank=True,related_name='third_place_set')
 
     def save(self):
         if not self.identity:
@@ -70,6 +75,8 @@ class MemberProfile(models.Model):
     creation_date = models.DateField(null=True, blank=True)
     agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it "
                                                    "purely for entertainment?")
+    receive_newsletter = models.BooleanField(default=True)
+
     line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
     line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
     city = models.CharField(max_length=30,blank=True,null=True)
@@ -79,6 +86,9 @@ class MemberProfile(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.user.username,self.last_name)
+
+    def get_absolute_url(self):
+        return reverse("profile_stats",kwargs={'id':self.id})
 
     def save(self,*args,**kwargs):
         super(MemberProfile,self).save(*args,**kwargs)

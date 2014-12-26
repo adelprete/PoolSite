@@ -12,6 +12,8 @@ from mysite.base import models as bmodels
 from mysite.oscars import models as omodels
 from mysite.survivor import models as smodels
 from mysite.amazingrace import models as amodels
+from mysite.nflsurvivor import models as nflsmodels
+from mysite.nflbase import models as nflbmodels
 
 from django.db.models import Q
 
@@ -61,30 +63,66 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm,addr_clas
 
     if id:
         profile = get_object_or_404(bmodels.MemberProfile,id=id)
-        address = profile.address
+        if request.user != profile.user:
+            return HttpResponseRedirect(reverse("root"))
 
-    profile_form = form_class(instance=profile)
-    addr_form = addr_class(instance=address)
+    profile_form = form_class(instance=profile,initial={'receive_information':True})
 
     if request.POST:
         profile_form = form_class(request.POST,instance=profile)
         if profile_form.is_valid():
             profile_record = profile_form.save(commit=False)
-            profile_record.user = request.user
+            if profile == None:
+                profile_record.user = request.user
             profile_record.creation_date = datetime.datetime.utcnow()
             profile_record.save()
 
-            messages.success(request,"Thank you for Signing Up!")
-            send_mail('New Member!', 'A new member by the name of '+profile_record.user.username+' has joined the site.  Go say something!','officepoolhub@gmail.com',
-                      ['adelprete87@gmail.com'], fail_silently=False)
-            return redirect(reverse("root"))
+            if profile == None:
+                messages.success(request,"Thank you for Signing Up!")
+                send_mail('New Member!', 'A new member by the name of '+profile_record.user.username+' has joined the site.  Go say something!','officepoolhub@gmail.com',
+                          ['adelprete87@gmail.com'], fail_silently=False)
+                return redirect(reverse("root"))
+
+            messages.success(request,"Profile Saved")
 
     context = {
         'form':profile_form,
-        'addr_form':addr_form,
+        'profile':profile,
     }
 
     return render(request,template,context)
+
+def profile_stats(request,id=None):
+
+    if id:
+        profile = get_object_or_404(bmodels.MemberProfile,id=id)
+
+    member = profile.user
+
+    history={}
+    survivorpools = smodels.SurvivorPool.objects.filter(Q(administrator=member)|Q(members=member))
+    history['Survivor'] = (survivorpools.filter(winner=member).count(),survivorpools.filter(second_place=member).count(),survivorpools.filter(third_place=member).count())
+
+    oscarpools = omodels.OscarPool.objects.filter(Q(administrator=member)|Q(members=member))
+    history['Oscars'] = (oscarpools.filter(winner=member).count(),oscarpools.filter(second_place=member).count(),oscarpools.filter(third_place=member).count())
+
+    amazingpools = amodels.AmazingRacePool.objects.filter(Q(administrator=member)|Q(members=member))
+    history['Amazing Race'] = (amazingpools.filter(winner=member).count(),amazingpools.filter(second_place=member).count(),amazingpools.filter(third_place=member).count())
+
+    nflpools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=member)|Q(members=member))
+    history['NFL Survivor'] = (nflpools.filter(winner=member).count(),nflpools.filter(second_place=member).count(),nflpools.filter(third_place=member).count())
+
+    totals = {'first_total':0,'second_total':0,'third_total':0}
+    for key,value in history.iteritems():
+        totals['first_total'] += value[0]
+
+    for key,value in history.iteritems():
+        totals['second_total'] += value[1]
+
+    for key,value in history.iteritems():
+        totals['third_total'] += value[2]
+
+    return render(request,"profile_stats.html",{"history":history,"member":member,"totals":totals})
 
 def your_pools(request):
 
@@ -119,8 +157,7 @@ def your_pools(request):
         cur_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_amazingrace_season).distinct()
         old_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_amazingrace_season).distinct()
 
-    from mysite.nflsurvivor import models as nflsmodels
-    from mysite.nflbase import models as nflbmodels
+
     #NFL Survivor Pools
     if nflbmodels.Season.objects.all().count() == 0:
         cur_nflsurvivor_pools = False

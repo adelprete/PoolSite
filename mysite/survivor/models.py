@@ -14,6 +14,37 @@ class SurvivorSeason(bmodels.Definition):
     def __unicode__(self):
         return "%s" % (self.name)
 
+    def save(self):
+        if self.display_winners:
+            pools = SurvivorPool.objects.filter(season=self)
+            for pool in pools:
+                picksheets = pool.survivorpicksheet_set.filter(survivor_pool=pool).select_related('four_picks').distinct()
+
+                for picksheet in picksheets:
+                    total_points = 0
+                    for castaway in picksheet.four_picks.all():
+                        total_points += castaway.total_points
+                    picksheet.total_points = total_points
+                    picksheet.save()
+
+                picksheets.order_by('-total_points')
+
+                try:
+                    pool.winner = picksheets[0].member
+                except:
+                    pool.winner = None
+                try:
+                    pool.second_place_id = picksheets[1].member
+                except:
+                    pool.second_place_id = None
+                try:
+                    pool.third_place_id = picksheets[2].member
+                except:
+                    pool.third_place_id = None
+
+        super(SurvivorSeason, self).save()
+
+
 class SurvivorPool(bmodels.Pool):
     entry_deadline = models.DateTimeField()
     season = models.ForeignKey('survivor.SurvivorSeason')

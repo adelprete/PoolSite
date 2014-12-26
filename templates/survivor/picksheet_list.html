@@ -50,7 +50,7 @@
             <div id="all-picksheets-list">
             {% for picksheet in picksheets %}
                 <tr class="all-picksheets-single">
-                    <td class="span-4">{{ picksheet.member }}</td>
+                    <td class="span-4"><a href="{% url 'profile_stats' picksheet.member.id %}">{{ picksheet.member }}</a></td>
                     <td class="span-4">
                         {% if pool.allow_new_picksheets %}
                             {{ picksheet.name }}
@@ -76,7 +76,7 @@
                 {% if your_picksheets %}
                     {% for picksheet in your_picksheets %}
                         <tr class="your-picksheets-single">
-                            <td class="span-4">{{ picksheet.member }}</td>
+                            <td class="span-4"><a href="{% url 'profile_stats' picksheet.member.id %}">{{ picksheet.member }}</a></td>
                             <td class="span-4"><a href="{{ picksheet.get_absolute_url }}">{{ picksheet.name }}</a></td>
                             <td>
                                 {% for pick in picksheet.four_picks.all %}

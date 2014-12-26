@@ -16,7 +16,7 @@
         {% if ballots %}
         {% for ballot in ballots %}
             <tr>
-                <td>{{ ballot.member }}</td>
+                <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
                 <td>{{ ballot.name }}</td>
                 <td>{{ ballot.total_correct }}</td>
                 {% if pool.how_to_win == 'points' %}

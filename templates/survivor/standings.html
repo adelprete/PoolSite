@@ -14,7 +14,7 @@
         {% if picksheets %}
         {% for picksheet in picksheets %}
             <tr>
-                <td>{{ picksheet.member }}</td>
+                <td><a href="{% url 'profile_stats' picksheet.member.memberprofile.id %}">{{ picksheet.member }}</a></td>
                 <td>{{ picksheet.name }}</td>
                 <td>{{ picksheet.total_points }}</td>
                 <td>

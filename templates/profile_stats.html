@@ -1,0 +1,54 @@
+{% extends 'panel_core.html' %}
+{% block body %}
+        <title>Profile - {{ member }} | Office Pool Hub</title>
+        <font style="font-size:2em;font-family:Verdana, Geneva, sans-serif"><b>{{ member }}</b></font>
+        &nbsp&nbsp{% if member == user %}<font style=""><a href="{% url 'profile_basics' member.memberprofile.id %}">update information</a></font>{% endif %}
+        <br><br>Member Since: {{ member.date_joined.date }}<br>
+
+        <table class="span-10" style="margin: 0 auto !important;float: none !important;">
+            <tr>
+                <td colspan="3" style="font-size:25px;text-align:center;font-family:Verdana, Geneva, sans-serif">Win Totals</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <font style=font-size:20px;">1st</font><br>
+                    <img src="{{ STATIC_URL }}img/gold-trophy.png" height="30px" width="73"><br>
+                    <font style=font-size:20px;">{{totals.first_total}}</font></td>
+                <td style="text-align:center;">
+                    <font style=font-size:20px;">2nd</font><br>
+                    <img src="{{ STATIC_URL }}img/silver-trophy.png" height="30px" width="73"><br>
+                    <font style=font-size:20px;">{{totals.second_total}}</font></td>
+                <td style="text-align:center;">
+                    <font style=font-size:20px;">3rd</font><br>
+                    <img src="{{ STATIC_URL }}img/bronze-trophy.png" height="30px" width="73"><br>
+                    <font style=font-size:20px;">{{totals.third_total}}</font></td>
+            </tr>
+        </table>
+        <br><br>
+        <table class="span-19" style="margin: 0 auto !important;float: none !important;">
+            <tr>
+                <th style="text=align:center;"></th>
+                {% for key,value in history.items %}
+                <th style="text-align:center;font-size:20px;border-bottom:1px solid;">{{ key }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/gold-trophy.png" height="30px" width="73"></td>
+                {% for key, value in history.items %}
+                <td style="text-align:center;font-size:20px;">{{ value.0 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/silver-trophy.png" height="30px" width="73"></td>
+                {% for key, value in history.items %}
+                <td style="text-align:center;font-size:20px;">{{ value.1 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/bronze-trophy.png" height="30px" width="73"></td>
+                {% for key, value in history.items %}
+                <td style="text-align:center;font-size:20px;">{{ value.2 }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+{% endblock %}

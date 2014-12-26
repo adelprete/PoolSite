@@ -1,9 +1,18 @@
 {% extends 'panel_core.html' %}
 {% block body %}
-<title>Sign Up | Office Pool Hub</title>
-<h3>Sign Up</h3>
+
+{% if not profile %}
+    <title>Sign Up | Office Pool Hub</title>
+    <h3>Sign Up</h3>
+{% endif %}
 <form method="post" class="span-17">{% csrf_token %}
-    <h2>Last step! Finish filling out your profile!</h2>
+    {% if profile %}
+        <title>{{ profile.user }} - information | Office Pool Hub</title>
+        <font style="font-size:2em;"><b>{{ profile.user }}<b></b></font><br><br>
+    {% else %}
+        <h2>Last step! Finish filling out your profile!</h2>
+    {% endif %}
+
     <h3>Basic information</h3>
     <table>
         <tr>
@@ -19,8 +28,12 @@
             <td>{{ form.zip }}{{ form.zip.errors }}</td>
         </tr>
         <tr>
+            <td>{{ form.receive_newsletter.label_tag }}</td>
+            <td><div style="float:left;">{{ form.receive_newsletter }}</div></td>
+        </tr>
+        <tr>
             <td>{{ form.agree_to_terms.label_tag }}{{ form.agree_to_terms.errors }}</td>
-            <td><div style="float:left;">{{ form.agree_to_terms }}</div><div style="padding-left:20px;">{{ form.agree_to_terms.help_text }}</td>
+            <td><div style="float:left;">{{ form.agree_to_terms }}</div><div style="padding-left:20px;">{{ form.agree_to_terms.help_text }}</div></td>
         </tr>
     </table>
     <h3>Bonus Information</h3>

@@ -58,8 +58,9 @@
                         <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a> |
                         <a href="{% url 'registration_register' %}">Sign up</a>
                     {% else %}
-                        <strong style="font-size:18px;">Hi {{ user.username }}!<br></strong>
-                        <a href="{% url 'logout_user' %}">Log out</a>
+                        <strong style="font-size:18px;">Hi {{ user }}!<br></strong>
+                        <a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a>
+                        &nbsp&nbsp<a href="{% url 'logout_user' %}">Log out</a>
                     {% endif %}
                 </div>
             </div>

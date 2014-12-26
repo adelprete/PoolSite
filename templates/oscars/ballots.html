@@ -46,7 +46,7 @@
             <div id="all-ballots-list">
             {% for ballot in ballots %}
                 <tr class="all-ballots-single">
-                    <td>{{ ballot.member }}</td>
+                    <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
                     <td>
                         {% if pool.allow_new_ballots %}
                             {{ ballot.name }}
@@ -64,7 +64,7 @@
                 {% if your_ballots %}
                     {% for ballot in your_ballots %}
                         <tr class="your-ballots-single">
-                            <td>{{ ballot.member }}</td>
+                            <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
                             <td><a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a></td>
                             {% if user == pool.administrator %}
                                 <td><a href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>

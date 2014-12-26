@@ -15,12 +15,12 @@
              {% endif %}
          </tr>
          <tr>
-             <th>{{ pool.administrator }} - <b>Administrator</b></th>
+             <th><a href="{% url 'profile_stats' pool.administrator.memberprofile.id %}">{{ pool.administrator }}</a> - <b>Administrator</b></th>
              <th>{{ pool.administrator.email }}</th>
          </tr>
          {% for member in pool.members.all %}
             <tr>
-                <th>{{ member }}</th>
+                <th><a href="{% url 'profile_stats' member.memberprofile.id %}">{{ member }}</a></th>
                 <th>{{ member.email }}</th>
                 {% if user == pool.administrator %}
                 <th><a href="{% url 'remove_member' pool.id member.id %}">Remove</a></th>
