@@ -175,8 +175,9 @@ def survivor_standings(request,id=None):
     pool = get_object_or_404(smodels.SurvivorPool,id=id)
 
     # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
+    if request.user not in pool.members.all() and request.user != pool.administrator:
+        if not request.user.is_superuser:
+            return HttpResponseRedirect(reverse("root"))
 
     picksheets = pool.survivorpicksheet_set.filter(survivor_pool=pool).select_related('four_picks').distinct()
 
