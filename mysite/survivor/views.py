@@ -188,7 +188,7 @@ def survivor_standings(request,id=None):
         picksheet.total_points = total_points
         picksheet.save()
 
-    picksheets.order_by('-total_points')
+    picksheets = picksheets.order_by('-total_points')
 
     context = {
         'pool':pool,
