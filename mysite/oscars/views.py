@@ -213,7 +213,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
     except:
-        messages.error(request,"You've missed your chance to create a pool.  If you are a registered user, you will be notified when the Nominees are announced for next year's award show.")
+        messages.error(request,"Whoops, we don't know the nominees yet!.  If you are a registered user, you will be notified when the Nominees are announced for the next award show.")
         return HttpResponseRedirect(reverse('root'))
 
     if not id:
