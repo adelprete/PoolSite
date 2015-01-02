@@ -62,6 +62,10 @@ class JoinForm(forms.Form):
     pool_id = forms.IntegerField()
     password = forms.CharField(widget=forms.PasswordInput(),required=False)
 
+class EmailMembersForm(forms.Form):
+
+    subject = forms.CharField(max_length=60,required=True);
+    body = forms.CharField(widget=forms.Textarea)
 
 class ContactForm(forms.ModelForm):
 

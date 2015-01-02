@@ -11,6 +11,8 @@ from django.shortcuts import get_object_or_404
 from django.forms.models import modelformset_factory
 from django.forms.models import BaseModelFormSet
 from django.conf import settings
+from django.core.mail import send_mail
+from mysite.base import forms as bforms
 from mysite.base import models as bmodels
 from mysite.oscars import forms as oforms
 from mysite.oscars import models as omodels
@@ -398,3 +400,24 @@ class OscarPublicPools(PublicPools):
             current_ceremony = None
 
         return omodels.OscarPool.objects.filter(season=current_ceremony,public=True).distinct()
+
+@login_required
+def email_members(request,id):
+
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    form = bforms.EmailMembersForm()
+    # check if this user is the admin in this pool
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
+
+    if request.GET:
+        emails = pool.members.all().values_list('email',flat=True)
+        messages.success(request,"Emails Sent")
+        send_mail(request.GET['subject'], 'Message from your pool administrator: \n\n'+request.GET['body'],'officepoolhub@gmail.com',
+                  emails, fail_silently=False)
+    context = {
+        'pool':pool,
+        'form':form,
+    }
+
+    return render(request,"oscars/email_members.html",context)

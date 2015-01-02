@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.mail import send_mail
+from mysite.base import forms as bforms
 from mysite.survivor import forms as sforms
 from mysite.survivor import models as smodels
 from django.core.urlresolvers import reverse
@@ -337,3 +339,24 @@ def remove_member(request,id,member_id):
     messages.success(request,success_str)
 
     return HttpResponseRedirect(reverse("survivor_members",kwargs={'id':pool.id}))
+
+@login_required
+def email_members(request,id):
+
+    pool = get_object_or_404(smodels.SurvivorPool,id=id)
+    form = bforms.EmailMembersForm()
+    # check if this user is the admin in this pool
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
+
+    if request.GET:
+        emails = pool.members.all().values_list('email',flat=True)
+        messages.success(request,"Emails Sent")
+        send_mail(request.GET['subject'], 'Message from your pool administrator: \n\n'+request.GET['body'],'officepoolhub@gmail.com',
+                  emails, fail_silently=False)
+    context = {
+        'pool':pool,
+        'form':form,
+    }
+
+    return render(request,"survivor/email_members.html",context)

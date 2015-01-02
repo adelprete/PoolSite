@@ -1,0 +1,30 @@
+<title>Email Members | Office Pool Hub</title>
+<h2 style="font-family:Verdana, Geneva, sans-serif"><b>Email Members</b></h2>
+Email your pool members with reminders and updates.<br><br>
+<form method="get">{% csrf_token %}
+<div>
+        <font style="font-weight:bold">From:</font><br>
+        &nbsp&nbsp&nbsp{{ user }}
+</div><br>
+<div>
+        <font style="font-weight:bold">To:</font><br>
+        &nbsp&nbsp&nbspAll Pool Members
+</div><br>
+<div>
+    <span>
+        {{ form.subject.label_tag }}
+        &nbsp&nbsp&nbsp{{ form.subject }}
+        &nbsp&nbsp&nbsp{{ form.subject.errors }}
+    </span>
+</div>
+<div>
+    <span>
+        {{ form.body.label_tag }}
+        &nbsp&nbsp&nbsp{{ form.body }}
+        &nbsp&nbsp&nbsp{{ form.body.errors }}
+    </span>
+</div>
+<div>
+    <input class="submit" type="submit" name="submit" value="Send" />
+</div>
+</form>

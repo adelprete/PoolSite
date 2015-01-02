@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib import messages
+from django.core.mail import send_mail
+from mysite.base import forms as bforms
 from mysite.nflbase import models as nflbmodels
 from mysite.nflsurvivor import models as nflsmodels
 from mysite.nflbase import helpers as nflbhelpers
@@ -361,3 +363,24 @@ class NFLSurvivorPublicPools(PublicPools):
             return None
         else:
             return nflsmodels.NFLSurvivorPool.objects.filter(season=current_season,public=True,is_full=False).distinct()
+
+@login_required
+def email_members(request,id):
+
+    pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
+    form = bforms.EmailMembersForm()
+    # check if this user is the admin in this pool
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
+
+    if request.GET:
+        emails = pool.members.all().values_list('email',flat=True)
+        messages.success(request,"Emails Sent")
+        send_mail(request.GET['subject'], 'Message from your pool administrator: \n\n'+request.GET['body'],'officepoolhub@gmail.com',
+                  emails, fail_silently=False)
+    context = {
+        'pool':pool,
+        'form':form,
+    }
+
+    return render(request,"nflsurvivor/email_members.html",context)

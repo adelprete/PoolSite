@@ -39,16 +39,16 @@ div.submenu    {
     overflow:hidden;
     white-space:nowrap;
 }
-div.submenu    ul  li  a   {
+div.submenu  >  ul > li > a   {
     color:white;
     text-decoration:none;
     text-shadow: 0 0 3px black;
 }
-div.submenu    ul  li  a:hover {
+div.submenu  >  ul > li > a:hover {
     text-decoration:underline;
     color:white;
 }
-div.submenu    ul  li  {
+div.submenu  >  ul > li  {
     display:inline;
     float:left;
     padding-top:5px;

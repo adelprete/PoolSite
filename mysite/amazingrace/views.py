@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.mail import send_mail
+from mysite.base import forms as bforms
 from mysite.amazingrace import forms as aforms
 from mysite.amazingrace import models as amodels
 from django.core.urlresolvers import reverse
@@ -336,3 +338,24 @@ class AmazingRacePublicPools(PublicPools):
             current_season = None
 
         return amodels.AmazingRacePool.objects.filter(season=current_season,public=True).distinct()
+
+@login_required
+def email_members(request,id):
+
+    pool = get_object_or_404(amodels.AmazingRacePool,id=id)
+    form = bforms.EmailMembersForm()
+    # check if this user is the admin in this pool
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
+
+    if request.GET:
+        emails = pool.members.all().values_list('email',flat=True)
+        messages.success(request,"Emails Sent")
+        send_mail(request.GET['subject'], 'Message from your pool administrator: \n\n'+request.GET['body'],'officepoolhub@gmail.com',
+                  emails, fail_silently=False)
+    context = {
+        'pool':pool,
+        'form':form,
+    }
+
+    return render(request,"survivor/email_members.html",context)
