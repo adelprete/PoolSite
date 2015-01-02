@@ -219,7 +219,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
     if not id:
         today = datetime.datetime.utcnow()
         if datetime.timedelta(0) > (ceremony.date.replace(tzinfo=None) - today) or settings.OSCARS_POOLS_OPEN is False:
-            messages.error(request,"You've missed your chance to create a pool. If you are a registered user, you will be notified when the Nominees are announced for next year's award show.")
+            messages.error(request,"Nominees will be revealed on January 15th. If you are a registered user, you will be notified when the Nominees are announced for next award show.")
             return HttpResponseRedirect(reverse('root'))
 
     pool = None
