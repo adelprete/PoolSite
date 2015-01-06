@@ -26,6 +26,7 @@ def render_piechart():
 @register.inclusion_tag('oscars/top_three.html',takes_context=True)
 def display_top_three(context):
     pool = context['pool']
+    import pdb;pdb.set_trace()
     if pool.can_display_winners:
         if pool.how_to_win == 'points':
             ballots = pool.ballot_set.all().order_by('-total_points')

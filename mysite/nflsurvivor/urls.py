@@ -18,4 +18,5 @@ urlpatterns = patterns('mysite.nflsurvivor.views',
     url(r'^(?P<id>\d+)/stats$',                             'stats',                      name='nflsurvivor_stats'),
     url(r'^(?P<id>\d+)/message$',                           'pool_admin_message',         name='nflsurvivor_admin_message'),
     url(r'^(?P<id>\d+)/email_members$',                     'email_members',              name='nflsurvivor_email_members'),
+    url(r'^(?P<id>\d+)/recap$',                             'standings',         {'template':'nflsurvivor/recap.html'},       name='nflsurvivor_pool_recap'),
 )

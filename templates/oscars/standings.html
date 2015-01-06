@@ -2,7 +2,9 @@
 {% load oscars_tags %}
 {% block body %}
         <title>Standings - {{ pool.name }} | Office Pool Hub</title>
+        {% block headline %}
         <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
+        {% endblock %}
             {% display_top_three %}
         <table>
             <tr class="header">

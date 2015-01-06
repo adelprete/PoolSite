@@ -18,4 +18,5 @@ urlpatterns = patterns('mysite.survivor.views',
     url(r'^(?P<id>\d+)/message$',                           'pool_admin_message',         name='survivor_admin_message'),
     url(r'^stats$',                                         'castaway_info',              name='castaway_info'),
     url(r'^(?P<id>\d+)/email_members$',                     'email_members',              name='survivor_email_members'),
+    url(r'^(?P<id>\d+)/recap$',                         'survivor_standings',         {'template':'survivor/recap.html'},       name='survivor_pool_recap'),
 )

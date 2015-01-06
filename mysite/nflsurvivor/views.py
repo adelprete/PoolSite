@@ -231,7 +231,7 @@ def remove_picksheet(request,id,picksheet_id):
     return HttpResponseRedirect(reverse("nflsurvivor_member_picksheets",kwargs={'id':pool.id}))
 
 @login_required
-def standings(request,id=None):
+def standings(request,id=None,template='nflsurvivor/standings.html'):
 
     pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
 
@@ -248,7 +248,7 @@ def standings(request,id=None):
         'picksheets':picksheets,
     }
 
-    return render(request,'nflsurvivor/standings.html',context)
+    return render(request,template,context)
 
 @login_required
 def members(request,id=None):

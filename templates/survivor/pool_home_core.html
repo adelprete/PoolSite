@@ -1,6 +1,7 @@
 {% extends "panel_core.html" %}
 {% block menu %}
 {{ block.super }}
+        {% block pool_menu %}
         <div class="submenu" style="overflow:visible;width:950px;height:52px; margin:-21 auto;">
             <ul>
                 <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
@@ -22,4 +23,5 @@
                 {% endif %}
             </ul>
         </div>
+        {% endblock %}
 {% endblock %}

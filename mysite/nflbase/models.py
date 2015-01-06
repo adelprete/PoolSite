@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from mysite.base import models as bmodels
 from mysite.nflbase import helpers as nflbhelpers
-
+from mysite.nflsurvivor import models as nflsmodels
 class Season(bmodels.Definition):
     start_date = models.DateTimeField()
     start_date2 = models.DateTimeField(help_text="This is when the Week 2 starts")
@@ -64,6 +64,31 @@ class Season(bmodels.Definition):
         if datetime.timedelta(0) > (self.start_date.replace(tzinfo=None) - datetime.datetime.utcnow()):
             return 'week1'
         return None
+
+    def save(self):
+        if self.display_winners:
+            pools = nflsmodels.NFLSurvivorPool.objects.filter(season=self)
+            for pool in pools:
+                picksheets = pool.picksheet_set.filter(survivor_pool=pool).distinct()
+
+                picksheets = picksheets.order_by('-total_points')
+
+                try:
+                    pool.winner = picksheets[0].member
+                except:
+                    pool.winner = None
+                try:
+                    pool.second_place_id = picksheets[1].member
+                except:
+                    pool.second_place_id = None
+                try:
+                    pool.third_place_id = picksheets[2].member
+                except:
+                    pool.third_place_id = None
+
+                pool.save()
+
+        super(Season, self).save()
 
 class Team(models.Model):
     city = models.CharField(max_length=30)

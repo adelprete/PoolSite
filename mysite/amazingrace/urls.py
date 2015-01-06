@@ -18,4 +18,5 @@ urlpatterns = patterns('mysite.amazingrace.views',
     url(r'^(?P<id>\d+)/message$',                           'pool_admin_message',            name='amazingrace_admin_message'),
     url(r'^stats$',                                         'team_info',                     name='team_info'),
     url(r'^(?P<id>\d+)/email_members$',                     'email_members',                 name='amazingrace_email_members'),
+    url(r'^(?P<id>\d+)/recap$',                             'amazingrace_standings',         {'template':'amazingrace/recap.html'},       name='amazingrace_pool_recap'),
 )

@@ -173,7 +173,7 @@ def amazingrace_picksheet(request,id=None,picksheet_id=None,form=aforms.AmazingR
     return render(request,'amazingrace/picksheet_form.html',context)
 
 @login_required
-def amazingrace_standings(request,id=None):
+def amazingrace_standings(request,id=None,template='amazingrace/standings.html'):
 
     pool = get_object_or_404(amodels.AmazingRacePool,id=id)
 
@@ -197,7 +197,7 @@ def amazingrace_standings(request,id=None):
         'picksheets':picksheets,
     }
 
-    return render(request,'amazingrace/standings.html',context)
+    return render(request,template,context)
 
 @login_required
 def leave_pool(request,id):

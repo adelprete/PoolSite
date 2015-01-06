@@ -174,7 +174,7 @@ def pool_ballot(request,id=None,ballot_id=None):
     return render(request,'oscars/ballot_form.html',context)
 
 @login_required
-def pool_standings(request,id=None):
+def pool_standings(request,id=None,template='oscars/standings.html'):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
@@ -205,7 +205,7 @@ def pool_standings(request,id=None):
         'ballots':ballots,
     }
 
-    return render(request,'oscars/standings.html',context)
+    return render(request,template,context)
 
 @login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):

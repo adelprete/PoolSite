@@ -172,7 +172,7 @@ def survivor_picksheet(request,id=None,picksheet_id=None,form=sforms.SurvivorPic
     return render(request,'survivor/picksheet_form.html',context)
 
 @login_required
-def survivor_standings(request,id=None):
+def survivor_standings(request,id=None,template='survivor/standings.html'):
 
     pool = get_object_or_404(smodels.SurvivorPool,id=id)
 
@@ -197,7 +197,7 @@ def survivor_standings(request,id=None):
         'picksheets':picksheets,
     }
 
-    return render(request,'survivor/standings.html',context)
+    return render(request,template,context)
 
 from mysite.base.views import PublicPools
 class SurvivorPublicPools(PublicPools):
