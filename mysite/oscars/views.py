@@ -61,19 +61,19 @@ def pool_ballot_list(request,id=None):
 
     ballots = pool.ballot_set.all()
     your_ballots = ballots.filter(member=request.user)
-    allow_new_ballots = True
+    allow_new_picksheets = True
 
-    if not pool.allow_new_ballots() or (ballots.filter(member=request.user).count() >= pool.max_submissions):
-        allow_new_ballots = False
+    if not pool.allow_new_picksheets() or (ballots.filter(member=request.user).count() >= pool.max_submissions):
+        allow_new_picksheets = False
 
     if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
-        allow_new_ballots = False
+        allow_new_picksheets = False
 
     context = {
         'pool':pool,
         'ballots':ballots,
         'your_ballots':your_ballots,
-        'allow_new_ballots':allow_new_ballots,
+        'allow_new_ballots':allow_new_picksheets,
     }
     return render(request,'oscars/ballots.html',context)
 
@@ -86,9 +86,9 @@ def pool_ballot(request,id=None,ballot_id=None):
     if request.user not in pool.members.all() and request.user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
 
-    allow_new_ballots = True
+    allow_new_picksheets = True
     if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
-        allow_new_ballots = False
+        allow_new_picksheets = False
 
     ballot=None
     response_forms=[]
@@ -99,10 +99,10 @@ def pool_ballot(request,id=None,ballot_id=None):
     if not ballot:
         pool_categories = pool.customcategory_set.filter(active=True)
 
-    ballot_form = oforms.BallotForm(allow_new_ballots,instance=ballot)
+    ballot_form = oforms.BallotForm(allow_new_picksheets,instance=ballot)
 
     if request.POST:
-        ballot_form = oforms.BallotForm(allow_new_ballots,request.POST,instance=ballot)
+        ballot_form = oforms.BallotForm(allow_new_picksheets,request.POST,instance=ballot)
         if "delete" in request.POST:
             if datetime.timedelta(0) < (ballot.pool.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
                 ballot.delete()
@@ -115,7 +115,7 @@ def pool_ballot(request,id=None,ballot_id=None):
                 valid_forms=True
                 response_forms = []
                 for category in pool_categories:
-                    response_forms.append(oforms.ResponseForm(category,allow_new_ballots,request.POST,prefix=category.name))
+                    response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,request.POST,prefix=category.name))
                 for response_form in response_forms:
                     if response_form.is_valid() == False:
                         valid_forms=False;
@@ -139,7 +139,7 @@ def pool_ballot(request,id=None,ballot_id=None):
                         return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
             if ballot:
                 for response in ballot.response_set.all():
-                    response_form = oforms.ResponseForm(response.category,allow_new_ballots,request.POST,prefix=response.category.name,instance=response)
+                    response_form = oforms.ResponseForm(response.category,allow_new_picksheets,request.POST,prefix=response.category.name,instance=response)
                     if response_form.is_valid():
 
                         ballot_record = ballot_form.save(commit=False)
@@ -159,17 +159,17 @@ def pool_ballot(request,id=None,ballot_id=None):
 
     if ballot and response_forms.__len__() == 0:
         for response in ballot.response_set.all():
-            response_forms.append(oforms.ResponseForm(response.category,allow_new_ballots,prefix=response.category.name,instance=response))
+            response_forms.append(oforms.ResponseForm(response.category,allow_new_picksheets,prefix=response.category.name,instance=response))
     elif response_forms.__len__() == 0:
         for category in pool_categories:
-            response_forms.append(oforms.ResponseForm(category,allow_new_ballots,prefix=category.name))
+            response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,prefix=category.name))
 
     context = {
         'pool':pool,
         'ballot':ballot,
         'ballot_form':ballot_form,
         'response_forms':response_forms,
-        'allow_new_ballots':allow_new_ballots,
+        'allow_new_ballots':allow_new_picksheets,
     }
     return render(request,'oscars/ballot_form.html',context)
 
@@ -399,7 +399,7 @@ class OscarPublicPools(PublicPools):
         except:
             current_ceremony = None
 
-        return omodels.OscarPool.objects.filter(season=current_ceremony,public=True).distinct()
+        return omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
 
 @login_required
 def email_members(request,id):

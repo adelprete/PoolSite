@@ -23,14 +23,14 @@ class OscarPool(bmodels.Pool):
             return True
         return False
 
-    def allow_new_ballots(self):
+    def allow_new_picksheets(self):
         if datetime.timedelta(0) > (self.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
             return False
         return True
 
     @property
     def can_display_winners(self):
-        if timezone.now() > (self.oscar_ceremony.date + timedelta(hours=1)):
+        if timezone.now() > (self.oscar_ceremony.date + timedelta(hours=4)):
             return True
         return False
 

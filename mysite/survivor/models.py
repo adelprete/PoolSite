@@ -14,6 +14,12 @@ class SurvivorSeason(bmodels.Definition):
     def __unicode__(self):
         return "%s" % (self.name)
 
+    def latest_season(self):
+        season = SurvivorSeason.objects.latest('start_date')
+        if self == season:
+            return True
+        return False
+
     def save(self):
         if self.display_winners:
             pools = SurvivorPool.objects.filter(season=self)
