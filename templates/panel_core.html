@@ -59,7 +59,9 @@
                         <a href="{% url 'registration_register' %}">Sign up</a>
                     {% else %}
                         <strong style="font-size:18px;">Hi {{ user }}!<br></strong>
+                        {% if user.memberprofile %}
                         <a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a>
+                        {% endif %}
                         &nbsp&nbsp<a href="{% url 'logout_user' %}">Log out</a>
                     {% endif %}
                 </div>
