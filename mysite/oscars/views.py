@@ -273,7 +273,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         category_record.pool = pool_record
                         category_record.save()
 
-                    messages.success(request,"Your Pool Settings have been Saved")
+                messages.success(request,"Your Pool Settings have been Saved")
                 return HttpResponseRedirect(pool_record.get_absolute_url())
 
     if not pool:
