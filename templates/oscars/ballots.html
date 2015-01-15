@@ -29,7 +29,7 @@
         <br><br>
         {% if allow_new_ballots %}
             <form action="{% url 'oscar_create_ballot' pool.id %}" method="GET">{% csrf_token %}
-                <input type="submit" value="Create a Ballot" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your brackets.
+                <input type="submit" value="Create a Ballot" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your ballots.
             </form>
         {% else %}
             The entry deadline has been reached.  No new ballots may be entered and existing ballots can no longer be changed.
