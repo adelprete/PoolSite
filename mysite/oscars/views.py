@@ -213,17 +213,17 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
     except:
-        messages.error(request,"Nominees will be revealed on January 15th.  If you are a registered user, you will be notified when the Nominees are announced for the next award show.")
+        messages.error(request,"If you are a registered user, you will be notified when the Nominees are announced for the next award show.")
         return HttpResponseRedirect(reverse('root'))
 
     if not id:
         today = datetime.datetime.utcnow()
         if datetime.timedelta(0) > (ceremony.date.replace(tzinfo=None) - today) or settings.OSCARS_POOLS_OPEN is False:
-            messages.error(request,"Nominees will be revealed on January 15th. If you are a registered user, you will be notified when the Nominees are announced for next award show.")
+            messages.error(request,"If you are a registered user, you will be notified when the Nominees are announced for next award show.")
             return HttpResponseRedirect(reverse('root'))
 
     pool = None
-    base_categories = ceremony.basecategory_set.all().order_by('priority')
+    base_categories = ceremony.basecategory_set.all().order_by('-points')
     custom_categories = None
     category_forms = []
 
