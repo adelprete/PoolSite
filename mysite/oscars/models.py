@@ -60,7 +60,7 @@ class Ballot(models.Model):
 
     pool = models.ForeignKey('oscars.OscarPool')
     name = models.CharField("Name of Ballot",max_length=30)
-    play_off_guess = models.IntegerField("How many awards in will we have to go until they try to 'Play off' a winner's award speech?",help_text="This will be used only as a tie breaker.");
+    play_off_guess = models.IntegerField("How many awards in will we have to go until they try to 'Play off' a winner's award speech?",help_text="This will be used only as a tie breaker.",null=True,blank=True);
     member = models.ForeignKey('auth.User')
     total_points = models.IntegerField(default=0)
     total_correct = models.IntegerField(default=0)

@@ -48,7 +48,7 @@
                 <tr class="all-ballots-single">
                     <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
                     <td>
-                        {% if pool.allow_new_ballots %}
+                        {% if pool.allow_new_picksheets %}
                             {{ ballot.name }}
                         {% else %}
                             <a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a>
