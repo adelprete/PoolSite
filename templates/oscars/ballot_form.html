@@ -9,12 +9,14 @@
         <h2>Fill out your Ballot!</h2>
     {% endif %}
     {% if allow_new_ballots %}
-    <div class="span-15" style="">
+    <div class="span-16" style="">
         {{ ballot_form.name.label_tag }}
         {{ ballot_form.name }}
         {{ ballot_form.name.errors }}
     </div>
     {% endif %}
+    <br><br><br>
+    <div style="margin-top:20px;">
     {% for form in response_forms %}
         {% if form.category.active %}
         <b>{{ form.prefix }}</b> {% if pool.how_to_win == 'points' %}- {{ form.category.points }} points{% endif %}<br>
@@ -28,6 +30,7 @@
         {% endif %}
         <br>
     {% endfor %}
+    </div>
 
     <div>
         {% if allow_new_ballots %}
