@@ -1,4 +1,11 @@
 {% extends "panel_core.html" %}
+{% block head %}
+        {{ block.super }}
+        <meta property="og:url" content="https://www.officepoolhub.com/pool/join/" />
+        <meta property="og:title" content="Join a Pool Today!" />
+        <meta property="og:description" content="Its free an easy! Compete in the Oscars, Survior, Amazing Race, and More!" />
+        <meta property="og:image" content="{{ MEDIA_URL }}site/pool_list_screenshot.png" />
+{% endblock %}
 {% block body %}
 <title>Join a Pool | Office Pool Hub</title>
 <div class="span-12" style="border-right:1px solid;">
