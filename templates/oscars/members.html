@@ -1,12 +1,4 @@
 {% extends 'oscars/pool_home_core.html' %}
-{% block head %}
-        {{ block.super }}
-        <meta property="og:url" content="https://www.officepoolhub.com/pool/join/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Join my Oscar Pool!" />
-        <meta property="og:description" content="Inviting all friends!\nPool id: {{pool.identity}}\n{% if pool.public == False %}Pool Password: {{pool.password}}{% endif %}" />
-        <meta property="og:image" content="http://i.imgur.com/Ng39c5O.png" />
-{% endblock %}
 {% block body %}
      <title>Members - {{ pool.name }} | Office Pool Hub</title>
      <div class="span-14">
@@ -40,7 +32,7 @@
     {% if user == pool.administrator %}
      <div class="span-7" style="margin-left:40px;">
         <h2 style="color:orangered;">Invite others to your pool!</h2>
-         <div style="margin-left:10px;font-size:15px;"><b>Just email them the following or share it on Facebook! <div class="fb-share-button" data-href="http://officepoolhub.com/pool/join/{{ pool.identity }}/{{ pool.password }}"></div></b><br><br><b>URL:</b> {{ join_url }}<br>
+         <div style="margin-left:10px;font-size:15px;"><b>Just give them the following information!</b><br><br><b>URL:</b> {{ join_url }}<br>
              <b>Pool ID:</b> {{ pool.identity }}<br>
              {% if pool.public == False %}
              <b>Pool Password:</b> {{ pool.password }}
