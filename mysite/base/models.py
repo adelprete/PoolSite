@@ -75,7 +75,7 @@ class MemberProfile(models.Model):
     creation_date = models.DateField(null=True, blank=True)
     agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it "
                                                    "purely for entertainment?")
-    receive_newsletter = models.BooleanField(default=True)
+    receive_newsletter = models.BooleanField(default=True,help_text="We only send like, 2 or 3 emails a year tops.")
 
     line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
     line_2 = models.CharField(max_length=60,blank=True,null=True,verbose_name="APT./Condo/Suite #")
