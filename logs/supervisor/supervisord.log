@@ -1,0 +1,228 @@
+2014-08-13 09:54:20,882 CRIT Supervisor running as root (no user in config file)
+2014-08-13 09:54:20,882 WARN Included extra file "/etc/supervisor/conf.d/PoolSite.conf" during parsing
+2014-08-13 09:54:20,941 INFO RPC interface 'supervisor' initialized
+2014-08-13 09:54:20,941 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2014-08-13 09:54:20,941 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2014-08-13 09:54:20,947 INFO daemonizing the supervisord process
+2014-08-13 09:54:20,947 INFO supervisord started with pid 3303
+2014-08-13 09:54:21,956 INFO spawned: 'poolsite' with pid 3537
+2014-08-13 09:54:22,958 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 09:57:34,128 INFO stopped: poolsite (exit status 0)
+2014-08-13 09:57:35,136 INFO spawned: 'poolsite' with pid 4336
+2014-08-13 09:57:36,138 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 10:08:04,415 INFO stopped: poolsite (exit status 0)
+2014-08-13 10:08:05,423 INFO spawned: 'poolsite' with pid 4424
+2014-08-13 10:08:06,425 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 10:28:54,893 WARN received SIGTERM indicating exit request
+2014-08-13 10:28:54,893 INFO waiting for poolsite to die
+2014-08-13 10:28:54,960 INFO stopped: poolsite (exit status 0)
+2014-08-13 10:29:16,174 CRIT Supervisor running as root (no user in config file)
+2014-08-13 10:29:16,174 WARN Included extra file "/etc/supervisor/conf.d/PoolSite.conf" during parsing
+2014-08-13 10:29:16,220 INFO RPC interface 'supervisor' initialized
+2014-08-13 10:29:16,220 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2014-08-13 10:29:16,220 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2014-08-13 10:29:16,226 INFO daemonizing the supervisord process
+2014-08-13 10:29:16,226 INFO supervisord started with pid 3306
+2014-08-13 10:29:17,236 INFO spawned: 'poolsite' with pid 3733
+2014-08-13 10:29:18,238 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 10:32:53,802 WARN received SIGTERM indicating exit request
+2014-08-13 10:32:53,802 INFO waiting for poolsite to die
+2014-08-13 10:32:53,857 INFO stopped: poolsite (exit status 0)
+2014-08-13 10:33:15,137 CRIT Supervisor running as root (no user in config file)
+2014-08-13 10:33:15,137 WARN Included extra file "/etc/supervisor/conf.d/PoolSite.conf" during parsing
+2014-08-13 10:33:15,179 INFO RPC interface 'supervisor' initialized
+2014-08-13 10:33:15,179 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2014-08-13 10:33:15,179 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2014-08-13 10:33:15,185 INFO daemonizing the supervisord process
+2014-08-13 10:33:15,185 INFO supervisord started with pid 3289
+2014-08-13 10:33:16,193 INFO spawned: 'poolsite' with pid 3528
+2014-08-13 10:33:17,194 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 10:34:08,512 INFO stopped: poolsite (exit status 0)
+2014-08-13 10:34:09,519 INFO spawned: 'poolsite' with pid 4259
+2014-08-13 10:34:10,522 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 10:42:30,394 INFO stopped: poolsite (exit status 0)
+2014-08-13 10:42:31,402 INFO spawned: 'poolsite' with pid 4314
+2014-08-13 10:42:32,404 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 12:10:24,068 WARN received SIGTERM indicating exit request
+2014-08-13 12:10:24,068 INFO waiting for poolsite to die
+2014-08-13 12:10:24,139 INFO stopped: poolsite (exit status 0)
+2014-08-13 12:10:45,605 CRIT Supervisor running as root (no user in config file)
+2014-08-13 12:10:45,605 WARN Included extra file "/etc/supervisor/conf.d/PoolSite.conf" during parsing
+2014-08-13 12:10:45,652 INFO RPC interface 'supervisor' initialized
+2014-08-13 12:10:45,652 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2014-08-13 12:10:45,652 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2014-08-13 12:10:45,657 INFO daemonizing the supervisord process
+2014-08-13 12:10:45,658 INFO supervisord started with pid 3283
+2014-08-13 12:10:46,668 INFO spawned: 'poolsite' with pid 3334
+2014-08-13 12:10:47,675 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 12:12:01,751 WARN received SIGTERM indicating exit request
+2014-08-13 12:12:01,751 INFO waiting for poolsite to die
+2014-08-13 12:12:01,819 INFO stopped: poolsite (exit status 0)
+2014-08-13 12:12:23,369 CRIT Supervisor running as root (no user in config file)
+2014-08-13 12:12:23,369 WARN Included extra file "/etc/supervisor/conf.d/PoolSite.conf" during parsing
+2014-08-13 12:12:23,424 INFO RPC interface 'supervisor' initialized
+2014-08-13 12:12:23,424 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2014-08-13 12:12:23,424 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2014-08-13 12:12:23,430 INFO daemonizing the supervisord process
+2014-08-13 12:12:23,430 INFO supervisord started with pid 3281
+2014-08-13 12:12:24,438 INFO spawned: 'poolsite' with pid 3511
+2014-08-13 12:12:25,439 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 12:24:39,635 INFO stopped: poolsite (exit status 0)
+2014-08-13 12:24:40,643 INFO spawned: 'poolsite' with pid 4323
+2014-08-13 12:24:41,645 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 14:32:37,954 INFO stopped: poolsite (exit status 0)
+2014-08-13 14:32:38,964 INFO spawned: 'poolsite' with pid 7218
+2014-08-13 14:32:39,967 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 14:43:50,256 INFO stopped: poolsite (exit status 0)
+2014-08-13 14:43:51,265 INFO spawned: 'poolsite' with pid 7310
+2014-08-13 14:43:52,267 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 14:54:12,209 INFO stopped: poolsite (exit status 0)
+2014-08-13 14:54:13,218 INFO spawned: 'poolsite' with pid 7408
+2014-08-13 14:54:14,220 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-13 15:18:43,724 INFO stopped: poolsite (exit status 0)
+2014-08-13 15:18:44,732 INFO spawned: 'poolsite' with pid 7604
+2014-08-13 15:18:45,734 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-19 09:47:45,452 INFO stopped: poolsite (exit status 0)
+2014-08-19 12:02:04,451 INFO spawned: 'poolsite' with pid 18164
+2014-08-19 12:02:05,454 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-19 16:32:04,814 INFO stopped: poolsite (exit status 0)
+2014-08-19 16:32:05,822 INFO spawned: 'poolsite' with pid 18415
+2014-08-19 16:32:06,825 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-19 17:34:16,707 INFO stopped: poolsite (exit status 0)
+2014-08-19 17:34:17,715 INFO spawned: 'poolsite' with pid 18555
+2014-08-19 17:34:18,717 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-21 10:39:24,837 INFO stopped: poolsite (exit status 0)
+2014-08-21 10:39:25,850 INFO spawned: 'poolsite' with pid 20389
+2014-08-21 10:39:26,852 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-23 13:38:24,628 INFO stopped: poolsite (exit status 0)
+2014-08-23 13:38:25,637 INFO spawned: 'poolsite' with pid 22434
+2014-08-23 13:38:26,643 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-23 13:45:53,328 INFO stopped: poolsite (exit status 0)
+2014-08-23 13:45:54,336 INFO spawned: 'poolsite' with pid 22501
+2014-08-23 13:45:55,339 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-23 14:58:17,023 INFO stopped: poolsite (exit status 0)
+2014-08-23 14:58:18,030 INFO spawned: 'poolsite' with pid 22599
+2014-08-23 14:58:19,036 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-23 15:41:11,080 INFO stopped: poolsite (exit status 0)
+2014-08-23 15:41:12,091 INFO spawned: 'poolsite' with pid 22708
+2014-08-23 15:41:13,094 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-27 12:29:20,037 INFO stopped: poolsite (exit status 0)
+2014-08-27 12:29:21,045 INFO spawned: 'poolsite' with pid 26736
+2014-08-27 12:29:22,047 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-27 13:42:40,167 INFO stopped: poolsite (exit status 0)
+2014-08-27 13:42:41,176 INFO spawned: 'poolsite' with pid 26855
+2014-08-27 13:42:42,182 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-27 14:00:26,708 INFO stopped: poolsite (exit status 0)
+2014-08-27 14:00:27,717 INFO spawned: 'poolsite' with pid 26988
+2014-08-27 14:00:28,719 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-28 18:32:24,966 INFO stopped: poolsite (exit status 0)
+2014-08-28 18:32:25,975 INFO spawned: 'poolsite' with pid 28581
+2014-08-28 18:32:26,977 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-29 09:58:06,983 INFO stopped: poolsite (exit status 0)
+2014-08-29 09:58:07,997 INFO spawned: 'poolsite' with pid 29397
+2014-08-29 09:58:09,000 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-08-29 10:35:25,198 INFO stopped: poolsite (exit status 0)
+2014-08-29 10:35:26,206 INFO spawned: 'poolsite' with pid 29505
+2014-08-29 10:35:27,212 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-02 15:07:32,212 INFO stopped: poolsite (exit status 0)
+2014-09-02 15:07:33,220 INFO spawned: 'poolsite' with pid 2558
+2014-09-02 15:07:34,226 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-02 17:56:17,110 INFO stopped: poolsite (exit status 0)
+2014-09-02 17:56:18,124 INFO spawned: 'poolsite' with pid 2755
+2014-09-02 17:56:19,128 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-02 18:05:57,631 INFO stopped: poolsite (exit status 0)
+2014-09-02 18:05:58,638 INFO spawned: 'poolsite' with pid 2801
+2014-09-02 18:05:59,641 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-02 18:13:07,125 INFO stopped: poolsite (exit status 0)
+2014-09-02 18:13:08,134 INFO spawned: 'poolsite' with pid 2847
+2014-09-02 18:13:09,136 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-03 09:12:04,465 INFO stopped: poolsite (exit status 0)
+2014-09-03 09:12:05,474 INFO spawned: 'poolsite' with pid 3675
+2014-09-03 09:12:06,480 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-03 15:58:20,810 INFO stopped: poolsite (exit status 0)
+2014-09-03 15:58:21,818 INFO spawned: 'poolsite' with pid 3957
+2014-09-03 15:58:22,824 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-04 09:32:39,894 INFO stopped: poolsite (exit status 0)
+2014-09-04 09:32:40,902 INFO spawned: 'poolsite' with pid 4746
+2014-09-04 09:32:41,907 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-05 13:12:53,611 INFO stopped: poolsite (exit status 0)
+2014-09-05 13:12:54,626 INFO spawned: 'poolsite' with pid 5936
+2014-09-05 13:12:55,628 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-05 15:57:58,644 INFO stopped: poolsite (exit status 0)
+2014-09-05 15:57:59,652 INFO spawned: 'poolsite' with pid 6095
+2014-09-05 15:58:00,655 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-19 12:49:16,276 INFO stopped: poolsite (exit status 0)
+2014-09-19 12:49:17,285 INFO spawned: 'poolsite' with pid 21671
+2014-09-19 12:49:18,287 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-09-19 22:24:08,100 INFO stopped: poolsite (exit status 0)
+2014-09-19 22:24:09,117 INFO spawned: 'poolsite' with pid 22022
+2014-09-19 22:24:10,124 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-11-25 15:42:32,089 INFO stopped: poolsite (exit status 0)
+2014-11-25 15:42:33,101 INFO spawned: 'poolsite' with pid 24949
+2014-11-25 15:42:34,103 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-01 10:45:47,282 INFO stopped: poolsite (exit status 0)
+2014-12-01 10:45:48,290 INFO spawned: 'poolsite' with pid 31254
+2014-12-01 10:45:49,292 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-01 12:26:30,632 INFO stopped: poolsite (exit status 0)
+2014-12-01 12:26:31,643 INFO spawned: 'poolsite' with pid 31382
+2014-12-01 12:26:32,649 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-04 10:04:38,742 INFO stopped: poolsite (exit status 0)
+2014-12-04 10:04:39,750 INFO spawned: 'poolsite' with pid 1897
+2014-12-04 10:04:40,753 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-25 22:24:02,939 INFO stopped: poolsite (exit status 0)
+2014-12-25 22:24:03,948 INFO spawned: 'poolsite' with pid 31514
+2014-12-25 22:24:04,950 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-25 22:37:13,894 INFO stopped: poolsite (exit status 0)
+2014-12-25 22:37:14,906 INFO spawned: 'poolsite' with pid 31609
+2014-12-25 22:37:15,908 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-25 23:03:41,288 INFO stopped: poolsite (exit status 0)
+2014-12-25 23:03:42,303 INFO spawned: 'poolsite' with pid 31740
+2014-12-25 23:03:43,305 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-25 23:11:25,261 INFO stopped: poolsite (exit status 0)
+2014-12-25 23:11:26,273 INFO spawned: 'poolsite' with pid 31787
+2014-12-25 23:11:27,275 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-12-26 10:13:55,979 INFO stopped: poolsite (exit status 0)
+2014-12-26 10:13:56,987 INFO spawned: 'poolsite' with pid 32475
+2014-12-26 10:13:57,989 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-02 12:18:42,690 INFO stopped: poolsite (exit status 0)
+2015-01-02 12:18:43,698 INFO spawned: 'poolsite' with pid 9946
+2015-01-02 12:18:44,700 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-02 13:26:08,987 INFO stopped: poolsite (exit status 0)
+2015-01-02 13:26:09,999 INFO spawned: 'poolsite' with pid 10054
+2015-01-02 13:26:11,001 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-02 18:06:39,204 INFO stopped: poolsite (exit status 0)
+2015-01-02 18:06:40,212 INFO spawned: 'poolsite' with pid 10335
+2015-01-02 18:06:41,214 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-02 18:10:50,381 INFO stopped: poolsite (exit status 0)
+2015-01-02 18:10:51,392 INFO spawned: 'poolsite' with pid 10416
+2015-01-02 18:10:52,394 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-06 10:31:41,814 INFO stopped: poolsite (exit status 0)
+2015-01-06 10:31:42,827 INFO spawned: 'poolsite' with pid 16856
+2015-01-06 10:31:43,829 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-06 14:31:46,523 INFO stopped: poolsite (exit status 0)
+2015-01-06 14:31:47,535 INFO spawned: 'poolsite' with pid 17145
+2015-01-06 14:31:48,538 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-15 14:24:30,013 INFO stopped: poolsite (exit status 0)
+2015-01-15 14:24:31,021 INFO spawned: 'poolsite' with pid 28877
+2015-01-15 14:24:32,024 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-15 14:58:01,489 INFO stopped: poolsite (exit status 0)
+2015-01-15 14:58:02,504 INFO spawned: 'poolsite' with pid 29007
+2015-01-15 14:58:03,507 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-15 18:48:03,693 INFO stopped: poolsite (exit status 0)
+2015-01-15 18:48:04,701 INFO spawned: 'poolsite' with pid 29237
+2015-01-15 18:48:05,704 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-22 15:59:43,489 INFO stopped: poolsite (exit status 0)
+2015-01-22 15:59:44,500 INFO spawned: 'poolsite' with pid 7650
+2015-01-22 15:59:45,503 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-27 09:05:03,770 INFO stopped: poolsite (exit status 0)
+2015-01-27 09:05:04,778 INFO spawned: 'poolsite' with pid 15852
+2015-01-27 09:05:05,784 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-27 09:42:14,924 INFO stopped: poolsite (exit status 0)
+2015-01-27 09:42:15,933 INFO spawned: 'poolsite' with pid 16071
+2015-01-27 09:42:16,936 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-01-27 14:46:07,647 INFO stopped: poolsite (exit status 0)
+2015-01-27 14:46:08,657 INFO spawned: 'poolsite' with pid 16562
+2015-01-27 14:46:09,660 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-02-03 13:29:41,584 INFO stopped: poolsite (exit status 0)
+2015-02-03 13:29:42,593 INFO spawned: 'poolsite' with pid 27391
+2015-02-03 13:29:43,598 INFO success: poolsite entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

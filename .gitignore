@@ -1,2 +1,4 @@
 *.pyc
 private.py
+media/amazingrace/teams/**
+media/survivor/castaways/**
