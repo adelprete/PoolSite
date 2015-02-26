@@ -20,8 +20,8 @@
                 <td>{{ picksheet.name }}</td>
                 <td>{{ picksheet.total_points }}</td>
                 <td>
-                    {% for pick in picksheet.four_picks.all %}
-                        {{ pick.base_team.first_name }}
+                    {% for pick in picksheet.picks.all %}
+                        {{ pick }}
                         {% if not forloop.last %}
                          -
                         {% endif %}
