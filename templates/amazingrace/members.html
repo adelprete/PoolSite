@@ -1,43 +1,7 @@
-{% extends 'amazingrace/pool_home_core.html' %}
-{% block body %}
-     <title>Members - {{ pool.name }} | Office Pool Hub</title>
-     <div class="span-14">
-     <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Members</b></h2>
-        <form action="{% url 'leave_pool' pool.id %}" method="GET">{% csrf_token %}
-          <input type="submit" value="Leave Pool" />
-        </form>
-     <table class="span-14">
-         <tr class="header">
-             <th>Username</th>
-             <th>Email</th>
-             {% if user == pool.administrator %}
-             <th></th>
-             {% endif %}
-         </tr>
-         <tr>
-             <th>{{ pool.administrator }} - <b>Administrator</b></th>
-             <th>{{ pool.administrator.email }}</th>
-         </tr>
-         {% for member in pool.members.all %}
-            <tr>
-                <th>{{ member }}</th>
-                <th>{{ member.email }}</th>
-                {% if user == pool.administrator %}
-                <th><a href="{% url 'amazingrace_remove_member' pool.id member.id %}">Remove</a></th>
-                {% endif %}
-            </tr>
-         {% endfor %}
-     </table>
-     </div>
-    {% if user == pool.administrator %}
-     <div class="span-7" style="margin-left:40px;">
-        <h2 style="color:orangered;">Invite others to your pool!</h2>
-         <div style="margin-left:10px;font-size:15px;"><b>Just email them the following!</b><br><br><b>URL:</b> {{ join_url }}<br>
-             <b>Pool ID:</b> {{ pool.identity }}<br>
-             {% if pool.public == False %}
-             <b>Pool Password:</b> {{ pool.password }}
-             {% endif %}
-         </div>
-     </div>
-        {% endif %}
+{% extends 'base/members_base.html' %}
+{% block menu %}
+{{ block.super }}
+{% include 'amazingrace/pool_menu.html' %}
 {% endblock %}
+
+{% block removal_link %}<th><a href="{% url 'amazingrace_remove_member' pool.id member.id %}">Remove</a></th>{% endblock %}

@@ -1,0 +1,21 @@
+<div class="submenu" style="overflow:visible;width:950px;height:52px; margin:-21 auto;">
+    <ul>
+        <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
+        <li id="ballots"><a href="{% url 'survivor_member_picksheets' pool.id %}">Member Picks</a></li>
+        <li><a href="{% url 'survivor_standings' pool.id %}">Standings</a></li>
+        <li><a href="{% url 'survivor_members' pool.id %}">Members</a></li>
+        <li><a href="{% url 'survivor_stats' pool.id %}">Stats</a></li>
+        {% if user == pool.administrator %}
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" style="color:orange;" href="{% url 'survivor_pool' pool.id %}" role="button">
+                Admin<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'survivor_pool' pool.id %}">Settings</a></li>
+                <li role="presentation" class="divider"></li>
+                <li><a href="{% url 'survivor_email_members' pool.id %}">Email members</a></li>
+            </ul>
+        </li>
+        {% endif %}
+    </ul>
+</div>
