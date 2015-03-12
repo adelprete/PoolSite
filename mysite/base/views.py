@@ -14,6 +14,8 @@ from mysite.survivor import models as smodels
 from mysite.amazingrace import models as amodels
 from mysite.nflsurvivor import models as nflsmodels
 from mysite.nflbase import models as nflbmodels
+from mysite.marchmadness import models as mmodels
+
 
 from django.db.models import Q
 
@@ -112,6 +114,10 @@ def profile_stats(request,id=None):
     nflpools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=member)|Q(members=member))
     history['NFL Survivor'] = (nflpools.filter(winner=member).count(),nflpools.filter(second_place=member).count(),nflpools.filter(third_place=member).count())
 
+    marchpools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=member)|Q(members=member))
+    history['March Madness'] = (marchpools.filter(winner=member).count(),marchpools.filter(second_place=member).count(),marchpools.filter(third_place=member).count())
+
+
     totals = {'first_total':0,'second_total':0,'third_total':0}
     for key,value in history.iteritems():
         totals['first_total'] += value[0]
@@ -168,6 +174,16 @@ def your_pools(request):
         old_nflsurvivor_pools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_nflsurvivor_season).distinct()
 
 
+    #March Madness Pools
+    if mmodels.NCAABasketballTourney.objects.all().count() == 0:
+        cur_marchmadness_pools = False
+        old_marchmadness_pools = False
+    else:
+        current_marchmadness_tourney = mmodels.NCAABasketballTourney.objects.latest('start_date')
+        cur_marchmadness_pools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_marchmadness_tourney).distinct()
+        old_marchmadness_pools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_marchmadness_tourney).distinct()
+
+
     context = {
         'cur_oscar_pools':cur_oscar_pools,
         'old_oscar_pools':old_oscar_pools,
@@ -177,6 +193,8 @@ def your_pools(request):
         'old_amazingrace_pools':old_amazingrace_pools,
         'cur_nflsurvivor_pools':cur_nflsurvivor_pools,
         'old_nflsurvivor_pools':old_nflsurvivor_pools,
+        'cur_marchmadness_pools':cur_marchmadness_pools,
+        'old_marchmadness_pools':old_marchmadness_pools,
     }
 
     return render(request,"base/pool_list.html",context)
@@ -217,6 +235,8 @@ def join_pool(request, id=None, password=None):
                             pool = pool.amazingracepool
                         if hasattr(pool,"nflsurvivorpool"):
                             pool = pool.nflsurvivorpool
+                        if hasattr(pool,"marchmadnesspool"):
+                            pool = pool.marchmadnesspool
 
                         return HttpResponseRedirect(pool.get_absolute_url())
                     else:
@@ -236,6 +256,11 @@ def join_pool(request, id=None, password=None):
                                 messages.error(request,"This Pool is Full")
                                 return render(request,'join_form.html', {'form':form})
                             pool = pool.nflsurvivorpool
+                        if hasattr(pool,"marchmadnesspool"):
+                            if pool.members.count() >= pool.max_members - 1:
+                                messages.error(request,"This Pool is Full")
+                                return render(request,'join_form.html', {'form':form})
+                            pool = pool.marchmadnesspool
 
                         pool.members.add(request.user)
                         messages.success(request,"You've successfully joined the pool!")
@@ -283,7 +308,8 @@ def join_public_pool(request,id=None):
             pool = pool.amazingracepool
         if hasattr(pool,"nflsurvivorpool"):
             pool = pool.nflsurvivorpool
-            pool.save()
+        if hasattr(pool,"marchmadnesspool"):
+            pool = pool.marchmadnesspool
 
         return HttpResponseRedirect(pool.get_absolute_url())
     else:
@@ -308,6 +334,9 @@ def leave_pool(request,id):
         if hasattr(pool,"nflsurvivorpool"):
             pool.nflsurvivorpool.picksheet_set.filter(member=request.user).delete()
             pool.nflsurvivorpool.save()
+        if hasattr(pool,"marchmadnesspool"):
+            pool.marchmadnesspool.bracket_set.filter(member=request.user).delete()
+            pool.marchmadnesspool.save()
         messages.success(request,"You have been removed from the pool")
         return HttpResponseRedirect(reverse("root"))
     else:

@@ -93,6 +93,28 @@
                      </ol>
             </ul>
             {% endif %}
+            {% if cur_marchmadness_pools %}
+            <ul>
+                <h3>March Madness Pools</h3>
+                    <ol>
+                    <ul>
+                    {% for m in cur_marchmadness_pools %}
+                       <ol style="margin-bottom:12px;">
+                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
+                               <a href="{{ m.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}marchmadness/tab-march-logo.jpg"></a>
+                               <div style="padding:7px;margin-right:10px;">
+                                    <a style="margin-left:10px;" href="{{ m.get_absolute_url }}">{{ m.name }}</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ m.members.count|add:"1" }}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ m.administrator }}
+                                </div>
+                           </div>
+                       </ol>
+                    <br><br><br>
+                    {% endfor %}
+                        </ul>
+                     </ol>
+            </ul>
+            {% endif %}
         {% endif %}
         {% if old_oscar_pools or old_survivor_pools or old_amazingrace_pools or old_nflsurvivor_pools%}
         <br>
@@ -151,6 +173,21 @@
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ n.members.count|add:"1" }}
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ n.administrator }}
                               &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'nflsurvivor_pool_recap' n.id %}">Recap</a>
+                        </div>
+                    </ol>
+                <br><br><br>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if old_marchmadness_pools %}
+            <ul>
+                {% for m in old_marchmadness_pools %}
+                    <ol style="padding-left:54px;">
+                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
+                              {{ m.name }}
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ m.members.count|add:"1" }}
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ m.administrator }}
+                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'marchmadness_pool_recap' m.id %}">Recap</a>
                         </div>
                     </ol>
                 <br><br><br>

@@ -1,0 +1,6 @@
+WELCOME_MESSAGE = "<p><strong>Welcome to the pool!</strong></p><p>Getting started is easy!&nbsp; To submit your bracket click on the <strong>Brackets</strong> link above and then click on the <strong>'Create a Bracket'</strong> link.</p><p>To view the current standings of this pool click on the <strong>Standings</strong> link above.&nbsp; The rankings will be updated in real time during the Tournament</p><p>Lastly to view all the current members in the pool click on the <strong>Members</strong> link.</p>"
+BRACKET_FIELDS = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13',
+                  'B14', 'B15', 'B16', 'B17', 'B18', 'B19', 'B20', 'B21', 'B22', 'B23', 'B24','B25',
+                  'B26', 'B27', 'B28', 'B29', 'B30', 'B31', 'B32', 'C1', 'C2', 'C3', 'C4', 'C5',
+                  'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'D1',
+                  'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'E1', 'E2', 'E3', 'E4', 'F1', 'F2']

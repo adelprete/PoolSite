@@ -33,6 +33,10 @@
 <div class="span-10">
 <h3>Join a Public Pool</h3>
     <h4>Click one of the links below to Join a Public Pool</h4>
+    <form method="GET" action="{% url 'marchmadness_public_pools' %}">{% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="Join an March Madness Pool"/>
+    </form>
+    <br>
     <form method="GET" action="{% url 'oscar_public_pools' %}">{% csrf_token %}
         <input type="submit" class="btn btn-danger" value="Join an Oscar Pool"/>
     </form>

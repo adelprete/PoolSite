@@ -1,0 +1,42 @@
+{% extends "marchmadness/pool_home_core.html" %}
+{% load marchmadness_tags %}
+{% block body %}
+        <title>Standings - {{ pool.name }} | Office Pool Hub</title>
+        {% block headline %}
+        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
+        {% endblock %}
+            {% display_top_three %}
+        <table>
+            <tr class="header">
+                <th><b>Member</b></th>
+                <th><b>Bracket</b></th>
+                <th><b>Total Points</b></th>
+                <th><b>Champion</b></th>
+            </tr>
+        {% if brackets %}
+        {% for bracket in brackets %}
+            <tr>
+                <td><a href="{% url 'profile_stats' bracket.member.memberprofile.id %}">{{ bracket.member }}</a></td>
+                <td>
+                    {% if pool.allow_new_picksheets %}
+                        {{ bracket.name }}
+                    {% else %}
+                        <a href="{{ bracket.get_absolute_url }}">{{ bracket.name }}</a>
+                    {% endif %}</td>
+                <td>{{ bracket.total_points }}</td>
+                <td>
+                    {% if pool.allow_new_brackets %}
+                        ???
+                    {% else %}
+                        {{bracket.champ}}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+               <td colspan=3>No brackets have been submitted yet</td>
+            </tr>
+        {% endif %}
+        </table>
+{% endblock %}

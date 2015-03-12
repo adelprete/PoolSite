@@ -98,6 +98,7 @@
                                 <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
                                 <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
                                 <li><a href="{% url 'create_amazing_race_pool' %}">Create an Amazing Race Pool</a></li>
+                                <li><a href="{% url 'create_march_madness_pool' %}">Create a March Madness Pool</a></li>
                                 <li><a href="{% url 'create_nflsurvivor_pool' %}">Create an NFL Survivor Pool</a></li>
                             </ul>
                         </li>
@@ -124,7 +125,7 @@
                             <tr>
                                 <td>
                                     <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
+                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
                                     </div>
                                 </td>
                                 <td>
@@ -141,10 +142,11 @@
                             <tr>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
-                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        Hurry up, the awards air on Feb 22nd!<br><br>
-                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
+                                        The largest tournament in America is sure to have many nail bitters, buzzer beaters, and of course, upsets.
+                                            In this office pool game try to pick the outcome of the tournament with friends and co-workers.  You get
+                                        points for each game that you win.  The bracket that has earned the most points wins the pool!<br><br>Best
+                                            part is, it's absolutely FREE!<br><br>The tournament starts on March 17th!<br><br>
+                                        <form method="GET" action="{% url 'marchmadness_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
                                     </div>
@@ -180,7 +182,7 @@
                                 </td>
                                 <td>
                                     <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
+                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
                                     </div>
                                 </td>
                                 <td></td>
@@ -201,7 +203,12 @@
                                 </td>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        <b>*COMING SOON*</b>
+                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
+                                        compete to see who can guess the the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
+                                        Hurry up, the awards air on Feb 22nd!<br><br>
+                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
+                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

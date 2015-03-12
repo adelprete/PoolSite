@@ -1,4 +1,4 @@
-{% extends "panel_core.html" %}
+{% extends "marchmadness/pool_home_core.html" %}
 {% block head %}
     {{ block.super }}
     <style type="text/css">
@@ -35,7 +35,9 @@
         border:1px solid #a3a3a3;
      }
     </style>
+
     <script>
+        {% if pool.allow_new_picksheets %}
         $(function(){
             var previous;
 
@@ -176,18 +178,25 @@
             }).keydown(function(){
                 return false;
             });
-            $("#id_champ").keydown(function(){
-                return false;
-            }).live('click',function(){
+            $("#id_champ").live('click',function(){
                 $(this).blur();
+            }).keydown(function(){
+                return false;
             });
         });
+        {% endif %}
     </script>
+
 {% endblock %}
 {% block body %}
-        {{ form.name.label_tag }}
-        {{ form.name }}
-        <hr>
+        <form method="post">{% csrf_token %}
+        {% if pool.allow_new_picksheets %}
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        {% else %}
+            <h2>{{ bracket.name }}<small style="padding-left:10px;">bracket created by: {{ bracket.member }}</small></h2>
+        {% endif %}
+        <div class="span-24"></div>
             <h2 style="float:left;"style="float:left;">South</h2><h2 style="text-align:right;">West</h2>
             <table summary="Tournament Bracket" class="span-12" style="margin-left:-25px;float:left;">
              <tr>
@@ -330,11 +339,10 @@
                  <td><p id="B24">15. American U</p></td>
              </tr>
             </table>
-        <hr>
-        <center>
-        <h2>Final Four</h2>
-        </center>
         <table summary="Tournament Bracket" class="span-12" style="margin: 0px 220px;">
+                <tr>
+                    <td colspan="4" style="text-align:center;"><h2 style="text-align:center;">Final Four</h2></td>
+                </tr>
                 <tr>
                     <td colspan="4" style="text-align:center;">{{ form.champ.label_tag }}<br style="margin-bottom:-10px">{{ form.champ }}</td>
                 </tr>
@@ -348,10 +356,16 @@
                     <td>{{ form.E2 }}</td>
                     <td>{{ form.E4 }}</td>
                 </tr>
+                <tr>
+                    <td colspan="2" style="text-align:right;padding-right:5px">{{form.tie_breaker_score_1}}</td>
+                    <td colspan="2" style="text-align:left;padding-left:5px;">{{form.tie_breaker_score_2}}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:center;">Final Score Tie Breaker</td>
+                </tr>
         </table>
 
         <hr>
-
         <h2 style="float:left;">East</h2><h2 style="text-align:right;">MidWest</h2>
         <table summary="Tournament Bracket" class="span-12" style="margin-left:-25px;float:left;">
          <tr>
@@ -495,5 +509,24 @@
          </tr>
         </table>
         <hr>
-
+        <div>
+        {% if pool.allow_new_picksheets %}
+            {% if user = form.instance.member or not form.instance.id %}
+                <input class="submit" type="submit" name="submit" value="Save Bracket" />
+                {% if form.instance.id %}
+                <input class="submit delete" type="submit" name="delete" id="delete" value="Delete Bracket" />
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        </div>
+        </form>
+        <script>
+            {% if not pool.allow_new_picksheets %}
+            $("input").live('click',function(){
+                $(this).blur();
+            }).keydown(function(){
+                return false;
+            });
+            {% endif %}
+        </script>
 {% endblock %}
