@@ -286,32 +286,12 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
     return render(request,"oscars/oscar_pool_form.html",context)
 
-@login_required
-def pool_admin_message(request,id=None,form_class=oforms.AdminMessageForm):
-    pool = None
 
-    if id:
-        pool = get_object_or_404(omodels.OscarPool,id=id)
-        # check if this user is in this pool
-        if request.user != pool.administrator:
-            return HttpResponseRedirect(pool.get_absolute_url())
-
-    message_form = form_class(instance=pool)
-
-    if request.POST:
-        message_form = form_class(request.POST,instance=pool)
-
-        if message_form.is_valid():
-            pool_record = message_form.save()
-            messages.success(request,"Welcome Message saved successfully.")
-            return HttpResponseRedirect(pool_record.get_absolute_url())
-
-    context = {
-        'pool':pool,
-        'form':message_form
-    }
-
-    return render(request,'oscars/admin_message_form.html',context)
+class pool_admin_message(pviews.PoolAdminMessage):
+    template = 'oscars/admin_message_form.html'
+    form_class=oforms.AdminMessageForm
+    def get_pool(self,id):
+        return get_object_or_404(omodels.OscarPool,id=id)
 
 @login_required
 def remove_ballot(request,id,ballot_id):

@@ -60,7 +60,7 @@ class AdminMessageForm(forms.ModelForm):
 
     class Meta:
         model = omodels.OscarPool
-        exclude = {'administrator','name','password','members','identity','winner','creation_date','entry_deadline','oscar_ceremony'}
+        fields = {'admin_note'}
 
 
 class CustomCategoryForm(forms.ModelForm):

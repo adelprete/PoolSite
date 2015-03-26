@@ -92,7 +92,6 @@ class MyModelChoiceField(forms.ModelChoiceField):
 class AmazingRaceStatsForm(forms.Form):
     teams = MyModelChoiceField(queryset=amodels.CustomTeam.objects.all(),empty_label=None)
     def __init__(self,teams,*args,**kwargs):
-        #castaway = forms.ChoiceField(choices=smodels.BaseCastaways.objects.all())
         super(AmazingRaceStatsForm,self).__init__(*args,**kwargs)
         self.fields['teams'].queryset = teams
         self.fields['teams'].widget.attrs = {'style':'width:180px;'}
