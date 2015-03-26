@@ -7,29 +7,18 @@ from django.core.mail import send_mail
 from mysite.marchmadness import models as mmodels
 from mysite.marchmadness import forms as mforms
 from mysite.base import forms as bforms
+from mysite.base.views import pool_views as pviews
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.conf import settings
 
-# Create your views here.
 @login_required
-def pool_homepage(request,id=None):
+class pool_homepage(pviews.PoolHomepage):
 
-    pool=None
+    template = "marchmadness/pool_home.html"
 
-    if id:
-        pool = get_object_or_404(mmodels.MarchMadnessPool,id=id)
-        if request.user not in pool.members.all() and request.user != pool.administrator:
-            return HttpResponseRedirect(reverse("root"))
-        members = pool.members.all()
-
-    context = {
-        'pool':pool,
-        'members':members,
-    }
-
-    return render(request,"marchmadness/pool_home.html",context)
-
+    def get_pool(self,id):
+        return get_object_or_404(mmodels.MarchMadnessPool,id=id)
 
 @login_required
 def march_pool(request,id=None,form=mforms.MarchMadnessPoolForm):

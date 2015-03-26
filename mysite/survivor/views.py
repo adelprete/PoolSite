@@ -9,29 +9,25 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.mail import send_mail
 from mysite.base import forms as bforms
+from mysite.base.views import pool_views as pviews
 from mysite.survivor import forms as sforms
 from mysite.survivor import models as smodels
 from django.core.urlresolvers import reverse
 from mysite.survivor.helpers import POINTS_CATEGORIES
 
 @login_required
-def pool_homepage(request,id=None):
+class pool_homepage(pviews.PoolHomepage):
 
-    pool=None
+    template = "survivor/pool_home.html"
 
-    if id:
-        pool = get_object_or_404(smodels.SurvivorPool,id=id)
-        if request.user not in pool.members.all() and request.user != pool.administrator:
-            return HttpResponseRedirect(reverse("root"))
-        members = pool.members.all()
+    def get_pool(self,id):
+        return get_object_or_404(smodels.SurvivorPool,id=id)
 
-    context = {
-        'pool':pool,
-        'members':members,
-        'points_categories':POINTS_CATEGORIES,
-    }
-
-    return render(request,"survivor/pool_home.html",context)
+    def get_extra_context(self):
+        context = {
+            'points_categories':POINTS_CATEGORIES,
+        }
+        return context
 
 @login_required
 def survivor_pool(request,id=None,form=sforms.SurvivorPoolForm):

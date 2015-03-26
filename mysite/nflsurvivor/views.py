@@ -8,28 +8,20 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
 from mysite.base import forms as bforms
+from mysite.base.views import pool_views as pviews
 from mysite.nflbase import models as nflbmodels
 from mysite.nflsurvivor import models as nflsmodels
 from mysite.nflbase import helpers as nflbhelpers
 from mysite.nflsurvivor import forms as nflsforms
 
 @login_required
-def pool_homepage(request,id=None):
 
-    pool=None
+class pool_homepage(pviews.PoolHomepage):
 
-    if id:
-        pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
-        if request.user not in pool.members.all() and request.user != pool.administrator:
-            return HttpResponseRedirect(reverse("root"))
-        members = pool.members.all()
+    template = "nflsurvivor/pool_home.html"
 
-    context = {
-        'pool':pool,
-        'members':members,
-    }
-
-    return render(request,"nflsurvivor/pool_home.html",context)
+    def get_pool(self,id):
+        return get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
 
 @login_required
 def survivor_pool(request,id=None,form=nflsforms.NFLSurvivorPoolForm):

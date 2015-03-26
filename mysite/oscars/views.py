@@ -14,26 +14,19 @@ from django.conf import settings
 from django.core.mail import send_mail
 from mysite.base import forms as bforms
 from mysite.base import models as bmodels
+from mysite.base.views import pool_views as pviews
 from mysite.oscars import forms as oforms
 from mysite.oscars import models as omodels
 
 # Create your views here.
-def pool_homepage(request,id=None):
 
-    pool=None
+class pool_homepage(pviews.PoolHomepage):
 
-    if id:
-        pool = get_object_or_404(omodels.OscarPool,id=id)
-        if request.user not in pool.members.all() and request.user != pool.administrator:
-            return HttpResponseRedirect(reverse("root"))
-        members = pool.members.all()
+    template = "oscars/pool_home.html"
 
-    context = {
-        'pool':pool,
-        'members':members,
-    }
+    def get_pool(self,id):
+        return get_object_or_404(omodels.OscarPool,id=id)
 
-    return render(request,"oscars/pool_home.html",context)
 
 @login_required
 def pool_members(request,id=None):
