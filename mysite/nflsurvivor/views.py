@@ -222,25 +222,16 @@ def remove_picksheet(request,id,picksheet_id):
 
     return HttpResponseRedirect(reverse("nflsurvivor_member_picksheets",kwargs={'id':pool.id}))
 
-@login_required
-def standings(request,id=None,template='nflsurvivor/standings.html'):
+class standings(pviews.PoolStandings):
+    template = 'nflsurvivor/standings.html'
+    def __call__(self,request,*args,**kwargs):
+        self.pool_instance = self.get_pool(kwargs['id'])
+        self.picksheets = self.pool_instance.picksheet_set.filter(survivor_pool=self.pool_instance).distinct()
+        self.picksheets.order_by('-total_points')
+        return super(standings,self).__call__(request,*args,**kwargs)
 
-    pool = get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
-
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
-        return HttpResponseRedirect(reverse("root"))
-
-    picksheets = pool.picksheet_set.filter(survivor_pool=pool).distinct()
-
-    picksheets = picksheets.order_by('-total_points')
-
-    context = {
-        'pool':pool,
-        'picksheets':picksheets,
-    }
-
-    return render(request,template,context)
+    def get_pool(self,id):
+        return get_object_or_404(nflsmodels.NFLSurvivorPool,id=id)
 
 @login_required
 def members(request,id=None):

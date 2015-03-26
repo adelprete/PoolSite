@@ -158,26 +158,20 @@ def remove_bracket(request,id,bracket_id):
 
     return HttpResponseRedirect(reverse("marchmadness_member_brackets",kwargs={'id':pool.id}))
 
-@login_required
-def standings(request,id=None,template='marchmadness/standings.html'):
+class standings(pviews.PoolStandings):
+    template = 'marchmadness/standings.html'
+    brackets = None
+    def __call__(self,request,*args,**kwargs):
+        self.pool_instance = self.get_pool(kwargs['id'])
+        self.brackets = self.pool_instance.bracket_set.filter(march_madness_pool=self.pool_instance).select_related('marchmadness_pool').distinct()
+        self.brackets = self.brackets.order_by('-total_points','tie_breaker_score')
+        return super(standings,self).__call__(request,*args,**kwargs)
 
-    pool = get_object_or_404(mmodels.MarchMadnessPool,id=id)
+    def get_pool(self,id):
+        return get_object_or_404(mmodels.MarchMadnessPool,id=id)
 
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
-        if not request.user.is_superuser:
-            return HttpResponseRedirect(reverse("root"))
-
-    brackets = pool.bracket_set.filter(march_madness_pool=pool).select_related('marchmadness_pool').distinct()
-
-    brackets = brackets.order_by('-total_points','tie_breaker_score')
-
-    context = {
-        'pool':pool,
-        'brackets':brackets,
-    }
-
-    return render(request,template,context)
+    def get_extra_context(self):
+        return{'brackets':self.brackets}
 
 @login_required
 def pool_admin_message(request,id=None,form_class=mforms.AdminMessageForm):

@@ -168,32 +168,28 @@ def amazingrace_picksheet(request,id=None,picksheet_id=None,form=aforms.AmazingR
 
     return render(request,'amazingrace/picksheet_form.html',context)
 
-@login_required
-def amazingrace_standings(request,id=None,template='amazingrace/standings.html'):
+class amazingrace_standings(pviews.PoolStandings):
+    template = 'amazingrace/standings.html'
+    def __call__(self,request,*args,**kwargs):
 
-    pool = get_object_or_404(amodels.AmazingRacePool,id=id)
+        self.pool_instance = self.get_pool(kwargs['id'])
+        self.picksheets = self.pool_instance.amazingracepicksheet_set.filter(amazingrace_pool=self.pool_instance).select_related('picks').distinct()
 
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
-        return HttpResponseRedirect(reverse("root"))
+        for picksheet in self.picksheets:
+                total_points = 0
+                for team in picksheet.picks.all():
+                    total_points += team.total_points
+                picksheet.total_points = total_points
+                picksheet.save()
 
-    picksheets = pool.amazingracepicksheet_set.filter(amazingrace_pool=pool).select_related('picks').distinct()
+        self.picksheets.order_by('-total_points')
+        return super(amazingrace_standings,self).__call__(request,*args,**kwargs)
 
-    for picksheet in picksheets:
-        total_points = 0
-        for team in picksheet.picks.all():
-            total_points += team.total_points
-        picksheet.total_points = total_points
-        picksheet.save()
+    def get_pool(self,id):
+        return get_object_or_404(amodels.AmazingRacePool,id=id)
 
-    picksheets.order_by('-total_points')
-
-    context = {
-        'pool':pool,
-        'picksheets':picksheets,
-    }
-
-    return render(request,template,context)
+    def get_extra_context(self):
+        return {'picksheets':self.picksheets}
 
 @login_required
 def leave_pool(request,id):

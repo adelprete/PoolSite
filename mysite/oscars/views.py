@@ -166,39 +166,39 @@ def pool_ballot(request,id=None,ballot_id=None):
     }
     return render(request,'oscars/ballot_form.html',context)
 
-@login_required
-def pool_standings(request,id=None,template='oscars/standings.html'):
+class pool_standings(pviews.PoolStandings):
+    template = 'oscars/standings.html'
+    ballots = None
 
-    pool = get_object_or_404(omodels.OscarPool,id=id)
+    def __call__(self,request,*args,**kwargs):
 
-    # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
-        return HttpResponseRedirect(reverse("root"))
+        self.pool_instance = self.get_pool(kwargs['id'])
+        self.ballots = self.pool_instance.ballot_set.all().distinct()
 
-    ballots = pool.ballot_set.all().distinct()
+        for ballot in self.ballots:
+            ballot.total_points = 0
+            ballot.total_correct = 0
+            for response in ballot.response_set.all():
+                if response.category.active:
+                    ballot.total_points += response.points
+                    if response.correct:
+                        ballot.total_correct += 1
 
-    for ballot in ballots:
-        ballot.total_points = 0
-        ballot.total_correct = 0
-        for response in ballot.response_set.all():
-            if response.category.active:
-                ballot.total_points += response.points
-                if response.correct:
-                    ballot.total_correct += 1
+            ballot.save()
 
-        ballot.save()
+        if self.pool_instance.how_to_win == 'points':
+            self.ballots = self.ballots.order_by('-total_points','last_save_date')
+        else:
+            self.ballots = self.ballots.order_by('-total_correct','last_save_date')
 
-    if pool.how_to_win == 'points':
-        ballots = ballots.order_by('-total_points','last_save_date')
-    else:
-        ballots = ballots.order_by('-total_correct','last_save_date')
+        return super(pool_standings,self).__call__(request,*args,**kwargs)
 
-    context = {
-        'pool':pool,
-        'ballots':ballots,
-    }
+    def get_pool(self,id):
+        return get_object_or_404(omodels.OscarPool,id=id)
 
-    return render(request,template,context)
+    def get_extra_context(self):
+        return {'ballots':self.ballots}
+
 
 @login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
