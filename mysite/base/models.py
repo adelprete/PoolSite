@@ -73,6 +73,7 @@ class MemberProfile(models.Model):
     birth_date = models.DateField(null=True,blank=True)
     gender = models.CharField(max_length=5,null=True,blank=True, choices=bchoices.GENDER)
     creation_date = models.DateField(null=True, blank=True)
+    show_email = models.BooleanField("Allow other pool members to see your email address?",default=True)
     agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it "
                                                    "purely for entertainment?")
     receive_newsletter = models.BooleanField(default=True,help_text="We only send like, 2 or 3 emails a year tops.")

@@ -21,7 +21,7 @@
          {% for member in pool.members.all %}
             <tr>
                 <th><a href="{% url 'profile_stats' member.memberprofile.id %}">{{ member }}</a></th>
-                <th>{{ member.email }}</th>
+                <th>{% if member.memberprofile.show_email %}{{ member.email }}{% endif %}</th>
                 {% if user == pool.administrator %}
                 {% block removal_link %}{% endblock %}
                 {% endif %}

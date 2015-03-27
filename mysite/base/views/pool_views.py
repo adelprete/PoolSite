@@ -12,6 +12,7 @@ def check_if_valid_member(pool,user):
     if user not in pool.members.all() and user != pool.administrator:
         return HttpResponseRedirect(reverse("root"))
 
+#Class View for each pools home page
 class PoolHomepage(object):
 
     template = None
@@ -47,6 +48,7 @@ class PoolHomepage(object):
     def get_extra_context(self):
         return {}
 
+#Class View for each pools Standings page
 class PoolStandings(object):
     template = None
     pool_instance = None

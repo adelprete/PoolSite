@@ -18,7 +18,6 @@ from mysite.base.views import pool_views as pviews
 from mysite.oscars import forms as oforms
 from mysite.oscars import models as omodels
 
-# Create your views here.
 
 class pool_homepage(pviews.PoolHomepage):
 
