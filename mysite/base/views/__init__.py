@@ -31,20 +31,16 @@ def root(request):
     return render(request, "panel_core.html",context)
 
 
-def signup(request,form=bforms.MemberProfileForm,addr_form=bforms.AddressForm):
+def signup(request,form=bforms.MemberProfileForm):
 
     if request.POST:
         member_form = form(request.POST)
-        member_addr_form = addr_form(request.POST)
-        if member_form.is_valid() and member_addr_form.is_valid():
+        if member_form.is_valid():
             member_profile_record = member_form.save(commit=False)
-            member_addr_record = member_addr_form.save()
-            member_profile_record.address = member_addr_record
             member_profile_record.creation_date = datetime.datetime.utcnow()
             member_profile_record.save()
     context = {
         'form':form,
-        'addr_form':addr_form,
     }
     return render(request,"signup_form.html",context)
 
@@ -57,7 +53,7 @@ class CustomActivationView(ActivationView):
         messages.success(request, 'You may now log in')
         return ('django.contrib.auth.views.login', (), {})
 
-def profile_basics(request,id=None,form_class=bforms.MemberProfileForm,addr_class=bforms.AddressForm):
+def profile_basics(request,id=None,form_class=bforms.MemberProfileForm):
 
     template = "profile.html"
     profile = None

@@ -96,10 +96,10 @@
                         <li class="topmenu"><a style="cursor:context-menu;">Create a Pool</a>
                             <ul>
                                 <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
+                                <li><a href="{% url 'create_nflsurvivor_pool' %}">Create an NFL Survivor Pool</a></li>
                                 <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
                                 <li><a href="{% url 'create_amazing_race_pool' %}">Create an Amazing Race Pool</a></li>
                                 <li><a href="{% url 'create_march_madness_pool' %}">Create a March Madness Pool</a></li>
-                                <li><a href="{% url 'create_nflsurvivor_pool' %}">Create an NFL Survivor Pool</a></li>
                             </ul>
                         </li>
                         <li class="topmenu"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
@@ -124,8 +124,8 @@
                         <table>
                             <tr>
                                 <td>
-                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
+                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">NFL SURVIVOR</font>
                                     </div>
                                 </td>
                                 <td>
@@ -142,11 +142,12 @@
                             <tr>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        The largest tournament in America is sure to have many nail bitters, buzzer beaters, and of course, upsets.
-                                            In this office pool game try to pick the outcome of the tournament with friends and co-workers.  You get
-                                        points for each game that you win.  The bracket that has earned the most points wins the pool!<br><br>Best
-                                            part is, it's absolutely FREE!<br><br>The tournament starts on March 17th!<br><br>
-                                        <form method="GET" action="{% url 'marchmadness_getting_started' %}">{% csrf_token %}
+                                        The 'ol classic.  All you have to do is pick one winner from each week of the season.  Be the last
+                                        one in your pool to not pick a loser and you win.  The tricky thing is that you can't pick the same team
+                                        twice.  Sounds easy right?<br><br>Round up your friends and compete with one another to see who
+                                        can survive the longest without picking a losing team.  Don't have any friends? Join a Public
+                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>
+                                        <form method="GET" action="{% url 'nflsurvivor_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
                                     </div>
@@ -176,8 +177,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">NFL SURVIVOR</font>
+                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
+                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
                                     </div>
                                 </td>
                                 <td>
@@ -191,12 +192,11 @@
                             <tr>
                                 <td style="vertical-align:top;">
                                     <div class="span-7">
-                                        The 'ol classic.  All you have to do is pick one winner from each week of the season.  Be the last
-                                        one in your pool to not pick a loser and you win.  The tricky thing is that you can't pick the same team
-                                        twice.  Sounds easy right?<br><br>Round up your friends and compete with one another to see who
-                                        can survive the longest without picking a losing team.  Don't have any friends? Join a Public
-                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'nflsurvivor_getting_started' %}">{% csrf_token %}
+                                        The largest tournament in America is sure to have many nail bitters, buzzer beaters, and of course, upsets.
+                                            In this office pool game try to pick the outcome of the tournament with friends and co-workers.  You get
+                                        points for each game that you win.  The bracket that has earned the most points wins the pool!<br><br>Best
+                                            part is, it's absolutely FREE!<br><br>The tournament starts on March 17th!<br><br>
+                                        <form method="GET" action="{% url 'marchmadness_getting_started' %}">{% csrf_token %}
                                             <input type="submit" class="btn btn-danger" value="Learn More!"/>
                                         </form>
                                     </div>

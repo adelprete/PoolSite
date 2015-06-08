@@ -8,11 +8,15 @@ from mysite.oscars import helpers as ohelpers
 
 
 class OscarCeremony(bmodels.Definition):
+    """
+    The Oscar Ceremony model is mainly used to form a relationship between oscar pools and the ceremony that are for.
+    """
     date = models.DateTimeField(help_text="Date and time of ceremony")
-    first_play_off = models.IntegerField(default=0)
 
 class OscarPool(bmodels.Pool):
-
+    """
+    This Class is for every Oscar Pool.  It has relationships with its ballots and ceremony.
+    """
     entry_deadline = models.DateTimeField(null=True,blank=True,help_text="Last date pool members can submit there ballots")
     oscar_ceremony = models.ForeignKey('oscars.OscarCeremony',null=True)
     how_to_win = models.CharField(max_length=40, choices={('points','By Accumulated Points'),('correct','By Number of Correct Picks')})

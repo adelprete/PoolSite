@@ -44,20 +44,6 @@ class MemberProfileAdminForm(forms.ModelForm):
     class Meta:
         model = bmodels.MemberProfile
 
-class AddressForm(forms.ModelForm):
-
-    def __init__(self,*args,**kwargs):
-        super(AddressForm,self).__init__(*args,**kwargs)
-        self.fields['line_1'].widget.attrs['class'] = 'required'
-        self.fields['line_2'].widget.attrs['class'] = 'required'
-        self.fields['city'].widget.attrs['class'] = 'required'
-        self.fields['state'].widget.attrs['class'] = 'required'
-        self.fields['zip'].widget.attrs['class'] = 'required'
-        self.fields['phone'].widget.attrs['class'] = 'required'
-
-    class Meta:
-        model = bmodels.Address
-
 class JoinForm(forms.Form):
     pool_id = forms.IntegerField()
     password = forms.CharField(widget=forms.PasswordInput(),required=False)
