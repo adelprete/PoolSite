@@ -93,6 +93,7 @@ class Season(bmodels.Definition):
 class Team(models.Model):
     city = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
+    abbreviation = models.CharField(max_length=30)
     conference = models.CharField(max_length=30,choices=nflbhelpers.CONFERENCES)
     image_src = models.ImageField(upload_to = 'nflbase/teams/',blank=True, null=True)
 
