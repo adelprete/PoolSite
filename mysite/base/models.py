@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.localflavor.us.models import USStateField, PhoneNumberField
+from localflavor.us.models import USStateField, PhoneNumberField
 from mysite.base import helpers as bhelpers
 from django.core.urlresolvers import reverse
 import datetime
