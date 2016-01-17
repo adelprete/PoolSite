@@ -129,7 +129,7 @@ class BaseCategory(bmodels.Definition):
 
 
 class Nominee(bmodels.Definition):
-    secondary_name = models.CharField(max_length=50,blank=False,null=True)
+    secondary_name = models.CharField(max_length=150,blank=False,null=True)
     year = models.IntegerField()
 
     def __unicode__(self):
