@@ -14,7 +14,7 @@ class ActiveDefinitionManager(models.Manager):
 
 class Definition(models.Model):
     """Very basic abstract model"""
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     active = models.BooleanField(default=True)
     objects = models.Manager()
 
