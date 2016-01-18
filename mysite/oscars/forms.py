@@ -99,7 +99,7 @@ class BaseCategoryForm(forms.ModelForm):
         if self.instance.year:
             self.fields['nominee'] = forms.ModelMultipleChoiceField(
                     queryset=omodels.Nominee.objects.filter(year=self.instance.year))
-        self.fields['nominee'].widget.attrs = {"size":200}
+        self.fields['nominee'].widget.attrs = {"size":100}
         
     class Meta:
         model = omodels.BaseCategory
