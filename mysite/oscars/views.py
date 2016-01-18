@@ -55,17 +55,20 @@ def pool_ballot_list(request,id=None):
     your_ballots = ballots.filter(member=request.user)
     allow_new_picksheets = True
 
-    if not pool.allow_new_picksheets() or (ballots.filter(member=request.user).count() >= pool.max_submissions):
+    no_picksheets_reason = ""
+    if (ballots.filter(member=request.user).count() >= pool.max_submissions):
         allow_new_picksheets = False
-
-    if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
+        no_picksheets_reason = "You have reached your maximum ballot submissions."
+    if not pool.allow_new_picksheets():
         allow_new_picksheets = False
+        no_picksheets_reason = "The deadline has past to enter or edit any ballots."
 
     context = {
         'pool':pool,
         'ballots':ballots,
         'your_ballots':your_ballots,
         'allow_new_ballots':allow_new_picksheets,
+        'no_picksheets_reason': no_picksheets_reason,
     }
     return render(request,'oscars/ballots.html',context)
 

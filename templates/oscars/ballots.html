@@ -32,8 +32,8 @@
                 <input type="submit" value="Create a Ballot" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your ballots.
             </form>
         {% else %}
-            The entry deadline has been reached.  No new ballots may be entered and existing ballots can no longer be changed.
-        {% endif %}
+			{{ no_picksheets_reason }}
+		{% endif %}
         <table class="span-15">
             <tr class="header">
                 <th style="border-bottom:1px solid black;"><b>Member</b></th>
