@@ -33,7 +33,7 @@ def pool_members(request,id=None):
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
     # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     context = {
@@ -48,7 +48,7 @@ def pool_ballot_list(request,id=None):
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
     # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     ballots = pool.ballot_set.all()
@@ -78,7 +78,7 @@ def pool_ballot(request,id=None,ballot_id=None):
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
     # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     allow_new_picksheets = True
@@ -335,7 +335,7 @@ def predictions(request,id):
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
     # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator:
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
     categories={}
