@@ -12,10 +12,10 @@
     {% for key1, value in predicted_results.items %}
         {% get_winner winners key1 as cat_winner%}
             <br>
-            <table class="span-11">
+            <table class="span-14">
             <tr>
-                <td><b style="font-size:15;text-decoration:underline;">{{ key1 }}</b></td>
-                <td><b style="font-size:15;">Predicted result</b></td>
+                <td class="span-8"><b style="font-size:15;text-decoration:underline;">{{ key1 }}</b></td>
+                <td class="span-4"><b style="font-size:15;">Predicted result</b></td>
             </tr>
             {% for key,value in value.items %}
                 <tr>
