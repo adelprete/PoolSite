@@ -46,7 +46,7 @@
             <div id="all-ballots-list">
             {% for ballot in ballots %}
                 <tr class="all-ballots-single">
-                    <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
+                    <td><a href="{% url 'profile_stats' ballot.member.memberprofile.id %}">{{ ballot.member }}</a></td>
                     <td>
                         {% if pool.allow_new_picksheets %}
                             {{ ballot.name }}

@@ -62,7 +62,7 @@ def pool_ballot_list(request,id=None):
     if not pool.allow_new_picksheets():
         allow_new_picksheets = False
         no_picksheets_reason = "The deadline has past to enter or edit any ballots."
-
+    
     context = {
         'pool':pool,
         'ballots':ballots,
