@@ -338,14 +338,19 @@ def predictions(request,id):
     if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
         return HttpResponseRedirect(reverse("root"))
 
-    categories={}
+    categories=OrderedDict()
     all_winners={}
-    for custom_category in pool.customcategory_set.all():
+    for custom_category in pool.customcategory_set.all().order_by("base_category__priority"):
         counts = Counter()
         percentages = OrderedDict()
         for nominee in custom_category.base_category.nominee.all():
-            counts[nominee] = omodels.Response.objects.filter(category__name=custom_category.name,predicted_winner__name=nominee.name).count()
-        total_responses = omodels.Response.objects.filter(category__name=custom_category.name).count()
+            counts[nominee] = omodels.Response.objects.filter(
+                ballot__pool__oscar_ceremony=pool.oscar_ceremony,
+                category__name=custom_category.name,
+                predicted_winner__name=nominee.name).count()
+        total_responses = omodels.Response.objects.filter(
+                ballot__pool__oscar_ceremony=pool.oscar_ceremony,
+                category__name=custom_category.name).count()
         if total_responses == 0:
             total_responses = 1
         for key,value in counts.items():
