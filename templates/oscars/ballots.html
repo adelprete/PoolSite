@@ -1,31 +1,7 @@
 {% extends 'oscars/pool_home_core.html' %}
-{% block head %}
-{{ block.super }}
-    <script>
-        $(function(){
-            $("#all_ballots").css("border-bottom","4px solid black");
-            $(".your-ballots-single").hide();
-            $(".all-ballots-single").show();
-
-            $("#all_ballots").click(function(){
-                $(this).css("border-bottom","4px solid black");
-                $("#your_ballots").css("border-bottom","none");
-                $(".your-ballots-single").hide();
-                $(".all-ballots-single").show();
-            });
-            $("#your_ballots").click(function(){
-                $(this).css("border-bottom","4px solid black");
-                $("#all_ballots").css("border-bottom","none");
-                $(".your-ballots-single").show();
-                $(".all-ballots-single").hide();
-            });
-        });
-    </script>
-{% endblock %}
 {% block body %}
         <title>Ballots - {{ pool.name }} | Office Pool Hub</title>
-        <h2 id="all_ballots" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>All Ballots</b></h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <h2 id="your_ballots" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>Your Ballots</b></h2>
+        <h2 id="all_ballots" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>All Ballots</b></h2>
         <br><br>
         {% if allow_new_ballots %}
             <form action="{% url 'oscar_create_ballot' pool.id %}" method="GET">{% csrf_token %}
@@ -41,6 +17,7 @@
                 {% if user == pool.administrator %}
                     <th></th>
                 {% endif %}
+                <th></th>
             </tr>
         {% if ballots %}
             <div id="all-ballots-list">
@@ -55,27 +32,13 @@
                         {% endif %}
                     </td>
                     {% if user == pool.administrator %}
-                        <td><a href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>
+                        <td class="span-2"><a onclick="return confirm('Are you sure you want to delete this Ballot?')" href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>
+                    {% endif %}
+                    {% if user == ballot.member and pool.allow_new_picksheets %}
+                        <td><a href="{% url 'oscar_ballot' pool.id ballot.id %}">Edit</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}
-            </div>
-            <div id="your-ballots-list">
-                {% if your_ballots %}
-                    {% for ballot in your_ballots %}
-                        <tr class="your-ballots-single">
-                            <td><a href="{% url 'profile_stats' ballot.member.id %}">{{ ballot.member }}</a></td>
-                            <td><a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a></td>
-                            {% if user == pool.administrator %}
-                                <td><a href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr class="your-ballots-single">
-                        <td>You haven't created any ballots yet.</td>
-                    </tr>
-                {% endif %}
             </div>
             </table>
         {% else %}
