@@ -12,6 +12,7 @@ class OscarPoolAdmin(admin.ModelAdmin):
 
 class BaseCategoryAdmin(admin.ModelAdmin):
     form = oforms.BaseCategoryForm
+    ordering = ("-year","priority")
     pass
 
 class CustomCategoryAdmin(admin.ModelAdmin):
