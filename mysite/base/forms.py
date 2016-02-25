@@ -43,6 +43,8 @@ class MemberProfileAdminForm(forms.ModelForm):
         return data
     class Meta:
         model = bmodels.MemberProfile
+        fields = ['first_name', 'last_name', 'birth_date' , 'gender', 'show_email', 'agree_to_terms',
+        'receive_newsletter', 'phone', 'zip']
 
 class JoinForm(forms.Form):
     pool_id = forms.IntegerField()
@@ -58,4 +60,3 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = bmodels.Contact
         exclude = ['creation_date']
-

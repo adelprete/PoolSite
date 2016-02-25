@@ -62,7 +62,7 @@ def pool_ballot_list(request,id=None):
     if not pool.allow_new_picksheets():
         allow_new_picksheets = False
         no_picksheets_reason = "The deadline has past to enter or edit any ballots."
-    
+
     context = {
         'pool':pool,
         'ballots':ballots,
@@ -177,16 +177,19 @@ class pool_standings(pviews.PoolStandings):
         self.pool_instance = self.get_pool(kwargs['id'])
         self.ballots = self.pool_instance.ballot_set.all().distinct()
 
-        for ballot in self.ballots:
-            ballot.total_points = 0
-            ballot.total_correct = 0
-            for response in ballot.response_set.all():
-                if response.category.active:
-                    ballot.total_points += response.points
-                    if response.correct:
-                        ballot.total_correct += 1
+        if self.pool_instance.up_to_date == False:
+            for ballot in self.ballots:
+                ballot.total_points = 0
+                ballot.total_correct = 0
+                for response in ballot.response_set.all():
+                    if response.category.active:
+                        ballot.total_points += response.points
+                        if response.correct:
+                            ballot.total_correct += 1
 
-            ballot.save()
+                ballot.save()
+            self.pool_instance.up_to_date = True
+            self.pool_instance.save()
 
         if self.pool_instance.how_to_win == 'points':
             self.ballots = self.ballots.order_by('-total_points','last_save_date')

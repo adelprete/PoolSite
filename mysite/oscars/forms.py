@@ -100,9 +100,10 @@ class BaseCategoryForm(forms.ModelForm):
             self.fields['nominee'] = forms.ModelMultipleChoiceField(
                     queryset=omodels.Nominee.objects.filter(year=self.instance.year))
         self.fields['nominee'].widget.attrs = {"size":100}
-        
+
     class Meta:
         model = omodels.BaseCategory
+        fields = ['name', 'active', 'ceremony', 'nominee', 'winner', 'year', 'points', 'priority']
 
 
 class ResponseForm(forms.ModelForm):
@@ -127,3 +128,4 @@ class ResponseForm(forms.ModelForm):
 class OscarCeremonyForm(forms.ModelForm):
     class Meta:
         model = omodels.OscarCeremony
+        fields = ['name', 'active', 'date']

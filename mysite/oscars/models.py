@@ -20,6 +20,7 @@ class OscarPool(bmodels.Pool):
     entry_deadline = models.DateTimeField(null=True,blank=True,help_text="Last date pool members can submit there ballots")
     oscar_ceremony = models.ForeignKey('oscars.OscarCeremony',null=True)
     how_to_win = models.CharField(max_length=40, choices={('points','By Accumulated Points'),('correct','By Number of Correct Picks')})
+    up_to_date = models.BooleanField()
 
     @property
     def is_past_due(self):
@@ -95,7 +96,7 @@ class CustomCategory(bmodels.Definition):
 class BaseCategory(bmodels.Definition):
 
     ceremony = models.ForeignKey('oscars.OscarCeremony')
-    nominee = models.ManyToManyField('oscars.Nominee',blank=True,null=True,help_text="Enter a year and save to see Nominees for that year only")
+    nominee = models.ManyToManyField('oscars.Nominee',blank=True,help_text="Enter a year and save to see Nominees for that year only")
     winner = models.ForeignKey('oscars.Nominee',related_name="winner_set",blank=True,null=True)
     year = models.IntegerField(help_text="Year of the Award Ceremony")
     points = models.IntegerField(help_text="Default points")
@@ -122,6 +123,9 @@ class BaseCategory(bmodels.Definition):
 
     def save(self,*args,**kwargs):
         self.update_ballot_points()
+        for pool in self.ceremony.oscarpool_set.all():
+            pool.up_to_date = False
+            pool.save()
         super(BaseCategory,self).save(*args,**kwargs)
 
     class Meta:
@@ -137,12 +141,3 @@ class Nominee(bmodels.Definition):
             return "%s" % (self.secondary_name)
         elif self.name:
             return "%s  - %s" % (self.name,self.secondary_name)
-
-
-
-
-
-
-
-
-

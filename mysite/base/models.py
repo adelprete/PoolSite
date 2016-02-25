@@ -9,7 +9,7 @@ from mysite.base import choices as bchoices
 
 class ActiveDefinitionManager(models.Manager):
     """Manager that only returns objects that are active"""
-    def get_query_set(self):
+    def get_queryset(self):
         return super(ActiveDefinitionManager,self).get_query_set().filter(active=True)
 
 class Definition(models.Model):
@@ -31,7 +31,7 @@ class Pool(models.Model):
     administrator = models.ForeignKey('auth.User',blank=True,null=True)
     name = models.CharField(max_length=30,verbose_name='Pool Name')
     password = models.CharField("Pool password",blank=True,max_length=30,help_text="Must be 6 characters long.  Members will use this to join your pool.")
-    members = models.ManyToManyField('auth.User',related_name='member_set',blank=True,null=True)
+    members = models.ManyToManyField('auth.User',related_name='member_set',blank=True)
     identity = models.BigIntegerField(unique=True)
     creation_date = models.DateField()
     admin_note = models.TextField(blank=True,null=True)
@@ -80,8 +80,10 @@ class MemberProfile(models.Model):
     gender = models.CharField(max_length=5,null=True,blank=True, choices=bchoices.GENDER)
     creation_date = models.DateField(null=True, blank=True)
     show_email = models.BooleanField("Allow other pool members to see your email address?",default=True)
-    agree_to_terms = models.BooleanField("Check to Agree",help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it "
-                                                   "purely for entertainment?")
+    agree_to_terms = models.BooleanField("Check to Agree",
+                    help_text="Do you agree to not use OfficePoolHub.com for gambling purposes and to use it \
+                                purely for entertainment?",
+                    default=False)
     receive_newsletter = models.BooleanField(default=True,help_text="We only send like, 2 or 3 emails a year tops.")
 
     line_1 = models.CharField(max_length=60,blank=True,null=True,verbose_name="Street Address")
