@@ -28,9 +28,9 @@ def display_top_three(context):
     pool = context['pool']
     if pool.can_display_winners:
         if pool.how_to_win == 'points':
-            ballots = pool.ballot_set.all().order_by('-total_points')
+            ballots = pool.ballot_set.all().order_by('-total_points','-total_correct','last_save_date')
         else:
-            ballots = pool.ballot_set.all().order_by('-total_correct')[:3]
+            ballots = pool.ballot_set.all().order_by('-total_correct','last_save_date')[:3]
 
         context['top_three_winners'] = ballots
     else:
