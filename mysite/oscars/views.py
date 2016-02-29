@@ -192,7 +192,7 @@ class pool_standings(pviews.PoolStandings):
             self.pool_instance.save()
 
         if self.pool_instance.how_to_win == 'points':
-            self.ballots = self.ballots.order_by('-total_points','last_save_date')
+            self.ballots = self.ballots.order_by('-total_points','-total_correct','last_save_date')
         else:
             self.ballots = self.ballots.order_by('-total_correct','last_save_date')
 
