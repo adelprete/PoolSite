@@ -12,6 +12,35 @@ class OscarCeremony(bmodels.Definition):
     The Oscar Ceremony model is mainly used to form a relationship between oscar pools and the ceremony that are for.
     """
     date = models.DateTimeField(help_text="Date and time of ceremony")
+    display_winners = models.BooleanField("Display the winners for all the pools for this season",default=False)
+
+    def save(self):
+        if self.display_winners:
+            pools = OscarPool.objects.filter(oscar_ceremony=self)
+            for pool in pools:
+                ballots = pool.ballot_set.filter(pool=pool).distinct()
+
+                if pool.how_to_win == 'points':
+                    ballots = ballots.order_by('-total_points','-total_correct','last_save_date')
+                elif pool.how_to_win == 'correct':
+                    ballots = ballots.order_by('-total_correct', 'last_save_date')
+
+                try:
+                    pool.winner = ballots[0].member
+                except:
+                    pool.winner = None
+                try:
+                    pool.second_place_id = ballots[1].member
+                except:
+                    pool.second_place_id = None
+                try:
+                    pool.third_place_id = ballots[2].member
+                except:
+                    pool.third_place_id = None
+
+                pool.save()
+
+        super(OscarCeremony, self).save()
 
 class OscarPool(bmodels.Pool):
     """

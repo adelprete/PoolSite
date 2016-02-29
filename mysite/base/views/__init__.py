@@ -100,7 +100,7 @@ def profile_stats(request,id=None):
     history={}
     survivorpools = smodels.SurvivorPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
     history['Survivor'] = (survivorpools.filter(winner=member).count(),survivorpools.filter(second_place=member).count(),survivorpools.filter(third_place=member).count())
-    
+
     oscarpools = omodels.OscarPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
     history['Oscars'] = (oscarpools.filter(winner=member).count(),oscarpools.filter(second_place=member).count(),oscarpools.filter(third_place=member).count())
 
