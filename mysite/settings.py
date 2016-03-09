@@ -48,13 +48,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'datetimewidget',
     'registration',
+    'rest_framework',
+    'bootstrap3',
     'mysite.base',
     'mysite.oscars',
-    'mysite.survivor',
-    'mysite.amazingrace',
-    'mysite.marchmadness',
-    'mysite.nflbase',
-    'mysite.nflsurvivor',
+    #'mysite.survivor',
+    #'mysite.amazingrace',
+    #'mysite.marchmadness',
+    #'mysite.nflbase',
+    #'mysite.nflsurvivor',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -69,6 +71,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'mysite.base.middleware.FinishProfile',
 )
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'bg-success',
+    messages.ERROR: 'bg-error'
+}
 
 
 ROOT_URLCONF = 'mysite.urls'

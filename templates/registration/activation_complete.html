@@ -1,8 +1,10 @@
 {% extends 'panel_core.html' %}
 {% block body %}
-        <title>Activation Complete | Office Pool Hub</title>
-    <center>
-        <h2>You Successfully activated your account.  You may now log in.</h2>
-        <h2><a href="{% url 'django.contrib.auth.views.login' %}">Click Here to Log in</a></h2>
-    </center>
+  <title>Activation Complete | Office Pool Hub</title>
+  <div class="row" >
+    <div class="col-md-12">
+      <h2>Account Activated.</h2>
+      <h3><a href="{% url 'django.contrib.auth.views.login' %}">Click Here to Log in</a></h3>
+    </div>
+  </div>
 {% endblock %}

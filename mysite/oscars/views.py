@@ -8,16 +8,79 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from django.forms.models import modelformset_factory
-from django.forms.models import BaseModelFormSet
+from django.forms.models import modelformset_factory, BaseModelFormSet
+from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
-from mysite.base import forms as bforms
-from mysite.base import models as bmodels
+from mysite.base import forms as bforms, models as bmodels
 from mysite.base.views import pool_views as pviews
-from mysite.oscars import forms as oforms
-from mysite.oscars import models as omodels
+from mysite.oscars import forms as oforms, models as omodels
 
+#Rest imports
+from rest_framework import status, generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from mysite.oscars.models import OscarPool
+from mysite.oscars.serializers import OscarPoolSerializer
+
+# REST views start here
+
+class OscarPoolList(generics.ListAPIView):
+    model = OscarPool
+    serializer_class = OscarPoolSerializer
+    queryset = OscarPool.objects.all()
+
+    def get_queryset(self):
+        import pdb;pdb.set_trace()
+        queryset = super(OscarPoolList, self).get_queryset()
+
+        return queryset#.filter(Q(members=self.kwargs.get('username')))
+
+@api_view(['GET', 'POST'])
+def oscars_list(request, format=None):
+    """
+    List all oscar pools, or create a new pool.
+    """
+    if request.method == 'GET':
+        pools = OscarPool.objects.all()
+        serializer = OscarPoolSerializer(pools, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = OscarPoolSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def oscars_detail(request, pk, format=None):
+    """
+    Retrieve, update or delete an oscar pool.
+    """
+    try:
+        pool = OscarPool.objects.get(pk=pk)
+    except OscarPool.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = OscarPoolSerializer(pool)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = OscarPoolSerializer(pool, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        pool.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# end of REST views
 
 class pool_homepage(pviews.PoolHomepage):
 

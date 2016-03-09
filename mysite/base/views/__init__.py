@@ -23,13 +23,36 @@ from registration.backends.default.views import ActivationView
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
+#Angular views
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from django.contrib.auth.models import User
+from mysite.base.serializers import UserSerializer
+
+
+@api_view(['GET'])
+def current_user(request):
+    user = request.user
+    return Response({'username': user.username})
+
+class UserList(generics.ListCreateAPIView):
+    model = User
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+class UserDetail(generics.RetrieveAPIView):
+    model = User
+    serializer_class = UserSerializer
+    lookup_field = 'username'
+    queryset = User.objects.all()
+#End of Angular Views
+
 class RegistrationViewUniqueEmail(RegistrationView):
     form_class = RegistrationFormUniqueEmail
-
-def root(request):
-    context = {}
-    return render(request, "panel_core.html",context)
-
 
 def signup(request,form=bforms.MemberProfileForm):
 

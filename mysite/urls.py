@@ -26,7 +26,7 @@ urlpatterns = patterns('',
 ) + patterns('mysite.base.views',
     url(r'^faq$',                                   TemplateView.as_view(template_name='base/faq.html'),            name='faq'),
     url(r'^activate/(?P<activation_key>\w+)/$',     CustomActivationView.as_view(),   name='registration_activate'),
-    url(r'^$',                                      'root',                     name='root'),
+    url(r'^$',                                      TemplateView.as_view(template_name='panel_core.html'),                 name='root'),
     url(r'^signup/$',                               'signup',                   name='signup'),
     #url(r'^pool/add/$',                            'pool_basic',              name='pool_add'),
     url(r'^pool/list/$',                            'your_pools',              name='your_pools'),
@@ -44,4 +44,3 @@ urlpatterns = patterns('',
 ) + staticfiles_urlpatterns() + patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}))
-

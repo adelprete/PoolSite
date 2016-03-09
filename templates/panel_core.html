@@ -1,25 +1,28 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head prefix="og: https://ogp.me/ns#">
 
         <meta charset="utf-8">
 
         {% block head %}
-		<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" /><style type="text/css">._css3m{display:none}</style>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
-        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/maskedinput.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/functions.js"></script>
-        <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-
-        <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/screen.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print">
+          <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+          <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+          <script type="text/javascript" src="{{ STATIC_URL }}js/maskedinput.js"></script>
+          <script type="text/javascript" src="{{ STATIC_URL }}js/functions.js"></script>
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+          <!-- bootstrap -->
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+          <!-- end bootstrap -->
+          <link rel="stylesheet" href="{{ STATIC_URL }}css/base/base.css">
+          <script
+          src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.js">
+          </script>
+          {% block page-css-links %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/base/home.css">
+          {% endblock %}
         {% endblock %}
         {{ form.media }}
 
@@ -38,6 +41,7 @@
                 });
             });
         </script>
+        <!-- GoogleAnalytics -->
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -50,190 +54,126 @@
         </script>
         <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
     </head>
-    <body style="background:#d3d3d3;height:100%;">
-		<div id="fb-root"></div>
-        <script>(function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-    {% block body_override %}
-        {% block banner %}
-        <div id="main-banner">
-            <div class="container">
-                <div class="span-14" id="main-banner-text">OfficePoolHub.com</div>
-                <div class="span-9 screen last" style="text-align:right;">
-                    {% if user.is_anonymous %}
+    <body>
+      		<div id="fb-root"></div>
+              <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
+          <header>
+              <div id="header">
+                <div class="container" style="position:relative;">
+                  <div id="userBanner" class="hidden-xs">
+                      {% if not user.is_anonymous %}
+                      <div>
+                        Hi {{ user }}<br>
+                        <a href="">Profile</a> - <a href="{% url 'logout_user' %}">Logout</a>
+                      </div>
+                      {% else %}
+                      <div id="notLoggedIn">
                         <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a> |
                         <a href="{% url 'registration_register' %}">Sign up</a>
-                    {% else %}
-                        <strong style="font-size:18px;">Hi {{ user }}!<br></strong>
-                        {% if user.memberprofile %}
-                        <a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a>
-                        {% endif %}
-                        &nbsp&nbsp<a href="{% url 'logout_user' %}">Log out</a>
-                    {% endif %}
+                      </div>
+                      {% endif %}
+                  </div>
+                  <div id="banner">OscarPoolHub.com</div>
                 </div>
-            </div>
-        </div>
-        {% endblock %}
-        {% block menu %}
-            <div class="menu">
-                <div class="container">
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="float:right;padding:6px;">
-                    <font style="color:white;font:14px Arial;">Help keep this site going!</font>
-                    <input type="hidden" name="cmd" value="_s-xclick">
-                    <input type="hidden" name="hosted_button_id" value="ED39L7D7V57WW">
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                    </form>
-                    <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="{% url 'root' %}">Home</a></li>
-                        {% if not user.is_anonymous %}
-                        <li class="topmenu"><a href="{% url 'your_pools' %}">Your Pools</a>
-                        {% endif %}
-                        <li class="topmenu"><a style="cursor:context-menu;">Create a Pool</a>
-                            <ul>
-                                <li class="subfirst"><a href="{% url 'create_oscar_pool' %}">Create Oscar Pool</a></li>
-                                <li><a href="{% url 'create_nflsurvivor_pool' %}">Create an NFL Survivor Pool</a></li>
-                                <li><a href="{% url 'create_survivor_pool' %}">Create a Survivor Pool</a></li>
-                                <li><a href="{% url 'create_amazing_race_pool' %}">Create an Amazing Race Pool</a></li>
-                                <li><a href="{% url 'create_march_madness_pool' %}">Create a March Madness Pool</a></li>
-                            </ul>
-                        </li>
-                        <li class="topmenu"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
-                        <li class="topmenu"><a href="{% url 'faq' %}">FAQ</a></li>
-                    </ul>
-                </div>
-            </div>
-        {% endblock %}
-        <div class="container" style="padding-top:30px;margin:0 auto;min-height:100%;margin-bottom:0px;background-color:white;">
-        {% include 'messages.html' %}
-            <div style="padding-left:20px;padding-right:20px;">
-                {% block body %}
-                        <title>Office Pool Hub</title>
-                        <center><h2>Your premiere destination for free and easy office pool management.</h2>
-                        </center>
-                        <table>
-                            <tr>
-								<td>
-                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Sofia,Times,sans-serif; font-size:30px;color:gold;">OSCARS</font>
-                                    </div>
-                                </td>
-                                
-                                <td>
-                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">SURVIVOR</font>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Verdana, Geneva, sans-serif;font-size:30px;color:yellow;">AMAZING RACE</font>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-								<td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        Oscar Pools instantly makes the Academy Awards way more fun to watch! <br><br>Your friends or co-workers will
-                                        compete to see who can guess the winners at this year's Oscars!<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'oscars_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
-                                
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        Do you think you can guess who the best Survivor contestants will be before the season starts?<br><br>
-                                        You and your friends will pick 4 castaways at the start.  Whose castaways are the most successful
-                                        through the entire season, wins!<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'survivor_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        Do you think you can guess who the best Amazing Race teams will be before the season starts?<br><br>
-                                        You and your friends will pick 3 teams at the start.  Whose teams are the most successful
-                                        through the entire season, wins!<br><br>Best part is it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'amazingrace_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="span-7" style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-size:30px;color:orange;font-family:Tahoma, Geneva, sans-serif;">MARCH MADNESS</font>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="span-7"style="background:#27282C;text-align:center;border-radius:10px;overflow:hidden;">
-                                        <font style="font-family:Georgia, serif;font-size:30px;color:orange;">NFL SURVIVOR</font>
-                                    </div>
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        The largest tournament in America is sure to have many nail bitters, buzzer beaters, and of course, upsets.
-                                            In this office pool game try to pick the outcome of the tournament with friends and co-workers.  You get
-                                        points for each game that you win.  The bracket that has earned the most points wins the pool!<br><br>
-                                        <form method="GET" action="{% url 'marchmadness_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td style="vertical-align:top;">
-                                    <div class="span-7">
-                                        The 'ol classic.  All you have to do is pick one winner from each week of the season.  Be the last
-                                        one in your pool to not pick a loser and you win.  The tricky thing is that you can't pick the same team
-                                        twice.  Sounds easy right?<br><br>Round up your friends and compete with one another to see who
-                                        can survive the longest without picking a losing team.  Don't have any friends? Join a Public
-                                        Pool than.<br><br>Best part is, it's absolutely FREE!<br><br>
-                                        <form method="GET" action="{% url 'nflsurvivor_getting_started' %}">{% csrf_token %}
-                                            <input type="submit" class="btn btn-danger" value="Learn More!"/>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <hr style="height:1px;margin-top:60px;">
-                        <table>
-                            <tr>
-                                <td style="text-align:center;font-weight:bold;font-size:large;padding-bottom:15px;">Keep Track of all your pools</td>
-                                <td style="text-align:center;font-weight:bold;font-size:large;padding-bottom:15px;">Real Time Stats</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align:center;"><img src="{{ MEDIA_URL }}site/pool_list_screenshot.png" style="border:1px solid;width:320px;height:363px;"></td>
-                                <td style="text-align:center;"><img src="{{ MEDIA_URL }}site/stats_screenshot.png" style="border:1px solid;width:320px;height:363px;"></td>
-                            </tr>
-                        </table>
-                {% endblock %}
-            </div>
-        </div>
-        {% block footer %}
-            <div class="container" style="padding-top:50px;bottom:0;left:0;background:white;">
-                <center>
-                    <div style="width:468px;font-size:15px;height:60px;margin-bottom:10px;text-align:center;">
-                            Advertise Here!
+              </div>
+              <nav class="navbar navbar-default" data-spy="affix" data-offset-top="150">
+                  <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <p id="brand_md" style="display: none;" class="navbar-brand">OscarPoolHub.com</p>
+                      <p class="navbar-brand visible-xs">Menu</p>
                     </div>
-                    <a href="https://www.facebook.com/officepoolhub"><img src="{{ MEDIA_URL }}site/Facebook-logo-small.png"></a>
-                        <a href="https://twitter.com/OfficePoolHub"><img src="{{ MEDIA_URL }}site/twitter-logo-small.png"></a>
-                    <br><div style="width:70%;border-top:1px solid;"></div><br>
-                    <div style="width:60%;">OfficePoolHub.com is in no way affiliated with any of the shows on this site nor with the networks that they air on.
-                    OfficePoolHub is NOT a gambling site.  Any pools used for gambling will be terminated.<br><a href="{% url 'contact' %}">Contact</a></div>
-                </center>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" style="margin:0px;" id="bs-example-navbar-collapse-1">
+                      <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                        {% if not user.is_anonymous %}
+                          <li><a href="#">Your Pools</a></li>
+                        {% endif %}
+                        <li><a href="#">Create a Pool</a></li>
+                        <li><a href="#">Join a Pool</a></li>
+                        <li><a href="#">FAQ</li>
+                      </ul>
+                      <ul class="nav navbar-nav navbar-right visible-xs">
+                        <li role="separator" class="divider"></li>
+                        <p class="navbar-text navbar-right">Signed in as Username</p>
+                        <li><a href="#">Log Out</a></li>
+                        <li><a href="#">Profile</a></li>
+                      </ul>
+                    </div><!-- /.navbar-collapse -->
+                  </div><!-- /.container-fluid -->
+                </nav>
+                <div id="buffer" style="block:none;"></div>
+            </header>
+            <div id="content" class="container">
+              {% include 'messages.html' %}
+              {% block body %}
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="headliner">Your premiere destination for easy Oscar pool management.</h2>
+                </div>
+              </div>
+              <div class="row">
+                <article class="col-md-4 col-sm-4 padding-10">
+                  <div class="panel panel-custom">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Fun to Play</h3>
+                      </div>
+                      <div class="panel-body">
+                        Oscar Pools instantly makes the Academy Awards way more fun to watch!</br></br>
+                        Your friends or co-workers will compete to see who can guess the winners at this year's Oscars!
+                      </div>
+                  </div>
+                </article>
+                <article class="col-md-4 col-sm-4 padding-10">
+                  <div class="panel panel-custom">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Easy Setup</h3>
+                      </div>
+                      <div class="panel-body">
+                        Creating and managing an Oscar Pool has never been easier.</br></br>
+                        All you need to do see create a pool, invite some friends, and let us do all the scoring for you.
+                      </div>
+                  </div>
+                </article>
+                <article class="col-md-4 col-sm-4 padding-10">
+                  <div class="panel panel-custom">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">
+                          Mobile Ready
+                        </h3>
+                      </div>
+                      <div class="panel-body">
+                        Our site was designed with desktop and mobile devices in mind.</br></br>
+                        Easily access and manage your pools on all of your devices, wherever you are.
+                      </div>
+                  </div>
+                </article>
+              </div>
+              {% endblock %}
             </div>
-        {% endblock %}
-        </body>
-    {% endblock %}
+            {% block footer %}
+            <footer class="row container">
+                <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2 seperator"></div>
+                <div id="content" class="col-md-12">
+                  OfficePoolHub.com is in no way affiliated with any of the shows on this site nor with the networks that they air on.
+                  <br>
+                  OfficePoolHub is NOT a gambling site. Any pools used for gambling will be terminated.
+                </div>
+            </footer>
+            {% endblock %}
+    </body>
 </html>

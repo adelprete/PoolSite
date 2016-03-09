@@ -1,9 +1,7 @@
 {% if messages %}
-<ul class="messages" style="list-style:none;">
-    <center>
+<ul class="messages" style="list-style:none;vertical-align: center; padding:0px; margin-top:10px;">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="text-align: center;"><h3>{{ message }}</h3></li>
     {% endfor %}
-    </center>
 </ul>
 {% endif %}
