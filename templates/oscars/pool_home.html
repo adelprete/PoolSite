@@ -1,32 +1,43 @@
 {% extends 'oscars/pool_home_core.html' %}
 {% load oscars_tags %}
+{% block page-css-links %}{{ block.super }}{% endblock %}
 {% block body %}
-        <title>{{ pool.name }} | Office Pool Hub</title>
-        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>{{ pool.name}} home page</b></h2>
-        <h3 class="span-9"><b>Administrator Welcome Message:</b>{% if user == pool.administrator %}&nbsp<a href="{% url 'oscar_admin_message' pool.id %}" style="font-size:12px;">edit</a>{% endif %}</h3><br><br>
-        <div style="margin-left:13px;">
-        {{ pool.admin_note|safe }}
-        </div>
-        <br>
-            <div>
-            <h3><b>Pool Format:</b></h3>
-                <div style="margin-left:13px;">
-                    <h3 style="margin-bottom:10px;">When are the Academy Awards?</h3>
-                    <font style="margin-left:13px;">{{ pool.oscarpool.oscar_ceremony.date }}</font>
-                    <br><br>
-                    <h3 style="margin-bottom:10px;">How to Win:</h3>
-                    {% if pool.how_to_win == 'points' %}
-                        <font style="margin-left:13px;">Correctly guessing the winners of each category nets you points. Be the one at the end with the most points and you'll be crowned the winner!</font>
-                        <br><br>
-                         <h3 style="margin-bottom:10px;">Point Distribution:</h3>
-                        {% for category in pool.customcategory_set.all %}
-                            {% if category.active %}
-                                <b style="margin-left:12px;">{{ category.name }}</b> -- {{ category.points }} points<br>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <font style="margin-left:13px;">Correctly guess more winners on your ballot than anyone else and you win!</font>
-                    {% endif %}
-                </div>
-            </div>
+  <title>{{ pool.name }} | Office Pool Hub</title>
+
+  <h2 class="headliner">{{ pool.name}} home page</h2>
+  <article>
+    <h3 style="margin-left:1em;">
+      <strong>Admin Message:</strong>
+      {% if user == pool.administrator %}
+        <a href="{% url 'oscar_admin_message' pool.id %}" style="font-size:12px;">edit</a>
+      {% endif %}
+    </h3>
+    </br>
+    <div style="margin-left:2em;">
+      {{ pool.admin_note|safe }}
+    </div>
+  </article>
+  </br>
+  <article>
+      <h3 style="margin-left:1em;">
+        <strong>Pool Format:</strong>
+      </h3>
+      <h3 class="sub-headliner">When are the Academy Awards?</h3>
+      <span style="margin-left:4em;">{{ pool.oscarpool.oscar_ceremony.date }}</span>
+      <h3 class="sub-headliner">How to Win:</h3>
+      {% if pool.how_to_win == 'points' %}
+          <span style="margin-left:4em;display:block;">
+            Correctly guessing the winners of each category nets you points.
+            Be the one at the end with the most points and you'll be crowned the winner!
+          </span>
+          <h3 class="sub-headliner">Point Distribution:</h3>
+          {% for category in pool.customcategory_set.all %}
+              {% if category.active %}
+                  <strong style="margin-left:4em;text-align: left;">{{ category.name }}</strong> -- {{ category.points }} points<br>
+              {% endif %}
+          {% endfor %}
+      {% else %}
+          <font class="margin-left:4em;">Correctly guess more winners on your ballot than anyone else and you win!</font>
+      {% endif %}
+  </article>
 {% endblock %}
