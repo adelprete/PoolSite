@@ -1,201 +1,51 @@
 {% extends 'panel_core.html' %}
-
+{% block page-css-links %}{% endblock %}
 {% block body %}
-        <title>Your Pools | OfficePoolHub.com</title>
-        <h2 style="font-family:Verdana, Geneva, sans-serif">Your Pools:</h2>
-        {% if cur_oscar_pools or cur_survivor_pools or cur_amazingrace_pools or cur_nflsurvivor_pools %}
-            {% if cur_oscar_pools %}
-            <ul>
-                <h3>Oscar Pools</h3>
-                    <ol>
+  <title>Your Pools | OfficePoolHub.com</title>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="headliner">Your Pools</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <ul style="list-style-type: none;">
+        {% for pool in cur_oscar_pools %}
+          <li>
+            <div class="well well-sm" style="text-align:center;">
+              <span style="font-weight:bold;"><a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a></span>
+              <span style="padding: 0px 15px;">|</span> Admin: {{ pool.administrator }}
+            </div>
+          </li>
+        {% empty %}
+          <p>You are not in any pools</p>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-                    <ul>
-                    {% for o in cur_oscar_pools %}
-                       <ol>
-                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
-                               <a href="{{ o.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}oscars/tab-oscars-logo.png"></a>
-                               <div style="padding:8px;margin-right:10px;">
-                                    <a style="margin-left:10px;" href="{{ o.get_absolute_url }}">{{ o.name }}</a>
-                                   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ o.members.count|add:"1" }}
-                                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ o.administrator }}
-                               </div>
-                           </div>
-                       </ol>
-                    <br><br><br>
-                    {% endfor %}
-                        </ul>
-                     </ol>
-            </ul>
-            {% endif %}
-            {% if cur_survivor_pools %}
-            <ul>
-                <h3>Survivor Pools</h3>
-                    <ol>
-                    <ul>
-                    {% for s in cur_survivor_pools %}
-                       <ol style="margin-bottom:12px;">
-                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
-                               <a href="{{ s.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}survivor/tab-survivor-logo.png"></a>
-                               <div style="padding:8px;margin-right:10px;">
-                                    <a style="margin-left:10px;" href="{{ s.get_absolute_url }}">{{ s.name }}</a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ s.members.count|add:"1" }}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ s.administrator }}
-                                </div>
-                           </div>
-                       </ol>
-                    <br><br><br>
-                    {% endfor %}
-                        </ul>
-                     </ol>
-            </ul>
-            {% endif %}
-            {% if cur_amazingrace_pools %}
-            <ul>
-                <h3>Amazing Race Pools</h3>
-                    <ol>
-                    <ul>
-                    {% for a in cur_amazingrace_pools %}
-                       <ol style="margin-bottom:12px;">
-                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
-                               <a href="{{ a.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}amazingrace/tab-amazingrace-logo.png"></a>
-                               <div style="padding:8px;margin-right:10px;">
-                                    <a style="margin-left:10px;" href="{{ a.get_absolute_url }}">{{ a.name }}</a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ a.members.count|add:"1" }}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ a.administrator }}
-                                </div>
-                           </div>
-                       </ol>
-                    <br><br><br>
-                    {% endfor %}
-                        </ul>
-                     </ol>
-            </ul>
-            {% endif %}
-            {% if cur_nflsurvivor_pools %}
-            <ul>
-                <h3>NFL Survivor Pools</h3>
-                    <ol>
-                    <ul>
-                    {% for n in cur_nflsurvivor_pools %}
-                       <ol style="margin-bottom:12px;">
-                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
-                               <a href="{{ n.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}nflbase/tab-nfl-logo.png"></a>
-                               <div style="padding:7px;margin-right:10px;">
-                                    <a style="margin-left:10px;" href="{{ n.get_absolute_url }}">{{ n.name }}</a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ n.members.count|add:"1" }}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ n.administrator }}
-                                </div>
-                           </div>
-                       </ol>
-                    <br><br><br>
-                    {% endfor %}
-                        </ul>
-                     </ol>
-            </ul>
-            {% endif %}
-            {% if cur_marchmadness_pools %}
-            <ul>
-                <h3>March Madness Pools</h3>
-                    <ol>
-                    <ul>
-                    {% for m in cur_marchmadness_pools %}
-                       <ol style="margin-bottom:12px;">
-                           <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;">
-                               <a href="{{ m.get_absolute_url }}"><img style="float:left;" height="37" width="60" src="{{ MEDIA_URL }}marchmadness/tab-march-logo.jpg"></a>
-                               <div style="padding:7px;margin-right:10px;">
-                                    <a style="margin-left:10px;" href="{{ m.get_absolute_url }}">{{ m.name }}</a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ m.members.count|add:"1" }}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ m.administrator }}
-                                </div>
-                           </div>
-                       </ol>
-                    <br><br><br>
-                    {% endfor %}
-                        </ul>
-                     </ol>
-            </ul>
-            {% endif %}
-        {% endif %}
-        {% if old_oscar_pools or old_survivor_pools or old_amazingrace_pools or old_nflsurvivor_pools%}
-        <br>
-        <h2>Past Pools:</h2>
-            {% if old_oscar_pools %}
-            <ul>
-                {% for o in old_oscar_pools %}
-                    <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                              {{ o.name }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ o.members.count|add:"1" }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ o.administrator }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'oscar_pool_recap' o.id %}">Recap</a>
-                        </div>
-                    </ol>
-                <br><br><br>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if old_survivor_pools %}
-            <ul>
-                {% for s in old_survivor_pools %}
-                    <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                        {{ s.name }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ s.members.count|add:"1" }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ s.administrator }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'survivor_pool_recap' s.id %}">Recap</a>
-                        </div>
-                    </ol>
-                <br><br><br>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if old_amazingrace_pools %}
-            <ul>
-                {% for a in old_amazingrace_pools %}
-                    <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                              {{ a.name }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ a.members.count|add:"1" }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ a.administrator }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'amazingrace_pool_recap' a.id %}">Recap</a>
-                        </div>
-                    </ol>
-                <br><br><br>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if old_nflsurvivor_pools %}
-            <ul>
-                {% for n in old_nflsurvivor_pools %}
-                    <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                              {{ n.name }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ n.members.count|add:"1" }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ n.administrator }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'nflsurvivor_pool_recap' n.id %}">Recap</a>
-                        </div>
-                    </ol>
-                <br><br><br>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if old_marchmadness_pools %}
-            <ul>
-                {% for m in old_marchmadness_pools %}
-                    <ol style="padding-left:54px;">
-                        <div class="span-13" style="border:1px solid black;border-radius:10px;overflow:hidden;padding:8px;margin-right:10px;">
-                              {{ m.name }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Members: {{ m.members.count|add:"1" }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   Admin: {{ m.administrator }}
-                              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;   <a href="{% url 'marchmadness_pool_recap' m.id %}">Recap</a>
-                        </div>
-                    </ol>
-                <br><br><br>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        {% endif %}
-
-
-
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="headliner">Past Pools</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <ul style="list-style-type: none;">
+        {% for pool in old_oscar_pools %}
+          <li>
+            <div class="well well-sm" style="text-align:center;">
+              <span style="font-weight:bold;"> <a href="{% url 'oscar_pool_recap' pool.id %}">Celebrate the Oscars with AMG!</a></span>
+              <span style="padding: 0px 15px;">|</span> Admin: {{ pool.administrator }}
+            </div>
+          </li>
+        {% empty %}
+          <p>You are not in any pools</p>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block active_tab %}
+	<script>$('#yourPools').addClass('active')</script>
 {% endblock %}

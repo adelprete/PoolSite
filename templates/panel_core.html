@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <head prefix="og: https://ogp.me/ns#">
+    <head>
 
         <meta charset="utf-8">
-
+        <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
         {% block head %}
           <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
           <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -27,9 +27,7 @@
         {{ form.media }}
 
         <!--[if IE]><link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/lib/ie.css" type="text/css" media="screen, projection"><![endif]-->
-
         <script>
-
             jQuery(function($){
                $(".date").mask("99/99/9999");
             });
@@ -52,7 +50,15 @@
           ga('send', 'pageview');
 
         </script>
-        <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
+        <script>
+
+        $(window).scroll(function () {
+          //$('#navbarPool').width($('#content').width());
+          //$('#navcollapse').width($('#content').width());
+          //$('#divpool').width($('#content').width());
+        });
+
+        </script>
     </head>
     <body>
       		<div id="fb-root"></div>
@@ -82,42 +88,51 @@
                   <div id="banner">OscarPoolHub.com</div>
                 </div>
               </div>
-              <nav class="navbar navbar-default" data-spy="affix" data-offset-top="150">
+              <nav id="navbarMain" class="navbar navbar-default " data-spy="affix" data-offset-top="150">
                   <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                       </button>
-                      <p id="brand_md" style="display: none;" class="navbar-brand">OscarPoolHub.com</p>
-                      <p class="navbar-brand visible-xs">Menu</p>
+                      <p id="siteBrand" class="navbar-brand hidden">OscarPoolHub.com</p>
+                      <p id="primaryNavbarBrand" class="navbar-brand visible-xs">Main Menu</p>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" style="margin:0px;" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" style="margin:0px;" id="navbar-collapse-1">
                       <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                        <li id="homeLink"><a href="{% url 'root' %}">Home <span class="sr-only">(current)</span></a></li>
                         {% if not user.is_anonymous %}
-                          <li><a href="#">Your Pools</a></li>
+                          <li id="yourPools"><a href="{% url 'your_pools' %}">Your Pools</a></li>
                         {% endif %}
                         <li><a href="#">Create a Pool</a></li>
                         <li><a href="#">Join a Pool</a></li>
-                        <li><a href="#">FAQ</li>
+                        <li><a href="#">FAQ</a></li>
                       </ul>
                       <ul class="nav navbar-nav navbar-right visible-xs">
                         <li role="separator" class="divider"></li>
-                        <p class="navbar-text navbar-right">Signed in as Username</p>
-                        <li><a href="#">Log Out</a></li>
-                        <li><a href="#">Profile</a></li>
+                        {% if not user.is_anonymous %}
+                          <p class="navbar-text navbar-right">Signed in as {{ user }}</p>
+                          <li><a href="{% url 'logout_user' %}">Log Out</a></li>
+                          <li><a href="#">Profile</a></li>
+                        {% else %}
+                          <li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
+                          <li><a href="{% url 'registration_register' %}">Sign up</a></li>
+                        {% endif %}
                       </ul>
                     </div><!-- /.navbar-collapse -->
                   </div><!-- /.container-fluid -->
                 </nav>
-                <div id="buffer" style="block:none;"></div>
+                <div id="secondaryNav" style="padding:0px;">
+                  {% block pool_menu %}
+                  {% endblock %}
+                </div>
             </header>
+
             <div id="content" class="container">
               {% include 'messages.html' %}
               {% block body %}
@@ -174,6 +189,9 @@
                   OfficePoolHub is NOT a gambling site. Any pools used for gambling will be terminated.
                 </div>
             </footer>
+            {% endblock %}
+            {% block active_tab %}
+              <script>$('li#homeLink').addClass('active')</script>
             {% endblock %}
     </body>
 </html>

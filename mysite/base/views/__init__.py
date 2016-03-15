@@ -164,56 +164,9 @@ def your_pools(request):
         cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
         old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
 
-    #Survivor Pools
-    if smodels.SurvivorSeason.objects.all().count() == 0:
-        cur_survivor_pools = False
-        old_survivor_pools = False
-    else:
-        current_survivor_season = smodels.SurvivorSeason.objects.latest('start_date')
-        cur_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_survivor_season).distinct()
-        old_survivor_pools = smodels.SurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_survivor_season).distinct()
-
-    #Amazing Race Pools
-    if amodels.AmazingRaceSeason.objects.all().count() == 0:
-        cur_amazingrace_pools = False
-        old_amazingrace_pools = False
-    else:
-        current_amazingrace_season = amodels.AmazingRaceSeason.objects.latest('start_date')
-        cur_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_amazingrace_season).distinct()
-        old_amazingrace_pools = amodels.AmazingRacePool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_amazingrace_season).distinct()
-
-
-    #NFL Survivor Pools
-    if nflbmodels.Season.objects.all().count() == 0:
-        cur_nflsurvivor_pools = False
-        old_nflsurvivor_pools = False
-    else:
-        current_nflsurvivor_season = nflbmodels.Season.objects.latest('start_date')
-        cur_nflsurvivor_pools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_nflsurvivor_season).distinct()
-        old_nflsurvivor_pools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_nflsurvivor_season).distinct()
-
-
-    #March Madness Pools
-    if mmodels.NCAABasketballTourney.objects.all().count() == 0:
-        cur_marchmadness_pools = False
-        old_marchmadness_pools = False
-    else:
-        current_marchmadness_tourney = mmodels.NCAABasketballTourney.objects.latest('start_date')
-        cur_marchmadness_pools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),season=current_marchmadness_tourney).distinct()
-        old_marchmadness_pools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(season=current_marchmadness_tourney).distinct()
-
-
     context = {
         'cur_oscar_pools':cur_oscar_pools,
         'old_oscar_pools':old_oscar_pools,
-        'cur_survivor_pools':cur_survivor_pools,
-        'old_survivor_pools':old_survivor_pools,
-        'cur_amazingrace_pools':cur_amazingrace_pools,
-        'old_amazingrace_pools':old_amazingrace_pools,
-        'cur_nflsurvivor_pools':cur_nflsurvivor_pools,
-        'old_nflsurvivor_pools':old_nflsurvivor_pools,
-        'cur_marchmadness_pools':cur_marchmadness_pools,
-        'old_marchmadness_pools':old_marchmadness_pools,
     }
 
     return render(request,"base/pool_list.html",context)
