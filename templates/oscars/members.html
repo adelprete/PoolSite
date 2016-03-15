@@ -1,7 +1,64 @@
-{% extends 'base/members_base.html' %}
-{% block menu %}
-{{ block.super }}
-{% include 'oscars/pool_menu.html' %}
+{% extends "oscars/pool_home_core.html" %}
+{% block page-css-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
 {% endblock %}
-
-{% block removal_link %}<th><a href="{% url 'remove_member' pool.id member.id %}">Remove</a></th>{%endblock %}
+{% block body %}
+  <title>Members - {{ pool.name }} | Office Pool Hub</title>
+  <h2 class="headliner">Members</h2>
+  <form action="{% url 'leave_pool' pool.id %}" method="GET">{% csrf_token %}
+    <button class="btn btn-primary" type="submit">Leave Pool</button>
+  </form>
+  <div class="row">
+    <div class="col-md-8">
+        <table class="table">
+         <tr class="header">
+             <th>Username</th>
+             <th>Email</th>
+             {% if user == pool.administrator %}
+             <th></th>
+             {% endif %}
+         </tr>
+         <tr>
+             <th><a href="{% url 'profile_stats' pool.administrator.memberprofile.id %}">{{ pool.administrator }}</a> - <b>Administrator</b></th>
+             <th>{{ pool.administrator.email }}</th>
+         </tr>
+         {% for member in pool.members.all %}
+            <tr>
+                <th><a href="{% url 'profile_stats' member.memberprofile.id %}">{{ member }}</a></th>
+                <th>{% if member.memberprofile.show_email %}{{ member.email }}{% endif %}</th>
+                {% if user == pool.administrator %}
+                <th><a href="{% url 'remove_member' pool.id member.id %}">Remove</a></th>
+                {% endif %}
+            </tr>
+         {% endfor %}
+        </table>
+      </div>
+      {% if user == pool.administrator %}
+        <div class="col-md-4">
+        <h2 style="color:orangered;">Invite others to your pool!</h2>
+         <div style="font-size:15px;">
+           <strong>Just email them the following!</strong>
+           <br><br>
+           <strong>URL:</strong> {{ join_url }}
+           <br>
+           <strong>Pool ID:</strong> {{ pool.identity }}
+           <br>
+           {% if pool.public == False %}
+           <strong>Pool Password:</strong> {{ pool.password }}
+           {% endif %}
+         </div>
+          </br>
+         <div style="font-size:15px;">
+           <strong>
+             Or
+             <div class="fb-share-button" data-href="https://www.officepoolhub.com/pool/join/" style="padding-left:3px;padding-right:3px;"></div>
+             it on Facebook!
+           </strong>
+             <br><br>
+             Make sure the Pool ID is in your post along with the password if you have one.<br>
+         </div>
+        </div>
+      {% endif %}
+    </div>
+{% endblock %}
