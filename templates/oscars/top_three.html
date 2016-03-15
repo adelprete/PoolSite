@@ -1,20 +1,20 @@
 
 {% if top_three_winners %}
-<table class="span-10" style="margin: 0 auto !important;float: none !important;border: 0px solid black;">
-    <tr>
-        <th colspan="3" style="text-align:center;">
-            <h1 style="font-family:Sofia;">FINAL RESULTS</h1>
-        </th>
-    </tr>
-    <tr>
-        <td style="text-align:center;"><img src="{{ STATIC_URL }}img/gold-trophy.png" height="30px" width="73"></td>
-        <td style="text-align:center;"><img src="{{ STATIC_URL }}img/silver-trophy.png" height="30px" width="73"></td>
-        <td style="text-align:center;"><img src="{{ STATIC_URL }}img/bronze-trophy.png" height="30px" width="73"></td>
-    </tr>
-    <tr>
-        <td style="text-align:center;"><h3>{{ top_three_winners.0.member }}</h3></td>
-        <td style="text-align:center;"><h3>{{ top_three_winners.1.member }}</h3></td>
-        <td style="text-align:center;"><h3>{{ top_three_winners.2.member }}</h3></td>
-    </tr>
-</table>
+<div class="row" style="padding-bottom: 20px;">
+  <div class="col-md-12">
+    <h1 style="font-family:Sofia;text-align:center;padding-bottom: 10px;">FINAL RESULTS</h1>
+  </div>
+  <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-1 col-xs-4 text-center">
+    <img class="img-responsive center-block" src="{{ STATIC_URL }}img/gold-trophy.png" height="124px" width="106px">
+    <h3>{{ top_three_winners.0.member }}</h3>
+  </div>
+  <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+    <img class="img-responsive center-block" src="{{ STATIC_URL }}img/silver-trophy.png" height="124px" width="106px">
+    <h3>{{ top_three_winners.1.member }}</h3>
+  </div>
+  <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+    <img class="img-responsive center-block" src="{{ STATIC_URL }}img/bronze-trophy.png" height="124px" width="106px">
+    <h3>{{ top_three_winners.2.member }}</h3>
+  </div>
+</div>
 {% endif %}

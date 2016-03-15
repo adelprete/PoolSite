@@ -1,35 +1,41 @@
 {% extends "oscars/pool_home_core.html" %}
 {% load oscars_tags %}
+{% block page-css-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
+{% endblock %}
 {% block body %}
-        <title>Standings - {{ pool.name }} | Office Pool Hub</title>
-        {% block headline %}
-        <h2 style="font-family:Verdana, Geneva, sans-serif"><b>Standings</b></h2>
-        {% endblock %}
-            {% display_top_three %}
-        <table>
-            <tr class="header">
-                <th><b>Member</b></th>
-                <th><b>Ballot</b></th>
-                <th><b>Correct Picks</b></th>
-                {% if pool.how_to_win == 'points' %}
-                <th><b>Total Points</b></th>
-                {% endif %}
-            </tr>
-        {% if ballots %}
-        {% for ballot in ballots %}
-            <tr>
-                <td><a href="{% url 'profile_stats' ballot.member.memberprofile.id %}">{{ ballot.member }}</a></td>
-                <td>{{ ballot.name }}</td>
-                <td>{{ ballot.total_correct }}</td>
-                {% if pool.how_to_win == 'points' %}
-                 <td>{{ ballot.total_points }}</td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        {% else %}
-            <tr>
-               <td colspan=3>No ballots have been submitted yet</td>
-            </tr>
-        {% endif %}
+    <title>Standings - {{ pool.name }} | Office Pool Hub</title>
+    <h2 class="headliner">Standings</h2>
+    {% display_top_three %}
+    <article>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <tr class="header">
+              <th>Member</th>
+              <th>Ballot</th>
+              <th>Correct Picks</th>
+              {% if pool.how_to_win == 'points' %}
+              <th>Total Points</th>
+              {% endif %}
+          </tr>
+          {% if ballots %}
+          {% for ballot in ballots %}
+              <tr>
+                  <td><a href="{% url 'profile_stats' ballot.member.memberprofile.id %}">{{ ballot.member }}</a></td>
+                  <td>{{ ballot.name }}</td>
+                  <td>{{ ballot.total_correct }}</td>
+                  {% if pool.how_to_win == 'points' %}
+                   <td>{{ ballot.total_points }}</td>
+                  {% endif %}
+              </tr>
+          {% endfor %}
+          {% else %}
+              <tr>
+                 <td colspan=3>No ballots have been submitted yet</td>
+              </tr>
+          {% endif %}
         </table>
+      </div>
+    </article>
 {% endblock %}
