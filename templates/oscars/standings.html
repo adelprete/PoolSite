@@ -23,7 +23,13 @@
           {% for ballot in ballots %}
               <tr>
                   <td><a href="{% url 'profile_stats' ballot.member.memberprofile.id %}">{{ ballot.member }}</a></td>
-                  <td>{{ ballot.name }}</td>
+                  <td>
+                    {% if pool.allow_new_picksheets %}
+                        {{ ballot.name }}
+                    {% else %}
+                        <a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a>
+                    {% endif %}
+                  </td>
                   <td>{{ ballot.total_correct }}</td>
                   {% if pool.how_to_win == 'points' %}
                    <td>{{ ballot.total_points }}</td>

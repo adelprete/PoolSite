@@ -164,7 +164,7 @@ def pool_ballot(request,id=None,ballot_id=None):
         if "delete" in request.POST:
             if datetime.timedelta(0) < (ballot.pool.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
                 ballot.delete()
-                messages.success(request,"The Ballot was successfully deleted")
+                messages.success(request,"The Ballot was deleted")
                 return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
             else:
                 messages.error(request,"You cannot delete ballots after the Ceremony has started")
@@ -193,7 +193,7 @@ def pool_ballot(request,id=None,ballot_id=None):
                             response_record.ballot = ballot_record
                             response_record.save()
                     if response_form.is_valid():
-                        messages.success(request,"Ballot saved successfully")
+                        messages.success(request,"Ballot saved")
                         return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
             if ballot:
                 for response in ballot.response_set.all():
@@ -210,10 +210,10 @@ def pool_ballot(request,id=None,ballot_id=None):
                         response_record.ballot = ballot_record
                         response_record.save()
                 if response_form.is_valid():
-                    messages.success(request,"Ballot saved successfully")
+                    messages.success(request,"Ballot saved")
                     return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
 
-        messages.error(request,"Please double check that you've filled out every field.")
+        messages.error(request,"Ballot not saved! Please check that you've filled out every field.")
 
     if ballot and response_forms.__len__() == 0:
         for response in ballot.response_set.all():
@@ -298,7 +298,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
         custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
     if 'delete' in request.POST:
         pool.delete()
-        messages.success(request,"Pool was successfully deleted")
+        messages.success(request,"Pool was deleted")
         return HttpResponseRedirect(reverse('root'))
 
     pool_form = form_class(instance=pool)
@@ -373,7 +373,7 @@ def remove_ballot(request,id,ballot_id):
 
     ballot.delete()
 
-    success_str="Successfully removed ballot from your pool."
+    success_str="Removed ballot from your pool."
     messages.success(request,success_str)
 
     return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
@@ -390,7 +390,7 @@ def remove_member(request,id,member_id):
 
     pool.members.remove(member)
     pool.ballot_set.filter(member=member).delete()
-    success_str="Successfully removed " + member.username + " from your pool."
+    success_str="Removed " + member.username + " from your pool."
     messages.success(request,success_str)
 
     return HttpResponseRedirect(reverse("oscar_members",kwargs={'id':pool.id}))

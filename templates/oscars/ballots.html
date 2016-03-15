@@ -1,19 +1,30 @@
 {% extends 'oscars/pool_home_core.html' %}
+{% block page-css-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
+{% endblock %}
 {% block body %}
-        <title>Ballots - {{ pool.name }} | Office Pool Hub</title>
-        <h2 id="all_ballots" style="display:inline;cursor:pointer;font-family:Verdana, Geneva, sans-serif;"><b>All Ballots</b></h2>
-        <br><br>
-        {% if allow_new_ballots %}
-            <form action="{% url 'oscar_create_ballot' pool.id %}" method="GET">{% csrf_token %}
-                <input type="submit" value="Create a Ballot" /> - You have until {{ pool.entry_deadline }} to submit or make changes to your ballots.
-            </form>
-        {% else %}
-			{{ no_picksheets_reason }}
+    <title>Ballots - {{ pool.name }} | Office Pool Hub</title>
+    <h2 id="all_ballots" class="headliner">All Ballots</h2>
+    </br>
+
+    <div class="row">
+    {% if allow_new_ballots %}
+      <div class="col-md-12">
+        <form action="{% url 'oscar_create_ballot' pool.id %}" method="GET">{% csrf_token %}
+            <button type="submit" class="btn btn-primary">Create a Ballot</button> - You have until {{ pool.entry_deadline }} to submit or make changes to your ballots.
+        </form>
+      </div>
+    {% else %}
+      <div class="col-md-10">
+			     {{ no_picksheets_reason }}
+      </div>
 		{% endif %}
-        <table class="span-15">
+      <div class="col-md-10">
+        <table class="table table-condensed">
             <tr class="header">
-                <th style="border-bottom:1px solid black;"><b>Member</b></th>
-                <th style="border-bottom:1px solid black;"><b>Ballot</b></th>
+                <th>Member</th>
+                <th>Ballot</th>
                 {% if user == pool.administrator %}
                     <th></th>
                 {% endif %}
@@ -31,11 +42,13 @@
                             <a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a>
                         {% endif %}
                     </td>
+                    <td>
+                      {% if user == ballot.member and pool.allow_new_picksheets %}
+                          <a href="{% url 'oscar_ballot' pool.id ballot.id %}">Edit</a>
+                      {% endif %}
+                    </td>
                     {% if user == pool.administrator %}
-                        <td class="span-2"><a onclick="return confirm('Are you sure you want to delete this Ballot?')" href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>
-                    {% endif %}
-                    {% if user == ballot.member and pool.allow_new_picksheets %}
-                        <td><a href="{% url 'oscar_ballot' pool.id ballot.id %}">Edit</a></td>
+                        <td><a onclick="return confirm('Are you sure you want to delete this Ballot?')" href="{% url 'oscar_remove_ballot' pool.id ballot.id %}">Remove</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}
@@ -47,4 +60,6 @@
             </tr>
             </table>
         {% endif %}
+      </div>
+    </div>
 {% endblock %}

@@ -195,10 +195,14 @@ body>footer>div#content {
   background-color: #CC240A;
 }
 
-.btn-primary:hover, .btn-primary:hover:active{
+.btn-primary:hover, .btn-primary:hover:active {
   background-color: #45484B;
 }
 
 .btn-primary:focus, .btn-primary:active {
   background-color: #27282C;
+}
+
+input:checked + span {
+  font-weight: bold !important;
 }
