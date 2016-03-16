@@ -210,3 +210,10 @@
   </form>
   {% endif %}
 {% endblock %}
+{% block active_tab %}
+  {% if not pool %}
+	 <script>$('#createPool').addClass('active')</script>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}

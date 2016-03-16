@@ -109,9 +109,9 @@
                         {% if not user.is_anonymous %}
                           <li id="yourPools"><a href="{% url 'your_pools' %}">Your Pools</a></li>
                         {% endif %}
-                        <li><a href="{% url 'create_oscar_pool' %}">Create a Pool</a></li>
-                        <li><a href="#">Join a Pool</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li id="createPool"><a href="{% url 'create_oscar_pool' %}">Create a Pool</a></li>
+                        <li id="joinPool"><a href="{% url 'join_pool' %}">Join a Pool</a></li>
+                        <li id="faq"><a href="{% url 'faq' %}">FAQ</a></li>
                       </ul>
                       <ul class="nav navbar-nav navbar-right visible-xs">
                         <li role="separator" class="divider"></li>

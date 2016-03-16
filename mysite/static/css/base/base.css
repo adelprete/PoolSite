@@ -191,6 +191,7 @@ body>footer>div#content {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #45484B;
 }
 
+/* buttons */
 .btn-primary {
   border: none;
   background-color: #CC240A;
@@ -204,6 +205,25 @@ body>footer>div#content {
   background-color: #27282C;
 }
 
+/* Item lists */
+.list-group-item.active {
+  background-color:#CC240A;
+  color: #FFF;
+  border-color: #FFF;
+}
+
+.list-group-item.active:hover {
+  background-color: #CC240A;
+  border-color: #FFF;
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  cursor: pointer;
+}
+
+
+/* Misc */
 input:checked + span {
   font-weight: bold !important;
 }

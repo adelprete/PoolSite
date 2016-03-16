@@ -1,136 +1,48 @@
 {% extends "panel_core.html" %}
+{% block page-css-links %}{% endblock %}
 {% block head %}
 {{ block.super }}
     <script>
         $(function(){
-            $("#account").css("background","#CC240A").css("color","white");
-            $("#account-questions").show();
-            $("#oscar-questions").hide();
-            $("#survivor-questions").hide();
-            $("#amazingrace-questions").hide();
-            $("#nflsurvivor-questions").hide();
-            $("#marchmadness-questions").hide();
-
             $("#account").click(function(){
-                $("#account").css("background","#CC240A").css("color","white");
-                $("#oscar").css("background","").css("color","black");
-                $("#survivor").css("background","").css("color","black");
-                $("#amazingrace").css("background","").css("color","black");
-                $("#nflsurvivor").css("background","").css("color","black");
-                $("#marchmadness").css("background","").css("color","black");
+                $("#account").addClass("active");
+                $("#oscar").removeClass("active");
                 $("#account-questions").show();
                 $("#oscar-questions").hide();
-                $("#survivor-questions").hide();
-                $("#amazingrace-questions").hide();
-                $("#marchmadness-questions").hide();
-                $("#nflsurvivor-questions").hide();
             });
             $("#oscar").click(function(){
-                $("#oscar").css("background","#CC240A").css("color","white");
-                $("#account").css("background","").css("color","black");
-                $("#survivor").css("background","").css("color","black");
-                $("#amazingrace").css("background","").css("color","black");
-                $("#nflsurvivor").css("background","").css("color","black");
-                $("#marchmadness").css("background","").css("color","black");
+                $("#account").removeClass("active");
+                $("#oscar").addClass("active");
                 $("#account-questions").hide();
-                $("#survivor-questions").hide();
-                $("#amazingrace-questions").hide();
-                $("#nflsurvivor-questions").hide();
-                $("#marchmadness-questions").hide();
                 $("#oscar-questions").show();
-            });
-            $("#survivor").click(function(){
-                $("#survivor").css("background","#CC240A").css("color","white");
-                $("#account").css("background","").css("color","black");
-                $("#oscar").css("background","").css("color","black");
-                $("#amazingrace").css("background","").css("color","black");
-                $("#nflsurvivor").css("background","").css("color","black");
-                $("#marchmadness").css("background","").css("color","black");
-                $("#account-questions").hide();
-                $("#oscar-questions").hide();
-                $("#amazingrace-questions").hide();
-                $("#nflsurvivor-questions").hide();
-                $("#marchmadness-questions").hide();
-                $("#survivor-questions").show();
-            });
-            $("#amazingrace").click(function(){
-                $("#amazingrace").css("background","#CC240A").css("color","white");
-                $("#account").css("background","").css("color","black");
-                $("#oscar").css("background","").css("color","black");
-                $("#survivor").css("background","").css("color","black");
-                $("#nflsurvivor").css("background","").css("color","black");
-                $("#marchmadness").css("background","").css("color","black");
-                $("#account-questions").hide();
-                $("#oscar-questions").hide();
-                $("#survivor-questions").hide();
-                $("#nflsurvivor-questions").hide();
-                $("#marchmadness-questions").hide();
-                $("#amazingrace-questions").show();
-            });
-            $("#nflsurvivor").click(function(){
-                $("#nflsurvivor").css("background","#CC240A").css("color","white");
-                $("#account").css("background","").css("color","black");
-                $("#oscar").css("background","").css("color","black");
-                $("#amazingrace").css("background","").css("color","black");
-                $("#survivor").css("background","").css("color","black");
-                $("#marchmadness").css("background","").css("color","black");
-                $("#account-questions").hide();
-                $("#oscar-questions").hide();
-                $("#amazingrace-questions").hide();
-                $("#survivor-questions").hide();
-                $("#marchmadness-questions").hide();
-                $("#nflsurvivor-questions").show();
-            });
-
-            $("#marchmadness").click(function(){
-                $("#marchmadness").css("background","#CC240A").css("color","white");
-                $("#account").css("background","").css("color","black");
-                $("#oscar").css("background","").css("color","black");
-                $("#amazingrace").css("background","").css("color","black");
-                $("#survivor").css("background","").css("color","black");
-                $("#nflsurvivor").css("background","").css("color","black");
-                $("#account-questions").hide();
-                $("#oscar-questions").hide();
-                $("#amazingrace-questions").hide();
-                $("#survivor-questions").hide();
-                $("#nflsurvivor-questions").hide();
-                $("#marchmadness-questions").show();
             });
         });
     </script>
 {% endblock %}
 {% block body %}
-        <title>FAQ | Office Pool Hub</title>
-        <h2 style="font-family:Verdana, Geneva, sans-serif">Frequently Asked Questions!</h2>
-        <div class="span-6" style="border-right:1px solid">
-            <div class="span-5" style="float:none; margin: 0 auto;">
-                <center>
-                    <div id="account" style="cursor: pointer;padding:3px;">General Account Questions</div><br>
-                    <div id="oscar" style="cursor: pointer;padding:3px;">Oscar Pool Questions</div><br>
-                    <div id="survivor" style="cursor: pointer;padding:3px;">Survivor Pool Questions</div><br>
-                    <div id="amazingrace" style="cursor: pointer;padding:3px;">Amazing Race Pool Questions</div><br>
-                    <div id="nflsurvivor" style="cursor: pointer;padding:3px;">NFL Survivor Pool Questions</div><br>
-                    <div id="marchmadness" style="cursor: pointer;padding:3px;">March Madness Pool Questions</div><br>
-                </center>
-            </div>
-        </div>
-        <div id="account-questions" class="span-16">
+    <title>FAQ | Office Pool Hub</title>
+    <h2 class="headliner">Frequently Asked Questions!</h2>
+    <div class="row">
+      <div class="col-md-3 col-sm-4">
+        <aside>
+          <ul class="list-group text-center">
+            <li id="account" class="list-group-item active">General Account Questions</li>
+            <li id="oscar" class="list-group-item">Oscar Pool Questions</li>
+          </ul>
+        </aside>
+      </div>
+      <div class="col-md-9 col-sm-8">
+        <article>
+          <div id="account-questions" style="display:show;">
             {% include "base/account-faq.html" %}
-        </div>
-        <div id="oscar-questions" class="span-16">
+          </div>
+          <div id="oscar-questions" style="display:none;">
             {% include "oscars/faq.html" %}
-        </div>
-        <div id="survivor-questions" class="span-16">
-            {% include "survivor/faq.html" %}
-        </div>
-        <div id="amazingrace-questions" class="span-16">
-            {% include "amazingrace/faq.html" %}
-        </div>
-        <div id="nflsurvivor-questions" class="span-16">
-            {% include "nflsurvivor/faq.html" %}
-        </div>
-        <div id="marchmadness-questions" class="span-16">
-            {% include "marchmadness/faq.html" %}
-        </div>
-
+          </div>
+        </article>
+      </div>
+    </div>
+{% endblock %}
+{% block active_tab %}
+	<script>$('#faq').addClass('active')</script>
 {% endblock %}

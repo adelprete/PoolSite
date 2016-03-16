@@ -1,4 +1,33 @@
 {% extends 'oscars/pool_home_core.html' %}
+{% load bootstrap3 %}
 {% block body %}
-    {% include 'base/admin_email_form.html' %}
+  <title>Email Members | Office Pool Hub</title>
+  <h2 class="headliner">Email Members</h2>
+  <div style="margin-left: 1em;">
+    <p>Email your pool members with reminders and updates.</p>
+
+    <form method="get">{% csrf_token %}
+      <div>
+              <span style="font-weight:bold">From:</span><br>
+              <span style="margin-left: 1em;">{{ user }}</span>
+      </div><br>
+      <div>
+              <span style="font-weight:bold">To:</span><br>
+              <span style="margin-left: 1em;">All Pool Members</span>
+      </div><br>
+      <div class="row">
+        <div class="col-md-7">
+          {% bootstrap_field form.subject %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7">
+          {% bootstrap_field form.body %}
+        </div>
+      </div>
+      <div>
+          <button class="btn btn-primary" type="submit" name="submit">Send</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}
