@@ -227,3 +227,9 @@ body>footer>div#content {
 input:checked + span {
   font-weight: bold !important;
 }
+
+.border-divider {
+  border-left: 1px solid;
+  height:200px;
+  margin-top:30px;
+}

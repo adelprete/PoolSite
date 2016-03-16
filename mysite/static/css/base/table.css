@@ -3,3 +3,8 @@
   color: #FFF;
   font-size: 15px;
 }
+
+.table-hover .header:hover {
+  background-color: #27282C;
+  color: #FFF
+}

@@ -1,58 +1,75 @@
 {% extends "panel_core.html" %}
+{% load bootstrap3 %}
+{% block page-css-links %}{% endblock %}
 {% block head %}
-        {{ block.super }}
-        <meta property="og:url" content="https://www.officepoolhub.com/pool/join/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Join a Pool | Office Pool Hub" />
-        <meta property="og:description" content="Its free and easy! Compete in the Pools for the Oscars, Survior, Amazing Race, and More!" />
-        <meta property="og:image" content="http://i.imgur.com/Ng39c5O.png" />
+  {{ block.super }}
+  <meta property="og:url" content="https://www.officepoolhub.com/pool/join/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Join a Pool | Oscar Pool Hub" />
+  <meta property="og:description" content="Its easy! Compete in an Oscar Pool today!" />
+  <meta property="og:image" content="http://i.imgur.com/Ng39c5O.png" />
 {% endblock %}
 {% block body %}
-<title>Join a Pool | Office Pool Hub</title>
-<div class="span-12" style="border-right:1px solid;">
-<h3>Join a Specific Pool <div class="fb-share-button" data-href="https://www.officepoolhub.com/pool/join/" style="padding-left:3px;padding-right:3px;"></div></h3>
-    <h4>Provide the Pool ID and Pool Password for the Pool you'd like to join.<br>Password is not required if the Pool is public.</h4>
-    <form action="" method="post">{% csrf_token %}
-        <table class="span-7">
-            <tr>
-                <td class="span-3">{{ form.pool_id.label_tag }}</td>
-                <td class="span-4">{{ form.pool_id }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <input class="submit" type="submit" name="submit" value="Join Pool" />
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
-<div class="span-10">
-<h3>Join a Public Pool</h3>
-    <h4>Click one of the links below to Join a Public Pool</h4>
-    <form method="GET" action="{% url 'marchmadness_public_pools' %}">{% csrf_token %}
-        <input type="submit" class="btn btn-danger" value="Join an March Madness Pool"/>
-    </form>
-    <br>
-    <form method="GET" action="{% url 'oscar_public_pools' %}">{% csrf_token %}
-        <input type="submit" class="btn btn-danger" value="Join an Oscar Pool"/>
-    </form>
-    <br>
-    <form method="GET" action="{% url 'survivor_public_pools' %}">{% csrf_token %}
-        <input type="submit" class="btn btn-danger" value="Join a CBS Survivor Pool"/>
-    </form>
-    <br>
-    <form method="GET" action="{% url 'amazingrace_public_pools' %}">{% csrf_token %}
-        <input type="submit" class="btn btn-danger" value="Join an Amazing Race Pool"/>
-    </form>
-    <br>
-    <form method="GET" action="{% url 'nflsurvivor_public_pools' %}">{% csrf_token %}
-        <input type="submit" class="btn btn-danger" value="Join an NFL Survivor Pool"/>
-    </form>
-    <br>
+  <title>Join a Pool | Oscar Pool Hub</title>
+  <div class="row">
+    <article>
+      <div class="col-md-6 col-sm-6">
+        <div class="col-md-12">
+          <h3 class="headliner">Join a Specific Pool <div class="fb-share-button" data-href="https://www.officepoolhub.com/pool/join/" style="padding-left:3px;padding-right:3px;"></div></h3>
+          <h4>Provide the Pool ID and Pool Password for the Pool you'd like to join. Password is not required if the Pool is public.</h4>
+          </br>
+        </div>
+        <div class="col-md-10">
+          <form action="" method="post">{% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary" type="submit" name="submit">Join Pool</button>
+          </form>
+        </div>
+      </div>
+    </article>
+    <div class="col-md-1 col-sm-1 hidden-xs border-divider">
+    </div>
+    <div class="col-xs-12 visible-xs" style="padding-left: 2em;">
+      <h2 class="headliner">OR</h2>
+    </div>
+    <article>
+      <div class="col-md-5 col-sm-5" style="padding-left: 2em;">
+        <h3 class="headliner">Join a Public Pool</h3>
+        <h4>Click below to see open oscar pools to join</h4></br>
+        <form method="GET" action="{% url 'oscar_public_pools' %}">{% csrf_token %}
+            <button class="btn btn-primary" type="submit">Find an Oscar Pool</button>
+        </form>
+      </div>
+    </article>
+  </div>
+  {% comment %}
 
-</div>
+  <div class="span-10">
+  <h3>Join a Public Pool</h3>
+      <h4>Click one of the links below to Join a Public Pool</h4>
+      <form method="GET" action="{% url 'marchmadness_public_pools' %}">{% csrf_token %}
+          <input type="submit" class="btn btn-danger" value="Join an March Madness Pool"/>
+      </form>
+      <br>
+      <form method="GET" action="{% url 'oscar_public_pools' %}">{% csrf_token %}
+          <input type="submit" class="btn btn-danger" value="Join an Oscar Pool"/>
+      </form>
+      <br>
+      <form method="GET" action="{% url 'survivor_public_pools' %}">{% csrf_token %}
+          <input type="submit" class="btn btn-danger" value="Join a CBS Survivor Pool"/>
+      </form>
+      <br>
+      <form method="GET" action="{% url 'amazingrace_public_pools' %}">{% csrf_token %}
+          <input type="submit" class="btn btn-danger" value="Join an Amazing Race Pool"/>
+      </form>
+      <br>
+      <form method="GET" action="{% url 'nflsurvivor_public_pools' %}">{% csrf_token %}
+          <input type="submit" class="btn btn-danger" value="Join an NFL Survivor Pool"/>
+      </form>
+      <br>
+  </div>
+  {% endcomment %}
+{% endblock %}
+{% block active_tab %}
+	<script>$('#joinPool').addClass('active')</script>
 {% endblock %}

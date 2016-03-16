@@ -274,13 +274,13 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
     except:
-        messages.error(request,"If you are a registered user, you will be notified when the Nominees are announced for the next award show.")
+        messages.error(request,"Pools are Closed at this time. If you are a registered user, you will be notified when the Nominees are announced for the next award show.")
         return HttpResponseRedirect(reverse('root'))
 
     if not id:
         today = datetime.datetime.utcnow()
         if datetime.timedelta(0) > (ceremony.date.replace(tzinfo=None) - today) or settings.OSCARS_POOLS_OPEN is False:
-            messages.error(request,"If you are a registered user, you will be notified when the Nominees are announced for next award show.")
+            messages.error(request,"Pools are Closed at this time.  If you are a registered user, you will be notified when the Nominees are announced for next award show.")
             return HttpResponseRedirect(reverse('root'))
 
     pool = None
@@ -298,7 +298,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
         custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
     if 'delete' in request.POST:
         pool.delete()
-        messages.success(request,"Pool was deleted")
+        messages.success(request,"Pool deleted")
         return HttpResponseRedirect(reverse('root'))
 
     pool_form = form_class(instance=pool)
@@ -318,7 +318,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         pool_record.save()
                         category_record.pool = pool_record
                         category_record.save()
-                messages.success(request,"Your Pool Settings have been Saved")
+                messages.success(request,"Pool Settings Saved")
                 return HttpResponseRedirect(pool_record.get_absolute_url())
             else:
                 for base in base_categories:
@@ -334,7 +334,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         category_record.pool = pool_record
                         category_record.save()
 
-                messages.success(request,"Your Pool Settings have been Saved")
+                messages.success(request,"Pool Settings Saved")
                 return HttpResponseRedirect(pool_record.get_absolute_url())
         else:
             messages.error(request,"Pool not saved.  Check that each field is filled out correctly.")
@@ -375,7 +375,7 @@ def remove_ballot(request,id,ballot_id):
 
     ballot.delete()
 
-    success_str="Removed ballot from your pool."
+    success_str="Removed ballot from the pool."
     messages.success(request,success_str)
 
     return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
@@ -447,7 +447,10 @@ class OscarPublicPools(PublicPools):
         except:
             current_ceremony = None
 
-        return omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
+        pools = omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
+        public_pools = [pool for pool in pools if pool.allow_new_picksheets()]
+
+        return public_pools
 
 @login_required
 def email_members(request,id):

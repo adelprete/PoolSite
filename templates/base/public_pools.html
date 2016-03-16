@@ -1,16 +1,22 @@
 {% extends 'panel_core.html' %}
+{% block page-css-links %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
+{% endblock %}
 {% block body %}
-<h2>{{ title }} Public Pools</h2>
- <table class="span-14">
-     <tr class="header">
-         <th>Pool Name</th>
-         <th>Admin</th>
-         <th>Members</th>
-         <th></th>
-     </tr>
-     {% if pools %}
-         {% for pool in pools %}
-            {% if pool.allow_new_picksheets %}
+
+  <h2 class="headliner">Oscar Public Pools</h2>
+  <div class="table-responsive">
+    <table class="table table-condensed table-hover">
+       <tr class="header">
+           <th>Pool Name</th>
+           <th>Admin</th>
+           <th>Members</th>
+           <th>Max Members</th>
+           <th>Max Submissions</th>
+           <th></th>
+       </tr>
+       {% if pools %}
+           {% for pool in pools %}
                 <tr>
                     <th>{% if user in pool.members.all or user == pool.administrator %}
                         <a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a>
@@ -20,6 +26,8 @@
                     </th>
                     <th>{{ pool.administrator }}</th>
                     <th>{{ pool.members.count|add:"1" }}</th>
+                    <th>{{ pool.max_members }}</th>
+                    <th>{{ pool.max_submissions }}</th>
                     <th>{% if user in pool.members.all or user == pool.administrator %}
                         Already Joined
                         {% else %}
@@ -27,12 +35,15 @@
                         {% endif %}
                     </th>
                 </tr>
-            {% endif %}
-         {% endfor %}
-     {% else %}
-        <tr>
-            <td colspan="4">There are no open Public Pools at this time.</td>
-        </tr>
-     {% endif %}
- </table>
+           {% endfor %}
+       {% else %}
+          <tr>
+              <td colspan="4">There are no open public Oscar Pools at this time.</td>
+          </tr>
+       {% endif %}
+   </table>
+ </div>
+{% endblock %}
+{% block active_tab %}
+	<script>$('#joinPool').addClass('active')</script>
 {% endblock %}
