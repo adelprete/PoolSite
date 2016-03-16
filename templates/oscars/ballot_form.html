@@ -34,11 +34,11 @@
           <div class="col-md-3" style="margin-top: 1em;">
               {% if allow_new_ballots %}
                   {% if user = ballot_form.instance.member or not ballot_form.instance.id %}
-                      <button class="btn btn-primary" type="submit" style="margin-left: 1em;">
+                      <button class="btn btn-primary" type="submit" style="margin-left: 1em;margin-right: 1.5em;">
                         Save Ballot
                       </button>
                       {% if ballot_form.instance.id %}
-                      <button class="btn btn-primary" type="submit" name='delete' id="delete" style="margin-left: 1.5em;" onclick="return confirm('Are you sure you want to delete this Ballot?')">
+                      <button class="btn btn-primary" type="submit" name='delete' id="delete" onclick="return confirm('Are you sure you want to delete this Ballot?')">
                         Delete Ballot
                       </button>
                       {% endif %}

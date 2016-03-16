@@ -46,7 +46,7 @@ class OscarPool(bmodels.Pool):
     """
     This Class is for every Oscar Pool.  It has relationships with its ballots and ceremony.
     """
-    entry_deadline = models.DateTimeField(null=True,blank=True,help_text="Last date pool members can submit there ballots")
+    entry_deadline = models.DateTimeField(null=True,blank=True,help_text="Last date pool members can submit there ballots.")
     oscar_ceremony = models.ForeignKey('oscars.OscarCeremony',null=True)
     how_to_win = models.CharField(max_length=40, choices={('points','By Accumulated Points'),('correct','By Number of Correct Picks')})
     up_to_date = models.BooleanField()

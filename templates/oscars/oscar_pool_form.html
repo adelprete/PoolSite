@@ -1,9 +1,14 @@
-{% extends "panel_core.html" %}
-
+{% extends "oscars/pool_home_core.html" %}
+{% load bootstrap3 %}
+{% block page-css-links %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
+{% endblock %}
 {% block head %}
 {{ block.super }}
     <script type="text/javascript">
         $(function(){
+
             if($("#id_how_to_win").val() == '' || $("#id_how_to_win").val() == 'correct'){
                 $("input[id$=points]").hide();
                 $("#points").hide();
@@ -40,169 +45,168 @@
 
     </script>
 {% endblock %}
-{% block menu %}
-{{ block.super }}
+{% block pool_menu %}
     {% if pool %}
-    <div class="submenu" style="overflow:visible;width:950px;height:52px; margin:-21 auto;">
-            <ul>
-                <li><a href="{{ pool.get_absolute_url }}">Pool Home</a></li>
-                <li id="ballots"><a href="{% url 'oscar_pool_ballots' pool.id %}">Ballots</a></li>
-                <li><a href="{% url 'oscar_standings' pool.id %}">Standings</a></li>
-                <li><a href="{% url 'oscar_members' pool.id %}">Members</a></li>
-                <li><a href="{% url 'predictions' pool.id %}">Predictions/Results</a></li>
-                {% if user == pool.administrator %}
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" style="color:orange;" href="#" role="button">
-                        Admin<span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'oscar_settings' pool.id %}">Settings</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li><a href="{% url 'oscar_email_members' pool.id %}">Email members</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+    {{ block.super }}
     {% endif %}
 {% endblock %}
 {% block body %}
-{% if pool %}
-    <title>Settings - {{ pool.name }} | Office Pool Hub</title>
-    <h2 style="font-family:Verdana, Geneva, sans-serif;"><b>{{ pool.name }} Settings</b></h2>
-    <h4>You will not be able to edit the pool settings once the ceremony has started</h4>
-{% else %}
-    <title>Create Oscar Pool | Office Pool Hub</title>
-    <h2>Create an Oscar pool</h2>
-{% endif %}
-{% if pool and pool.is_past_due %}
-        <table class="span-18">
-        <tr>
-            <td class="span-3">{{ form.name.label_tag }}</td>
-            <td class="span-6">{{ form.name.value }}</td>
-            <td>{{ form.name.errors }}</td>
-        </tr>
+  {% if pool %}
+      <title>Settings - {{ pool.name }} | Office Pool Hub</title>
+      <h2 class="headliner">{{ pool.name }} Settings</h2>
+      <h4 style="margin:0em 0em 1em 1em;">You will not be able to edit the pool settings once the ceremony has started</h4>
+  {% else %}
+      <title>Create Oscar Pool | Office Pool Hub</title>
+      <h2 class="headliner">Create an Oscar pool</h2>
+  {% endif %}
+  {% if pool and pool.is_past_due %}
+    <div style="margin-left: 1.5em;">
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.name.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-5">
+            {{ form.name.value }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.public.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-5">
+            {{ form.public.value }}
+          </div>
+        </div>
         {% if form.public.value == False %}
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password.value }}</td>
-            <td>{{ form.password.help_text }}</td>
-            <td>{{ form.password.errors }}</td>
-        </tr>
+          <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-5">
+              {{ form.password.label_tag }}
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-5">
+              {{ form.password.value }}
+            </div>
+          </div>
         {% endif %}
-        <tr>
-            <td>{{ form.entry_deadline.label_tag }}</td>
-            <td>{{ form.entry_deadline.value }}<br>
-                All time is in EST</td>
-            <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
-            <td>{{ form.entry_deadline.errors }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.max_submissions.label_tag }}</td>
-            <td>{{ form.max_submissions.value }}</td>
-            <td>{{ form.max_submissions.help_text }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.public.label_tag }}</td>
-            <td>{{ form.public.value }}</td>
-            <td>{{ form.public.help_text }}</td>
-        </tr>
-       </table>
-        <div class="span-18">
-        <h3>Create the Ballot</h3>
-        <table style="margin-top:-10px;margin-bottom:1px;">
-        <tr>
-            <td class="span-3">{{ form.how_to_win.label_tag }}</td>
-            <td class="span-4">{{ form.instance.get_how_to_win_display }}</td>
-            <td>{{ form.how_to_win.errors }}</td>
-        </tr>
-        </table>
-        <table>
-        <tr>
-            <td class="span-4"><u>Award</u></td>
-            <td id="points"><u>Awarded points</u></td>
-        </tr>
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.entry_deadline.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-7">
+            {{ form.entry_deadline.value }} All time in EST.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.max_members.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-5">
+            {{ form.max_members.value }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.max_submissions.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-5">
+            {{ form.max_submissions.value }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-sm-3 col-xs-5">
+            {{ form.how_to_win.label_tag }}
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-6">
+            {{ form.instance.get_how_to_win_display }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="headliner">Awards on Ballot:</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-sm-3 col-xs-6" style="text-decoration:underline; font-weight: bold;">
+            Award
+          </div>
+          {% if form.instance.how_to_win != 'correct' %}
+          <div class="col-md-2 col-sm-3 col-xs-5 text-left" style="text-decoration:underline; font-weight: bold;">
+            Awarded Points
+          </div>
+          {% endif %}
+        </div>
         {% for c in category_forms %}
             {% if c.active.value == True %}
-            <tr>
-                <td>{{ c.name.value }}</td>
-                <td>{{ c.points.value }}</td>
-            </tr>
+              <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                  {{ c.name.value }}
+                </div>
+                {% if form.instance.how_to_win != 'correct' %}
+                <div class="col-md-2 col-sm-3 col-xs-5">
+                  {{ c.points.value }}
+                </div>
+                {% endif %}
+              </div>
             {% endif %}
         {% endfor %}
-        </table>
-            </div>
-{% else %}
-<form method="post" class="span-18">{% csrf_token %}
-    <table>
-        <tr>
-            <td class="span-3">{{ form.name.label_tag }}</td>
-            <td class="span-6">{{ form.name }}</td>
-            <td>{{ form.name.errors }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.public.label_tag }}</td>
-            <td>{{ form.public }}</td>
-            <td>{{ form.public.help_text }}</td>
-        </tr>
-        <tr id="row_password">
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-            <td>{{ form.password.help_text }}</td>
-            <td>{{ form.password.errors }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password_confirm.label_tag }}</td>
-            <td>{{ form.password_confirm }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.entry_deadline.label_tag }}</td>
-            <td>{{ form.entry_deadline }}<br>
-                All time is in EST</td>
-            <td>{{ form.entry_deadline.help_text }} Award show airs on {{ ceremony.date }}</td>
-            <td>{{ form.entry_deadline.errors }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.max_members.label_tag }}</td>
-            <td>{{ form.max_members }}</td>
-            <td>{{ form.max_members.help_text }}</td>
-            <td>{{ form.max_members.errors }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.max_submissions.label_tag }}</td>
-            <td>{{ form.max_submissions }}</td>
-            <td>{{ form.max_submissions.help_text }}</td>
-            <td>{{ form.max_submissions.errors }}</td>
-        </tr>
-       </table>
-    <h3>Create the Ballot</h3>
-    <table style="margin-top:-10px;margin-bottom:-15px;">
-        <tr>
-            <td class="span-3">{{ form.how_to_win.label_tag }}</td>
-            <td class="span-4">{{ form.how_to_win }}</td>
-            <td>{{ form.how_to_win.errors }}</td>
-        </tr>
-    <table>
-    <table>
-        <tr>
-                <td class="span-3"><u>Check to include category</u></td>
-                <td class="span-4"><u>Award</u></td>
-                <td id="points"><u>Awarded points</u></td>
-            </tr>
-        {% for c in category_forms %}
-            <tr>
-                <td>{{ c.active }}</td>
-                <td>{{ c.name.value }}</td>
-                <td>{{ c.points }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <div>
-        <input class="submit" type="submit" name="submit" value="{% if pool %}Save{% else %}Create Pool{% endif %}" />
-        {% if form.instance.id %}
-        <input class="submit delete" type="submit" name="delete" id="delete" value="Delete Pool" />
-        {% endif %}
-    </div>
-</form>
- {% endif %}
+      </div>
+  {% else %}
+  <form method="post">{% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="col-md-9">
+            {% bootstrap_field form.name %}
+          </div>
+          <div class="col-md-12">
+            {% bootstrap_field form.public %}
+          </div>
+          <div id="row_password" class="col-md-9">
+            {% bootstrap_field form.password %}
+          </div>
+          <div class="col-md-9">
+            {% bootstrap_field form.entry_deadline %}
+          </div>
+          <div class="col-md-7">
+            {% bootstrap_field form.max_members %}
+          </div>
+          <div class="col-md-7">
+            {% bootstrap_field form.max_submissions %}
+          </div>
+          <div class="col-md-12">
+            <h3 class="headliner">Create the Ballot</h3>
+          </div>
+          <div class="col-md-7">
+            {% bootstrap_field form.how_to_win %}
+          </div>
+        </div>
+        <div class="col-md-7" style="margin: 1em 0em 0em 1em;">
+          <table class="table">
+              <tr class="header">
+                  <th>Check to include category</th>
+                  <th>Award</th>
+                  <th id="points">Awarded points</th>
+              </tr>
+              {% for c in category_forms %}
+                  <tr>
+                      <td>{{ c.active }}</td>
+                      <td>{{ c.name.value }}</td>
+                      <td>{{ c.points }}</td>
+                  </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            <button type="submit" name="submit" class="btn btn-primary"  style="margin-left: 1em; margin-right: 1.5em;">
+              {% if pool %}Save{% else %}Create Pool{% endif %}
+            </button>
+            {% if form.instance.id %}
+              <button class="btn btn-primary" type="submit" name="delete" id="delete"  onclick="return confirm('Are you sure you want to delete this Pool?')">
+                Delete Pool
+              </button>
+            {% endif %}
+        </div>
+      </div>
+  </form>
+  {% endif %}
 {% endblock %}

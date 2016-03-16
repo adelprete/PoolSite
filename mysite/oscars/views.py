@@ -336,6 +336,8 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
 
                 messages.success(request,"Your Pool Settings have been Saved")
                 return HttpResponseRedirect(pool_record.get_absolute_url())
+        else:
+            messages.error(request,"Pool not saved.  Check that each field is filled out correctly.")
 
     if not pool:
         pool_form.initial = {'entry_deadline':ceremony.date}

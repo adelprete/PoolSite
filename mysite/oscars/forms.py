@@ -12,7 +12,7 @@ class OscarPoolForm(forms.ModelForm):
 
     entry_deadline = forms.DateTimeField(
         widget=DateTimeWidget(attrs={'id':"entry_deadline_id"},options={'showMeridian':'true'},usel10n = True),
-        help_text="This is the last date and time pool members can submit or edit their ballots.",
+        help_text="This is the last date and time pool members can submit or edit their ballots. Time is in Eastern Time.",
         required=False
     )
 
