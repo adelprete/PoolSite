@@ -1,26 +1,28 @@
 {% extends "panel_core.html" %}
+{% load bootstrap3 %}
+{% block page-css-links %}{% endblock %}
 {% block body %}
     <title>Contact | Office Pool Hub</title>
-    <h2 style="font-family:Verdana, Geneva, sans-serif">Contact</h2>
-    <h3>You can contact us about anything.  It can be to ask a Question, report a Bug, offer Advice, send Praise, or express Hatred.  The
-    choice is yours!</h3>
+    <h2 class="headliner">Contact</h2>
+    <h4>You can contact us about anything.  It can be to ask a Question, report a Bug, offer Advice, send Praise, or express Hatred.  The
+    choice is yours!</h4>
+    <br>
     <form method="post" action="">{% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.email.label_tag }}</td>
-                <td>{{ form.email }}{{ form.email.errors }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.subject.label_tag }}</td>
-                <td>{{ form.subject }}{{ form.subject.errors }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.body.label_tag }}</td>
-                <td>{{ form.body }}{{ form.body.errors }}</td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Send" /></td>
-            </tr>
-        </table>
+      <div class="row">
+        <div class="col-md-4 col-sm-5">
+          {% bootstrap_field form.email %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-5">
+          {% bootstrap_field form.subject %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-sm-9">
+          {% bootstrap_field form.body %}
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Send</button>
     </form>
 {% endblock %}

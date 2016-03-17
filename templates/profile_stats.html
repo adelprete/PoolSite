@@ -1,29 +1,35 @@
 {% extends 'panel_core.html' %}
+{% block page-css-links %}{% endblock %}
 {% block body %}
         <title>Profile - {{ member }} | Office Pool Hub</title>
-        <font style="font-size:2em;font-family:Verdana, Geneva, sans-serif"><b>{{ member }}</b></font>
-        &nbsp&nbsp{% if member == user %}<font style=""><a href="{% url 'profile_basics' member.memberprofile.id %}">update information</a></font>{% endif %}
-        <br><br>Member Since: {{ member.date_joined.date }}<br>
+        <h2 class="headliner">{{ member }}
+          {% if member == user %}
+            <small><a href="{% url 'profile_basics' member.memberprofile.id %}">update information</a></small>
+          {% endif %}
+        </h2>
+        Member Since: {{ member.date_joined.date }}<br>
 
-        <table class="span-10" style="margin: 0 auto !important;float: none !important;">
-            <tr>
-                <td colspan="3" style="font-size:25px;text-align:center;font-family:Verdana, Geneva, sans-serif">Win Totals</td>
-            </tr>
-            <tr>
-                <td style="text-align:center;">
-                    <font style=font-size:20px;">1st</font><br>
-                    <img src="{{ STATIC_URL }}img/gold-trophy.png" height="30px" width="73"><br>
-                    <font style=font-size:20px;">{{totals.first_total}}</font></td>
-                <td style="text-align:center;">
-                    <font style=font-size:20px;">2nd</font><br>
-                    <img src="{{ STATIC_URL }}img/silver-trophy.png" height="30px" width="73"><br>
-                    <font style=font-size:20px;">{{totals.second_total}}</font></td>
-                <td style="text-align:center;">
-                    <font style=font-size:20px;">3rd</font><br>
-                    <img src="{{ STATIC_URL }}img/bronze-trophy.png" height="30px" width="73"><br>
-                    <font style=font-size:20px;">{{totals.third_total}}</font></td>
-            </tr>
-        </table>
+        <div class="row" style="padding-bottom: 20px;">
+          <div class="col-md-12">
+            <h1 style="font-family:Sofia;text-align:center;padding-bottom: 10px;">Win Totals</h1>
+          </div>
+          <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-1 col-xs-4 text-center">
+            <span style="font-size:20px;">1st</span>
+            <img class="img-responsive center-block" src="{{ STATIC_URL }}img/gold-trophy.png" height="124px" width="106px">
+            <h3>{{totals.first_total}}</h3>
+          </div>
+          <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+            <span style="font-size:20px;">2nd</span>
+            <img class="img-responsive center-block" src="{{ STATIC_URL }}img/silver-trophy.png" height="124px" width="106px">
+            <h3>{{totals.second_total}}</h3>
+          </div>
+          <div class="col-md-2 col-sm-3 col-xs-4 text-center">
+            <span style="font-size:20px;">3rd</span>
+            <img class="img-responsive center-block" src="{{ STATIC_URL }}img/bronze-trophy.png" height="124px" width="106px">
+            <h3>{{totals.third_total}}</h3>
+          </div>
+        </div>
+        {% comment %}
         <br><br>
         <table class="span-21" style="margin: 0 auto !important;float: none !important;">
             <tr>
@@ -51,4 +57,5 @@
                 {% endfor %}
             </tr>
         </table>
+        {% endcomment %}
 {% endblock %}
