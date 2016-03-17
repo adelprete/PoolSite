@@ -224,6 +224,9 @@ body>footer>div#content {
 
 
 /* Misc */
+.well {
+  border: 1px solid;
+}
 input:checked + span {
   font-weight: bold !important;
 }
@@ -232,4 +235,10 @@ input:checked + span {
   border-left: 1px solid;
   height:200px;
   margin-top:30px;
+}
+
+.tab-image {
+  background-size: 12% 100%;
+  background-repeat:no-repeat;
+  background-position: left center;
 }

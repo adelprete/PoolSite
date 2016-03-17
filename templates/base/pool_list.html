@@ -12,7 +12,7 @@
       <ul style="list-style-type: none;">
         {% for pool in cur_oscar_pools %}
           <li>
-            <div class="well well-sm" style="text-align:center;">
+            <div class="well well-sm tab-image" style="text-align:center; background-image: url('{{ STATIC_URL }}img/tab-oscars-logo.png');">
               <span style="font-weight:bold;"><a href="{{ pool.get_absolute_url }}">{{ pool.name }}</a></span>
               <span style="padding: 0px 15px;">|</span> Admin: {{ pool.administrator }}
             </div>
