@@ -3,6 +3,7 @@
     <head>
 
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
         {% block head %}
           <script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
@@ -48,15 +49,6 @@
 
           ga('create', 'UA-59316800-1', 'auto');
           ga('send', 'pageview');
-
-        </script>
-        <script>
-
-        $(window).scroll(function () {
-          //$('#navbarPool').width($('#content').width());
-          //$('#navcollapse').width($('#content').width());
-          //$('#divpool').width($('#content').width());
-        });
 
         </script>
     </head>
@@ -131,104 +123,104 @@
                   {% endblock %}
             </header>
 
-            <div id="content" class="container">
+            <div class="container" style="background-color: #FFF;">
               {% include 'messages.html' %}
               {% block body %}
-              <div class="row">
-                <div class="col-md-12">
-                  <h2 class="headliner">Your premiere destination for easy Oscar pool management.</h2>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2 class="headliner">Your premiere destination for easy Oscar pool management.</h2>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <article class="col-md-4 col-sm-4 padding-10">
-                  <div class="panel panel-custom">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">Fun to Play</h3>
-                      </div>
-                      <div class="panel-body">
-                        Oscar Pools instantly makes the Academy Awards way more fun to watch!</br></br>
-                        Your friends or co-workers will compete to see who can guess the winners at this year's Oscars!
-                      </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 padding-10">
+                    <div class="panel panel-custom">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Fun to Play</h3>
+                        </div>
+                        <div class="panel-body">
+                          Oscar Pools instantly makes the Academy Awards way more fun to watch!</br></br>
+                          Your friends or co-workers will compete to see who can guess the winners at this year's Oscars!
+                        </div>
+                    </div>
                   </div>
-                </article>
-                <article class="col-md-4 col-sm-4 padding-10">
-                  <div class="panel panel-custom">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">Easy Setup</h3>
-                      </div>
-                      <div class="panel-body">
-                        Creating and managing an Oscar Pool has never been easier.</br></br>
-                        All you need to do see create a pool, invite some friends, and let us do all the scoring for you.
-                      </div>
+                  <div class="col-md-4 col-sm-4 padding-10">
+                    <div class="panel panel-custom">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Easy Setup</h3>
+                        </div>
+                        <div class="panel-body">
+                          Creating and managing an Oscar Pool has never been easier.</br></br>
+                          All you need to do see create a pool, invite some friends, and let us do all the scoring for you.
+                        </div>
+                    </div>
                   </div>
-                </article>
-                <article class="col-md-4 col-sm-4 padding-10">
-                  <div class="panel panel-custom">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">
-                          Mobile Ready
-                        </h3>
-                      </div>
-                      <div class="panel-body">
-                        Our site was designed with desktop and mobile devices in mind.</br></br>
-                        Easily access and manage your pools on all of your devices, wherever you are.
-                      </div>
+                  <div class="col-md-4 col-sm-4 padding-10">
+                    <div class="panel panel-custom">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">
+                            Mobile Ready
+                          </h3>
+                        </div>
+                        <div class="panel-body">
+                          Our site was designed with desktop and mobile devices in mind.</br></br>
+                          Easily access and manage your pools on all of your devices, wherever you are.
+                        </div>
+                    </div>
                   </div>
-                </article>
-              </div>
-              <div class="row padding-10">
-                <h2 class="headliner"><u>How it Works</u></h2>
-                <div class="col-md-10 col-md-offset-1 text-center">
-                    <p>Users can create and join Oscar Pools with their friends and co-workers where they
-                    will compete to see who can correctly guess the winners of each category at the
-                    Academy Awards.</p>
+                </div>
+                <div class="row padding-10">
+                  <h2 class="headliner"><u>How it Works</u></h2>
+                  <div class="col-md-10 col-md-offset-1 text-center">
+                      <p>Users can create and join Oscar Pools with their friends and co-workers where they
+                      will compete to see who can correctly guess the winners of each category at the
+                      Academy Awards.</p>
 
-                    <p>Members of each pool will have up to the start of the Award Ceremony
-                    to fill out or make changes to their Ballots. During the ceremony our team will be
-                    updating the scores in real time, so you'll know who in your pool is winning and
-                    losing throughout the entire ceremony!</p>
-                </div>
-              </div>
-              <div class="row padding-10" style="background-color: #f5f5f5;">
-                <h2 class="headliner"><u>Different Ways to Win</u></h2>
-                <div class="col-md-1"></div>
-                <div class="col-md-5 text-center">
-                  <div class="panel panel-custom">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">Win By Number of Correct Picks</h3>
-                      </div>
-                      <div class="panel-body">
-                        Its simple, winners in this format are decied by who correctly guesses
-                          the most award winners.
-                      </div>
+                      <p>Members of each pool will have up to the start of the Award Ceremony
+                      to fill out or make changes to their Ballots. During the ceremony our team will be
+                      updating the scores in real time, so you'll know who in your pool is winning and
+                      losing throughout the entire ceremony!</p>
                   </div>
                 </div>
-                <div class="col-md-5 text-center">
-                  <div class="panel panel-custom">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">Win By Accumulated Points</h3>
-                      </div>
-                      <div class="panel-body">
-                        In this format the Admin of the Pool will assign points to each award category.
-                          The Member whose ballot has the most points by the end of Award Ceremony wins.
-                      </div>
+                <div class="row padding-10" style="background-color: #f5f5f5;">
+                  <h2 class="headliner"><u>Different Ways to Win</u></h2>
+                  <div class="col-md-1"></div>
+                  <div class="col-md-5 text-center">
+                    <div class="panel panel-custom">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Win By Number of Correct Picks</h3>
+                        </div>
+                        <div class="panel-body">
+                          Its simple, winners in this format are decied by who correctly guesses
+                            the most award winners.
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 text-center">
+                    <div class="panel panel-custom">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Win By Accumulated Points</h3>
+                        </div>
+                        <div class="panel-body">
+                          In this format the Admin of the Pool will assign points to each award category.
+                            The Member whose ballot has the most points by the end of Award Ceremony wins.
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row padding-10">
+                  <h2 class="headliner"><u>Get Started!</u></h2>
+                  <div class="col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-3 padding-10">
+                    <form action="{% url 'create_oscar_pool' %}" method="get">
+                      <button class="btn btn-primary btn-lg" style="width: 100%;">Create a Pool</button>
+                    </form>
+                  </div>
+                  <div class="col-md-2 col-sm-3 padding-10">
+                    <form action="{% url 'join_pool' %}" method="get">
+                      <button class="btn btn-primary btn-lg" style="width: 100%;">Join a Pool</button>
+                    </form>
                   </div>
                 </div>
               </div>
-              <div class="row padding-10">
-                <h2 class="headliner"><u>Get Started!</u></h2>
-                <div class="col-md-6 text-right">
-                  <form action="{% url 'create_oscar_pool' %}" method="get">
-                    <button class="btn btn-primary btn-lg">Create a Pool</button>
-                  </form>
-                </div>
-                <div class="col-md-6 text-left">
-                  <form action="{% url 'join_pool' %}" method="get">
-                    <button class="btn btn-primary btn-lg">Join a Pool</button>
-                  </form>
-                </div>
-              </div>
-            </div>
             {% endblock %}
             </div>
             {% block footer %}
