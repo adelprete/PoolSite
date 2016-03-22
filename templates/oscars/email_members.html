@@ -3,17 +3,17 @@
 {% block body %}
   <title>Email Members | Office Pool Hub</title>
   <h2 class="headliner">Email Members</h2>
-  <div style="margin-left: 1em;">
+  <div class="padding-left-md-1">
     <p>Email your pool members with reminders and updates.</p>
 
     <form method="get">{% csrf_token %}
       <div>
               <span style="font-weight:bold">From:</span><br>
-              <span style="margin-left: 1em;">{{ user }}</span>
+              <span class="padding-left-md-2">{{ user }}</span>
       </div><br>
       <div>
               <span style="font-weight:bold">To:</span><br>
-              <span style="margin-left: 1em;">All Pool Members</span>
+              <span class="padding-left-md-2">All Pool Members</span>
       </div><br>
       <div class="row">
         <div class="col-md-7">

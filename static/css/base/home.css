@@ -1,0 +1,22 @@
+.headliner {
+  text-align:center;
+}
+
+.panel {
+  margin:5px;
+}
+
+.panel-custom {
+  border-color: #27282C;
+}
+
+.panel-custom > .panel-heading {
+  color: yellow;
+  text-align:center;
+  font-size:1.7em;
+  background-color:#27282C;
+}
+
+.panel-custom > .panel-heading > .panel-title{
+  font-size:1.0em;
+}

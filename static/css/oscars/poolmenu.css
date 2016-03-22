@@ -1,0 +1,79 @@
+
+#navbarPool.affix {
+    position: fixed;
+    top: 30px;
+    margin:0px;
+    width: 100%;
+}
+
+#navbarPool.navbar {
+  background-color: #36393B;
+  border: 0px;
+  border-radius:0px;
+  width:100%;
+  margin-bottom: 0px;
+  z-index: 50;
+}
+
+#navbarPool.navbar-default .navbar-toggle {
+    border-color: #DDD;
+}
+
+#navbarPool.navbar-default .navbar-toggle {
+  background-color: #27282C;
+  border-color: #27282C;
+}
+
+#navbarPool.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+  background-color: #36393B;
+  border-color: #36393B;
+}
+
+#navbarPool.navbar-default .navbar-toggle .icon-bar {
+  background-color: #FFF; #CC240A;
+}
+
+#navbarPool.navbar-default .navbar-nav>li:hover {
+  background-color: #36393B;
+}
+
+#navbarPool.navbar-default .navbar-nav>li>a:hover {
+  text-decoration: underline;
+}
+
+#navbarPool.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: #36393B;
+  color: #FFF
+}
+
+#navbarPool.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+  color: #FFF;
+  background-color: #36393B;
+}
+#navbarPool .dropdown-menu {
+  color: #FFF;
+  background-color:  #36393B;
+  border: 4px black;
+}
+
+#navbarPool .dropdown-menu>li>a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+#navbarPool .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .dropdown-menu>li>a:active{
+    color: #FFF;
+    text-decoration: underline !important;
+    background-color: #36393B;
+}
+
+
+#navbarPool .dropdown-menu .divider {
+    background-color: black;
+}
+
+@media (max-width: 767px) {
+  #navbarPool.affix {
+      top: 0px;
+  }
+}

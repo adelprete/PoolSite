@@ -21,10 +21,10 @@
                     <th></th>
                 </tr>
                 {% for key,value in value.items %}
-                    <tr>
+                    <tr style="{% if key == cat_winner  %}color:green;{% endif %}">
                         <td style="width: 70%;"><strong>{{ key.name }}</strong> - {{ key.secondary_name }}</td>
                         <td style="text-align:left;"> {{ value }}</td>
-                        <td>{% if key == cat_winner  %}<font style="text-align:left;color:green"><strong>WINNER</strong></font>{% endif %}</td>
+                        <td style="text-align:left;">{% if key == cat_winner  %}<strong>WINNER</strong>{% endif %}</td>
                     </tr>
                 {% endfor %}
               </table>
