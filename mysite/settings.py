@@ -32,7 +32,7 @@ ADMINS = (
 #DEFAULT_FROM_EMAIL = "OfficePoolHub <no-reply@officepoolhub.com>"
 
 ALLOWED_HOSTS = [
-    'www.officepoolhub.com',
+    'www.oscarpoolhub.com',
     '127.0.0.1:9001',
     '50.116.20.10',
     '127.0.0.1',
