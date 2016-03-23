@@ -100,7 +100,7 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm):
 
             if profile == None:
                 messages.success(request,"Thank you for Signing Up!")
-                send_mail('New Member!', 'A new member by the name of '+profile_record.user.username+' has joined the site.  Go say something!','officepoolhub@gmail.com',
+                send_mail('New Member!', 'A new member by the name of '+profile_record.user.username+' has joined the site.  Go say something!','admin@oscarpoolhub.com',
                           ['adelprete87@gmail.com'], fail_silently=False)
                 return redirect(reverse("root"))
 
@@ -325,7 +325,7 @@ def contact(request, form=bforms.ContactForm):
             contact_record.creation_date = datetime.datetime.utcnow()
             contact_record.save()
             messages.success(request,"Thank You. We have received your message.")
-            send_mail('New Contact', 'Someone left us a message in the contact section','officepoolhub@gmail.com',
+            send_mail('New Contact', 'Someone left us a message in the contact section','admin@oscarpoolhub.com',
                       ['adelprete87@gmail.com'], fail_silently=False)
 
     context = {

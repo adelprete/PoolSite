@@ -1,9 +1,10 @@
 {% extends 'panel_core.html' %}
+{% block page-css-links %}{% endblock %}
 {% block body %}
-  <title>Activation Complete | Office Pool Hub</title>
+  <title>Activation Complete | Oscar Pool Hub</title>
   <div class="row" >
     <div class="col-md-12">
-      <h2>Account Activated.</h2>
+      <h2 class="headliner">Account Activated.</h2>
       <h3><a href="{% url 'django.contrib.auth.views.login' %}">Click Here to Log in</a></h3>
     </div>
   </div>

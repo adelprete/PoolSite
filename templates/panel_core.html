@@ -67,8 +67,11 @@
                   <div id="userBanner" class="hidden-xs">
                       {% if not user.is_anonymous %}
                       <div>
-                        Hi {{ user }}<br>
-                        <a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a> - <a href="{% url 'logout_user' %}">Logout</a>
+                        <strong style="font-size: 1.2em;">Hi {{ user }}!</strong><br>
+                        {% if user.memberprofile %}
+                          <a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a> - 
+                        {% endif %}
+                        <a href="{% url 'logout_user' %}">Logout</a>
                       </div>
                       {% else %}
                       <div id="notLoggedIn">
@@ -110,7 +113,9 @@
                         {% if not user.is_anonymous %}
                           <p class="navbar-text navbar-right">Signed in as {{ user }}</p>
                           <li><a href="{% url 'logout_user' %}">Log Out</a></li>
+                          {% if user.memberprofile %}
                           <li><a href="{% url 'profile_stats' user.memberprofile.id %}">Profile</a></li>
+                          {% endif %}
                         {% else %}
                           <li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
                           <li><a href="{% url 'registration_register' %}">Sign up</a></li>
