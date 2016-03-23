@@ -1,0 +1,10 @@
+{% extends "panel_core.html" %}
+{% load bootstrap3 %}
+{% block page-css-links %}{% endblock %}
+{% block body %}
+<h1 class="headliner">Show me the money</h1>
+<form method="post" action="">{% csrf_token %}
+  {% bootstrap_form form %}
+  <input type="submit" value="Pay Up">
+</form>
+{% endblock %}

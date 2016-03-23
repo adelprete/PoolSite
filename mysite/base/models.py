@@ -39,6 +39,7 @@ class Pool(models.Model):
     public = models.BooleanField(default=False,help_text="By making your pool public, random people will be able to join your pool.")
     max_members =  models.PositiveIntegerField(default=12)
     is_full = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
 
     #Top 3
     winner = models.ForeignKey('auth.User',null=True,blank=True,related_name='winner_set')

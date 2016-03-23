@@ -332,3 +332,8 @@ def contact(request, form=bforms.ContactForm):
         "form":form,
     }
     return render(request,'base/contact.html',context)
+
+
+def ipn_listener(request):
+    import pdb;pdb.set_trace()
+    pass

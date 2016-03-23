@@ -319,7 +319,9 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         category_record.pool = pool_record
                         category_record.save()
                 messages.success(request,"Pool Settings Saved")
-                return HttpResponseRedirect(pool_record.get_absolute_url())
+
+                return HttpResponseRedirect(reverse("payment_url",kwargs={'id':pool_record.id}))
+                #return HttpResponseRedirect(pool_record.get_absolute_url())
             else:
                 for base in base_categories:
                     post_values = request.POST.copy()
