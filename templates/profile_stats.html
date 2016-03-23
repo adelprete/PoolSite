@@ -1,7 +1,7 @@
 {% extends 'panel_core.html' %}
 {% block page-css-links %}{% endblock %}
 {% block body %}
-        <title>Profile - {{ member }} | Office Pool Hub</title>
+        <title>Profile - {{ member }} | Oscar Pool Hub</title>
         <h2 class="headliner">{{ member }}
           {% if member == user %}
             <small><a href="{% url 'profile_basics' member.memberprofile.id %}">update information</a></small>
