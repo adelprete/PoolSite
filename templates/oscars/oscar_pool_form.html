@@ -46,18 +46,25 @@
     </script>
 {% endblock %}
 {% block pool_menu %}
-    {% if pool %}
-    {{ block.super }}
+    {% if pool and pool.paid %}
+      {{ block.super }}
     {% endif %}
 {% endblock %}
 {% block body %}
+
+  {% if pool.paid == False %}
+    <ol class="breadcrumb" style="font-size:1.4em;padding-top:20px;margin:0px;">
+      <li><a href="{% url 'oscar_settings' pool.id %}"><u>Pool Settings</u></a></li>
+      <li><a href="{% url 'oscar_payment' pool.id %}">Payment</a></li>
+    </ol>
+  {% endif %}
   {% if pool %}
       <title>Settings - {{ pool.name }} | Oscar Pool Hub</title>
-      <h2 class="headliner">{{ pool.name }} Settings</h2>
+      <h2 class="headliner">{{ pool.name }} Settings {% if pool.paid == False %}<small>Step 1 of 2</small>{% endif %}</h2>
       <h4 style="margin:0em 0em 1em 1em;">You will not be able to edit the pool settings once the ceremony has started</h4>
   {% else %}
       <title>Create Oscar Pool | Office Pool Hub</title>
-      <h2 class="headliner">Create an Oscar pool</h2>
+      <h2 class="headliner">Create an Oscar pool <small>Step 1 of 2</small></h2>
   {% endif %}
   {% if pool and pool.is_past_due %}
     <div style="margin-left: 1.5em;">
@@ -161,71 +168,7 @@
         </div>
       </div>
   {% else %}
-  <form method="post">{% csrf_token %}
-      <div class="row">
-        <div class="col-md-6">
-          <div class="col-md-9">
-            {% bootstrap_field form.name %}
-          </div>
-          <div class="col-md-12">
-            {% bootstrap_field form.public %}
-          </div>
-          <div id="row_password" class="col-md-9">
-            {% bootstrap_field form.password %}
-          </div>
-          <div class="col-md-9">
-            {% bootstrap_field form.entry_deadline %}
-          </div>
-          <div class="col-md-7">
-            {% bootstrap_field form.max_members %}
-          </div>
-          <div class="col-md-7">
-            {% bootstrap_field form.max_submissions %}
-          </div>
-          <div class="col-md-12">
-            <h3 class="headliner">Create the Ballot</h3>
-          </div>
-          <div class="col-md-7">
-            {% bootstrap_field form.how_to_win %}
-          </div>
-        </div>
-        <div class="col-md-7" style="margin: 1em 0em 0em 1em;">
-          <table class="table">
-              <tr class="header">
-                  <th>Check to include category</th>
-                  <th>Award</th>
-                  <th id="points">Awarded points</th>
-              </tr>
-              {% for c in category_forms %}
-                  <tr>
-                      <td>{{ c.active }}</td>
-                      <td>{{ c.name.value }}</td>
-                      <td>{{ c.points }}</td>
-                  </tr>
-              {% endfor %}
-          </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-            <button type="submit" name="submit" class="btn btn-primary"  style="margin-left: 1em; margin-right: 1.5em;">
-              {% if pool %}Save{% else %}Create Pool{% endif %}
-            </button>
-            {% if form.instance.id %}
-              <button class="btn btn-primary" type="submit" name="delete" id="delete"  onclick="return confirm('Are you sure you want to delete this Pool?')">
-                Delete Pool
-              </button>
-            {% endif %}
-        </div>
-      </div>
-  </form>
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-    <input type="hidden" name="cmd" value="_s-xclick">
-    <input type="hidden" name="hosted_button_id" value="C83CRX75H6JVW">
-    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-    </form>
-
+    {% include "oscars/pool_form.html" %}
   {% endif %}
 {% endblock %}
 {% block active_tab %}

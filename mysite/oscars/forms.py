@@ -54,7 +54,7 @@ class OscarPoolForm(forms.ModelForm):
 
     class Meta:
         model = omodels.OscarPool
-        exclude = {'winner','categories','identity','creation_date','oscar_ceremony','admin_note'}
+        exclude = {'winner','categories','identity','creation_date','oscar_ceremony','admin_note','max_members'}
 
 class AdminMessageForm(forms.ModelForm):
 

@@ -22,4 +22,5 @@ urlpatterns = patterns('mysite.oscars.views',
     url(r'^(?P<id>\d+)/predictions$',                       'predictions',          name='predictions'),
     url(r'^(?P<id>\d+)/email_members$',                     'email_members',        name='oscar_email_members'),
     url(r'^(?P<id>\d+)/recap$',                             'pool_standings',       {'template':'oscars/recap.html'},       name='oscar_pool_recap'),
+    url(r'^(?P<id>\w+)/payment$',                           'oscar_payment',        name='oscar_payment'),
 )

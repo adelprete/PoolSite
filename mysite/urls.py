@@ -39,7 +39,6 @@ urlpatterns = patterns('',
     url(r'^pool/(?P<id>\d+)/leave$',                'leave_pool',           name='leave_pool'),
     url(r'^contact/$',                              'contact',              name='contact'),
 
-    #url(r'^payment-url/(?P<id>\w+)$', 'buy_my_item', name='payment_url'),
     #url(r'^paypal/', include('paypal.standard.ipn.urls')),
     url(r'^success/$',        TemplateView.as_view(template_name='success.html'), name='success_url'),
     url(r'^fail/$',        TemplateView.as_view(template_name='fail.html'), name='fail_url'),

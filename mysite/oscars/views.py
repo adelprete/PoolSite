@@ -1,4 +1,5 @@
 import datetime
+import stripe
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from collections import Counter, OrderedDict
@@ -15,6 +16,7 @@ from django.core.mail import send_mail
 from mysite.base import forms as bforms, models as bmodels
 from mysite.base.views import pool_views as pviews
 from mysite.oscars import forms as oforms, models as omodels
+from mysite.oscars.decorators import paid
 
 #Rest imports
 from rest_framework import status, generics
@@ -89,8 +91,8 @@ class pool_homepage(pviews.PoolHomepage):
     def get_pool(self,id):
         return get_object_or_404(omodels.OscarPool,id=id)
 
-
 @login_required
+@paid
 def pool_members(request,id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
@@ -106,6 +108,7 @@ def pool_members(request,id=None):
     return render(request,'oscars/members.html',context)
 
 @login_required
+@paid
 def pool_ballot_list(request,id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
@@ -136,6 +139,7 @@ def pool_ballot_list(request,id=None):
     return render(request,'oscars/ballots.html',context)
 
 @login_required
+@paid
 def pool_ballot(request,id=None,ballot_id=None):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
@@ -231,6 +235,7 @@ def pool_ballot(request,id=None,ballot_id=None):
     }
     return render(request,'oscars/ballot_form.html',context)
 
+
 class pool_standings(pviews.PoolStandings):
     template = 'oscars/standings.html'
     ballots = None
@@ -269,7 +274,8 @@ class pool_standings(pviews.PoolStandings):
 
 
 @login_required
-def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
+@paid
+def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):
 
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
@@ -320,8 +326,10 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         category_record.save()
                 messages.success(request,"Pool Settings Saved")
 
-                return HttpResponseRedirect(reverse("payment_url",kwargs={'id':pool_record.id}))
-                #return HttpResponseRedirect(pool_record.get_absolute_url())
+                #return HttpResponseRedirect(reverse("oscar_payment",kwargs={'id':pool_record.id}))
+                if pool.paid == False:
+                    return HttpResponseRedirect(reverse("oscar_payment",kwargs={'id':pool_record.id}))
+                return HttpResponseRedirect(pool_record.get_absolute_url())
             else:
                 for base in base_categories:
                     post_values = request.POST.copy()
@@ -336,8 +344,9 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
                         category_record.pool = pool_record
                         category_record.save()
 
-                messages.success(request,"Pool Settings Saved")
-                return HttpResponseRedirect(pool_record.get_absolute_url())
+                #messages.success(request,"Pool Settings Saved")
+                return HttpResponseRedirect(reverse("oscar_payment",kwargs={'id':pool_record.id}))
+                #return HttpResponseRedirect(pool_record.get_absolute_url())
         else:
             messages.error(request,"Pool not saved.  Check that each field is filled out correctly.")
 
@@ -349,6 +358,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
         for custom in custom_categories:
             category_forms.append(oforms.CustomCategoryForm(prefix=custom.name,instance=custom))
 
+
     context = {
         'ceremony':ceremony,
         'form':pool_form,
@@ -356,7 +366,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm):
         'category_forms':category_forms,
     }
 
-    return render(request,"oscars/oscar_pool_form.html",context)
+    return render(request,template,context)
 
 
 class pool_admin_message(pviews.PoolAdminMessage):
@@ -455,7 +465,7 @@ class OscarPublicPools(PublicPools):
         return public_pools
 
 @login_required
-def email_members(request,id):
+def email_members(request, id):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
     form = bforms.EmailMembersForm()
@@ -474,3 +484,59 @@ def email_members(request,id):
     }
 
     return render(request,"oscars/email_members.html",context)
+
+
+@login_required
+def oscar_payment(request, id):
+
+    pool = get_object_or_404(omodels.OscarPool, id=id)
+    custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
+    if request.POST:
+        size = request.POST['pool_size']
+        charge_amount = 0
+        if size == '25':
+            charge_amount = 1000
+        elif size == '50':
+            charge_amount = 2000
+        elif size == '75':
+            charge_amount = 3000
+        elif size == '100':
+            charge_amount = 4000
+        elif size == '200':
+            charge_amount = 6000
+
+        if charge_amount:
+            # Set your secret key: remember to change this to your live secret key in production
+            # See your keys here https://dashboard.stripe.com/account/apikeys
+            stripe.api_key = settings.STRIPE_API_KEY
+            # Get the credit card details submitted by the form
+            token = request.POST['stripeToken']
+            # Create the charge on Stripe's servers - this will charge the user's card
+            try:
+              charge = stripe.Charge.create(
+                  amount=charge_amount, # amount in cents, again
+                  currency="usd",
+                  source=token,
+                  description="Oscar Pool"
+              )
+              pool.max_members = int(size)
+              pool.paid = True
+              pool.save()
+              messages.success(request,"Payment Accepted")
+              return HttpResponseRedirect(pool.get_absolute_url())
+            except stripe.error.CardError, e:
+              # The card has been declined
+              messages.error(request, e.message)
+        else:
+            pool.max_members = 5
+            pool.paid = True
+            pool.save()
+            messages.success(request,"Payment Accepted")
+            return HttpResponseRedirect(pool.get_absolute_url())
+
+    context = {
+        "pool": pool,
+        'custom_categories': custom_categories,
+        'PUBLISHABLE_KEY': settings.PUBLISHABLE_KEY,
+    }
+    return render(request, "oscars/oscar_payment.html", context)
