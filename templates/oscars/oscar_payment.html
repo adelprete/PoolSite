@@ -1,0 +1,244 @@
+{% extends "panel_core.html" %}
+{% load bootstrap3 %}
+{% block page-css-links %}
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <script type="text/javascript">
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey({{ PUBLISHABLE_KEY }});
+    // ...
+    function stripeResponseHandler(status, response) {
+      var $form = $('#payment-form');
+
+      if (response.error) {
+        // Show the errors on the form
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('button').prop('disabled', false);
+      } else {
+        // response contains id and card, which contains additional card details
+        var token = response.id;
+        // Insert the token into the form so it gets submitted to the server
+        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+        // and submit
+        $form.get(0).submit();
+      }
+    };
+    jQuery(function($) {
+      $('#payment-form').submit(function(event) {
+        if($("#id_pool_size").val() != 'free'){
+          var $form = $(this);
+
+          // Disable the submit button to prevent repeated clicks
+          $form.find('button').prop('disabled', true);
+
+          Stripe.card.createToken($form, stripeResponseHandler);
+
+          // Prevent the form from submitting with the default action
+          return false;
+        }
+      });
+    });
+    $(document).ready(function(){
+      //$("#submitButton").css("background-color", "#858585");
+      if($("#agreed_to_terms").prop('checked') && $("#agreed_to_payment").prop('checked')){
+        $("#submitButton").removeAttr("disabled");
+      }
+      else {
+        //$("#submitButton").css("background-color", "#858585");
+        $("#submitButton").attr('disabled','disabled');
+      }
+      $("input[type=checkbox]").change(function(){
+        if($("#agreed_to_terms").prop('checked') && $("#agreed_to_payment").prop('checked')){
+          $("#submitButton").removeAttr("disabled");
+        }
+        else {
+          //$("#submitButton").css("background-color", "#858585");
+          $("#submitButton").attr('disabled','disabled');
+        }
+      });
+      if($("#id_pool_size").val() == 'free'){
+        $("#id_price").html('$0.00');
+        $(".form-row").hide();
+      }
+  		$("#id_pool_size").change(function(){
+  			if($(this).val() == 'free'){
+  				$("#id_price").html('$0.00');
+          $(".form-row").hide();
+  			}
+  			else if($(this).val() == '25'){
+  				$("#id_price").html("$10.00");
+          $(".form-row").show();
+  			}
+        else if($(this).val() == '50'){
+          $("#id_price").html("$20.00");
+          $(".form-row").show();
+        }
+        else if($(this).val() == '75'){
+          $("#id_price").html("$30.00");
+          $(".form-row").show();
+        }
+        else if($(this).val() == '100'){
+          $("#id_price").html("$40.00");
+          $(".form-row").show();
+        }
+        else if($(this).val() == '200'){
+          $("#id_price").html("$60.00");
+          $(".form-row").show();
+        }
+  		});
+  	});
+  </script>
+{% endblock %}
+{% block body %}
+  {% block breadcrumbs %}
+    <ol class="breadcrumb" style="font-size:1.4em;padding-top:20px;margin:0px;">
+      <li><a href="{% url 'oscar_settings' pool.id %}">Pool Settings</a></li>
+      <li><a href="{% url 'oscar_payment' pool.id %}"><u>Payment</u></a></li>
+    </ol>
+  {% endblock %}
+<div class="row">
+  <div class="col-md-5">
+    <h2 class="headliner">Payment <small>Step 2 of 2</small></h2>
+    <form action="" method="POST" id="payment-form">{% csrf_token %}
+      <span class="payment-errors" style="color:red;"></span>
+      <div class="form-group row">
+        <div class="col-sm-5">
+          <label class="control-label" for="id_pool_size">Pool Size</label>
+          <select class="form-control" id="id_pool_size" name="pool_size" required="required" title>
+              <option value="free">5 members</option>
+              <option value="25">25 members</option>
+              <option value="50">50 members</option>
+              <option value="75">75 members</option>
+              <option value="100">100 members</option>
+              <option value="200">200 members</option>
+          </select>
+        </div>
+        <div class="visible-xs"><br></div>
+        <div class="col-md-3">
+          <label class="control-label">Price</label><br>
+          <span id="id_price" style="padding-top: 6px;">$0.00</span>
+        </div>
+      </div>
+      <div class="form-group form-row row">
+        <div class="col-sm-7">
+          <label for="cardNumber">Card Number</label>
+          <input type="text" size="20" class="form-control" id="cardNumber" data-stripe="number"/>
+        </div>
+      </div>
+
+      <div class="form-group form-row row">
+
+          <div class="col-md-12">
+            <label for="expDate">Expiration (MM/YYYY)</label>
+          </div>
+          <div class="col-xs-3 col-sm-2 col-md-3">
+            <input type="text" size="2" class="form-control" id="expDate" data-stripe="exp-month" placeholder="mm"/>
+          </div>
+          <div class="col-xs-3 col-sm-2 col-md-3" style="padding-left: 0px;">
+            <input type="text" size="4" class="form-control" id="expYear" data-stripe="exp-year" placeholder="yyyy"/>
+          </div>
+      </div>
+
+      <div class="form-group form-row row">
+        <div class="col-xs-3 col-sm-2 col-md-3">
+          <label for="cvcNumber">CVC</label>
+          <input type="text" size="4" class="form-control" id="cvcNumber" data-stripe="cvc"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-12">
+          <input id="agreed_to_terms" type="checkbox" value="agreed_to_terms"/>
+          You agree to OscarPoolHub.com's terms of service and privacy notice.
+        </div>
+        <div class="col-md-12">
+          <input id="agreed_to_payment" type="checkbox" value="agreed_to_payment"/>
+          Please note that by clicking Submit Payment you are purchasing this pool and that all sales and pool sizes are final.
+        </div>
+      </div>
+      <button id="submitButton" class="btn btn-primary">Submit Payment</button>
+    </form>
+  </div>
+  <div class="col-md-7">
+    <h3 class="headliner">Pool Settings</h3>
+    <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-5">
+        Name:
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-5">
+        {{ pool.name }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-5">
+        Public:
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-5">
+        {{ pool.public }}
+      </div>
+    </div>
+    {% if form.public.value == False %}
+      <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-5">
+          Password:
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-5">
+          {{ pool.password }}
+        </div>
+      </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-5">
+        Entry Deadline:
+      </div>
+      <div class="col-md-8 col-sm-4 col-xs-7">
+        {{ pool.entry_deadline }} All time in EST.
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-5">
+        Max Submissions:
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-5">
+        {{ pool.max_submissions }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-5">
+        How To Win:
+      </div>
+      <div class="col-md-6 col-sm-4 col-xs-6">
+        {{ pool.get_how_to_win_display }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="headliner">Awards on Ballot:</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-3 col-xs-6" style="text-decoration:underline; font-weight: bold;">
+        Award
+      </div>
+      {% if pool.how_to_win != 'correct' %}
+      <div class="col-md-3 col-sm-3 col-xs-5 text-left" style="text-decoration:underline; font-weight: bold;">
+        Awarded Points
+      </div>
+      {% endif %}
+    </div>
+    {% for c in custom_categories %}
+        {% if c.active == True %}
+          <div class="row">
+            <div class="col-md-4 col-sm-3 col-xs-6">
+              {{ c.name }}
+            </div>
+            {% if pool.how_to_win != 'correct' %}
+            <div class="col-md-2 col-sm-3 col-xs-5">
+              {{ c.points }}
+            </div>
+            {% endif %}
+          </div>
+        {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
