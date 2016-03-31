@@ -114,7 +114,7 @@ def pool_members(request,id=None):
 
 @login_required
 @paid
-def pool_ballot_list(request,id=None):
+def pool_ballot_list(request,id):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
@@ -242,42 +242,38 @@ def pool_ballot(request,id=None,ballot_id=None):
 
 @login_required
 @paid
-class pool_standings(pviews.PoolStandings):
-    template = 'oscars/standings.html'
+def pool_standings(request, id):
     ballots = None
 
-    def __call__(self,request,*args,**kwargs):
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    pviews.check_if_valid_member(pool,request.user)
+    ballots = pool.ballot_set.all().distinct()
 
-        self.pool_instance = self.get_pool(kwargs['id'])
-        self.ballots = self.pool_instance.ballot_set.all().distinct()
+    if pool.up_to_date == False:
+        for ballot in ballots:
+            ballot.total_points = 0
+            ballot.total_correct = 0
+            for response in ballot.response_set.all():
+                if response.category.active:
+                    ballot.total_points += response.points
+                    if response.correct:
+                        ballot.total_correct += 1
 
-        if self.pool_instance.up_to_date == False:
-            for ballot in self.ballots:
-                ballot.total_points = 0
-                ballot.total_correct = 0
-                for response in ballot.response_set.all():
-                    if response.category.active:
-                        ballot.total_points += response.points
-                        if response.correct:
-                            ballot.total_correct += 1
+            ballot.save()
+        pool.up_to_date = True
+        pool.save()
 
-                ballot.save()
-            self.pool_instance.up_to_date = True
-            self.pool_instance.save()
+    if pool.how_to_win == 'points':
+        ballots = ballots.order_by('-total_points','-total_correct','last_save_date')
+    else:
+        ballots = ballots.order_by('-total_correct','last_save_date')
 
-        if self.pool_instance.how_to_win == 'points':
-            self.ballots = self.ballots.order_by('-total_points','-total_correct','last_save_date')
-        else:
-            self.ballots = self.ballots.order_by('-total_correct','last_save_date')
+    context = {
+        'pool': pool,
+        'ballots':ballots
+    }
 
-        return super(pool_standings,self).__call__(request,*args,**kwargs)
-
-    def get_pool(self,id):
-        return get_object_or_404(omodels.OscarPool,id=id)
-
-    def get_extra_context(self):
-        return {'ballots':self.ballots}
-
+    return render(request,'oscars/standings.html',context)
 
 @login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):

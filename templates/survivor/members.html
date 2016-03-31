@@ -1,7 +1,0 @@
-{% extends 'base/members_base.html' %}
-{% block menu %}
-{{ block.super }}
-{% include 'survivor/pool_menu.html' %}
-{% endblock %}
-
-{% block removal_link %}<th><a href="{% url 'survivor_remove_member' pool.id member.id %}">Remove</a></th>{% endblock %}

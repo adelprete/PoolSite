@@ -52,11 +52,6 @@ INSTALLED_APPS = (
     'bootstrap3',
     'mysite.base',
     'mysite.oscars',
-    #'mysite.survivor',
-    #'mysite.amazingrace',
-    #'mysite.marchmadness',
-    #'mysite.nflbase',
-    #'mysite.nflsurvivor',
 )
 
 PAYPAL_TEST = True

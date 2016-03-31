@@ -10,12 +10,6 @@ from django.contrib.auth.decorators import login_required
 from mysite.base import forms as bforms
 from mysite.base import models as bmodels
 from mysite.oscars import models as omodels
-from mysite.survivor import models as smodels
-from mysite.amazingrace import models as amodels
-from mysite.nflsurvivor import models as nflsmodels
-from mysite.nflbase import models as nflbmodels
-from mysite.marchmadness import models as mmodels
-
 
 from django.db.models import Q
 
@@ -113,41 +107,21 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm):
 
     return render(request,template,context)
 
-def profile_stats(request,id=None):
+def profile_stats(request,id):
 
-    if id:
-        profile = get_object_or_404(bmodels.MemberProfile,id=id)
+    profile = get_object_or_404(bmodels.MemberProfile,id=id)
 
     member = profile.user
 
-    history={}
-    survivorpools = smodels.SurvivorPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
-    history['Survivor'] = (survivorpools.filter(winner=member).count(),survivorpools.filter(second_place=member).count(),survivorpools.filter(third_place=member).count())
-
     oscarpools = omodels.OscarPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
-    history['Oscars'] = (oscarpools.filter(winner=member).count(),oscarpools.filter(second_place=member).count(),oscarpools.filter(third_place=member).count())
 
-    amazingpools = amodels.AmazingRacePool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
-    history['Amazing Race'] = (amazingpools.filter(winner=member).count(),amazingpools.filter(second_place=member).count(),amazingpools.filter(third_place=member).count())
-
-    nflpools = nflsmodels.NFLSurvivorPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
-    history['NFL Survivor'] = (nflpools.filter(winner=member).count(),nflpools.filter(second_place=member).count(),nflpools.filter(third_place=member).count())
-
-    marchpools = mmodels.MarchMadnessPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
-    history['March Madness'] = (marchpools.filter(winner=member).count(),marchpools.filter(second_place=member).count(),marchpools.filter(third_place=member).count())
-
-
-    totals = {'first_total':0,'second_total':0,'third_total':0}
-    for key,value in history.iteritems():
-        totals['first_total'] += value[0]
-
-    for key,value in history.iteritems():
-        totals['second_total'] += value[1]
-
-    for key,value in history.iteritems():
-        totals['third_total'] += value[2]
-
-    return render(request,"profile_stats.html",{"history":history,"member":member,"totals":totals})
+    context = {
+        "member":member,
+        "first_place_total": oscarpools.filter(winner=member).count(),
+        "second_place_total": oscarpools.filter(second_place=member).count(),
+        "third_place_total": oscarpools.filter(third_place=member).count()
+        }
+    return render(request,"profile_stats.html",context)
 
 def your_pools(request):
 
@@ -155,14 +129,11 @@ def your_pools(request):
         messages.error(request,"Please log in first")
         return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
-    #Oscar Pools
-    if omodels.OscarCeremony.objects.all().count() == 0:
-        cur_oscar_pools = False
-        old_oscar_pools = False
-    else:
-        current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
-        cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
-        old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
+
+    current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
+    cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
+    old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
+
     context = {
         'cur_oscar_pools':cur_oscar_pools,
         'old_oscar_pools':old_oscar_pools,
@@ -242,22 +213,11 @@ def join_public_pool(request,id=None):
         pool.members.add(request.user)
         pool.save()
         messages.success(request,"You've successfully joined the pool!")
-        if hasattr(pool,"oscarpool"):
-            pool = pool.oscarpool
-        if hasattr(pool,"survivorpool"):
-            pool = pool.survivorpool
-        if hasattr(pool,"amazingracepool"):
-            pool = pool.amazingracepool
-        if hasattr(pool,"nflsurvivorpool"):
-            pool = pool.nflsurvivorpool
-        if hasattr(pool,"marchmadnesspool"):
-            pool = pool.marchmadnesspool
-
-        return HttpResponseRedirect(pool.get_absolute_url())
+        return HttpResponseRedirect(pool.oscarpool.get_absolute_url())
     else:
         messages.error(request,"Pool Not Found")
 
-    return
+    return HttpResponseRedirect(reverse("oscar_public_pools"))
 
 
 @login_required
@@ -267,24 +227,12 @@ def leave_pool(request,id):
 
     if request.user != pool.administrator:
         pool.members.remove(request.user)
-        if hasattr(pool,"oscarpool"):
-            pool.oscarpool.ballot_set.filter(member=request.user).delete()
-        if hasattr(pool,"survivorpool"):
-            pool.survivorpool.survivorpicksheet_set.filter(member=request.user).delete()
-        if hasattr(pool,"amazingracepool"):
-            pool.amazingracepool.amazingracepicksheet_set.filter(member=request.user).delete()
-        if hasattr(pool,"nflsurvivorpool"):
-            pool.nflsurvivorpool.picksheet_set.filter(member=request.user).delete()
-            pool.nflsurvivorpool.save()
-        if hasattr(pool,"marchmadnesspool"):
-            pool.marchmadnesspool.bracket_set.filter(member=request.user).delete()
-            pool.marchmadnesspool.save()
+        pool.oscarpool.ballot_set.filter(member=request.user).delete()
         messages.success(request,"You have been removed from the pool")
         return HttpResponseRedirect(reverse("root"))
-    else:
-        messages.error(request,"You cannot leave your own pool.  If you want to delete the pool, go to 'Settings'")
 
-    return
+    messages.error(request,"You cannot leave your own pool.  If you want to delete the pool, go to 'Settings'")
+    return HttpResponseRedirect(reverse("oscar_members", args=(pool.id,)))
 
 def contact(request, form=bforms.ContactForm):
 

@@ -16,46 +16,17 @@
           <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-1 col-xs-4 text-center">
             <span style="font-size:20px;">1st</span>
             <img class="img-responsive center-block" src="{{ STATIC_URL }}img/gold-trophy.png" height="124px" width="106px">
-            <h3>{{totals.first_total}}</h3>
+            <h3>{{ first_place_total }}</h3>
           </div>
           <div class="col-md-2 col-sm-3 col-xs-4 text-center">
             <span style="font-size:20px;">2nd</span>
             <img class="img-responsive center-block" src="{{ STATIC_URL }}img/silver-trophy.png" height="124px" width="106px">
-            <h3>{{totals.second_total}}</h3>
+            <h3>{{ second_place_total }}</h3>
           </div>
           <div class="col-md-2 col-sm-3 col-xs-4 text-center">
             <span style="font-size:20px;">3rd</span>
             <img class="img-responsive center-block" src="{{ STATIC_URL }}img/bronze-trophy.png" height="124px" width="106px">
-            <h3>{{totals.third_total}}</h3>
+            <h3>{{ third_place_total }}</h3>
           </div>
         </div>
-        {% comment %}
-        <br><br>
-        <table class="span-21" style="margin: 0 auto !important;float: none !important;">
-            <tr>
-                <th style="text=align:center;"></th>
-                {% for key,value in history.items %}
-                <th style="text-align:center;font-size:20px;border-bottom:1px solid;">{{ key }}</th>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/gold-trophy.png" height="30px" width="73"></td>
-                {% for key, value in history.items %}
-                <td style="text-align:center;font-size:20px;">{{ value.0 }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/silver-trophy.png" height="30px" width="73"></td>
-                {% for key, value in history.items %}
-                <td style="text-align:center;font-size:20px;">{{ value.1 }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td style="text-align:center;"><img src="{{ STATIC_URL }}img/bronze-trophy.png" height="30px" width="73"></td>
-                {% for key, value in history.items %}
-                <td style="text-align:center;font-size:20px;">{{ value.2 }}</td>
-                {% endfor %}
-            </tr>
-        </table>
-        {% endcomment %}
 {% endblock %}
