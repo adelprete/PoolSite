@@ -195,50 +195,21 @@ def join_pool(request, id=None, password=None):
 
             if pool:
 
-                if pool.public:
-                    if pool.administrator != request.user and request.user not in pool.members.all():
+                if pool.public or pool.password == form.cleaned_data['password']:
+                    if pool.administrator == request.user:
+                        messages.error(request, "Unable to join. You are the admin of the pool.")
+                    elif request.user in pool.members.all():
+                        messages.error(request, "You've already joined this pool.")
+                    elif pool.paid == False:
+                        messages.error(request, "The Admin hasn't paid for this pool yet.")
+                    elif pool.members.count()+1 == pool.max_members:
+                        messages.error(request, "The pool you are trying to join is full.")
+                    else:
                         pool.members.add(request.user)
                         messages.success(request,"You've successfully joined the pool!")
                         if hasattr(pool,"oscarpool"):
                             pool = pool.oscarpool
-                        if hasattr(pool,"survivorpool"):
-                            pool = pool.survivorpool
-                        if hasattr(pool,"amazingracepool"):
-                            pool = pool.amazingracepool
-                        if hasattr(pool,"nflsurvivorpool"):
-                            pool = pool.nflsurvivorpool
-                        if hasattr(pool,"marchmadnesspool"):
-                            pool = pool.marchmadnesspool
-
                         return HttpResponseRedirect(pool.get_absolute_url())
-                    else:
-                        messages.error(request,"You are already in this pool")
-
-                elif pool.password == form.cleaned_data['password']:
-                    if pool.administrator != request.user and request.user not in pool.members.all():
-
-                        if hasattr(pool,"oscarpool"):
-                            pool = pool.oscarpool
-                        if hasattr(pool,"survivorpool"):
-                            pool = pool.survivorpool
-                        if hasattr(pool,"amazingracepool"):
-                            pool = pool.amazingracepool
-                        if hasattr(pool,"nflsurvivorpool"):
-                            if pool.members.count() >= pool.max_members - 1:
-                                messages.error(request,"This Pool is Full")
-                                return render(request,'join_form.html', {'form':form})
-                            pool = pool.nflsurvivorpool
-                        if hasattr(pool,"marchmadnesspool"):
-                            if pool.members.count() >= pool.max_members - 1:
-                                messages.error(request,"This Pool is Full")
-                                return render(request,'join_form.html', {'form':form})
-                            pool = pool.marchmadnesspool
-
-                        pool.members.add(request.user)
-                        messages.success(request,"You've successfully joined the pool!")
-                        return HttpResponseRedirect(pool.get_absolute_url())
-                    else:
-                        messages.error(request,"You are already in this pool")
                 else:
                     messages.error(request,"Pool id and Password given do not match any pools. Please try again")
 
@@ -332,8 +303,3 @@ def contact(request, form=bforms.ContactForm):
         "form":form,
     }
     return render(request,'base/contact.html',context)
-
-
-def ipn_listener(request):
-    import pdb;pdb.set_trace()
-    pass

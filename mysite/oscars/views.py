@@ -460,8 +460,7 @@ class OscarPublicPools(PublicPools):
             current_ceremony = None
 
         pools = omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
-        public_pools = [pool for pool in pools if pool.allow_new_picksheets()]
-
+        public_pools = [pool for pool in pools if pool.allow_new_picksheets() and pool.members.count()+1 != pool.max_members]
         return public_pools
 
 @login_required
