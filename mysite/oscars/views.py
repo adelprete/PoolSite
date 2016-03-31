@@ -83,13 +83,18 @@ def oscars_detail(request, pk, format=None):
 
 
 # end of REST views
+@login_required
+@paid
+def pool_homepage(request, id):
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    pviews.check_if_valid_member(pool,request.user)
 
-class pool_homepage(pviews.PoolHomepage):
+    context = {
+        'pool':pool,
+        'members':pool.members.all()
+    }
 
-    template = "oscars/pool_home.html"
-
-    def get_pool(self,id):
-        return get_object_or_404(omodels.OscarPool,id=id)
+    return render(request,"oscars/pool_home.html",context)
 
 @login_required
 @paid
@@ -235,7 +240,8 @@ def pool_ballot(request,id=None,ballot_id=None):
     }
     return render(request,'oscars/ballot_form.html',context)
 
-
+@login_required
+@paid
 class pool_standings(pviews.PoolStandings):
     template = 'oscars/standings.html'
     ballots = None
@@ -274,7 +280,6 @@ class pool_standings(pviews.PoolStandings):
 
 
 @login_required
-@paid
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):
 
     try:
@@ -410,6 +415,7 @@ def remove_member(request,id,member_id):
     return HttpResponseRedirect(reverse("oscar_members",kwargs={'id':pool.id}))
 
 @login_required
+@paid
 def predictions(request,id):
 
     pool = get_object_or_404(omodels.OscarPool,id=id)
@@ -489,6 +495,11 @@ def email_members(request, id):
 def oscar_payment(request, id):
 
     pool = get_object_or_404(omodels.OscarPool, id=id)
+
+    #redirect non-admins out of here
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(reverse("your_pools"))
+
     custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
     if request.POST:
         size = request.POST['pool_size']

@@ -117,4 +117,3 @@ class PoolAdminMessage(object):
             'form':self.message_form
         }
         return context
-

@@ -1,10 +1,10 @@
-{% extends "panel_core.html" %}
+{% extends "oscars/pool_home_core.html" %}
 {% load bootstrap3 %}
 {% block page-css-links %}
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script type="text/javascript">
     // This identifies your website in the createToken call below
-    Stripe.setPublishableKey({{ PUBLISHABLE_KEY }});
+    Stripe.setPublishableKey("{{ PUBLISHABLE_KEY }}");
     // ...
     function stripeResponseHandler(status, response) {
       var $form = $('#payment-form');
@@ -87,6 +87,11 @@
   		});
   	});
   </script>
+{% endblock %}
+{% block pool_menu %}
+    {% if pool and pool.paid %}
+      {{ block.super }}
+    {% endif %}
 {% endblock %}
 {% block body %}
   {% block breadcrumbs %}

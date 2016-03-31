@@ -2,12 +2,14 @@ from mysite.oscars import models as omodels
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 def paid(func):
-    def decorator(request,id,*args, **kwargs):
-        pool = get_object_or_404(omodels.OscarPool,id=id)
-        if not pool.paid:
-            messages.warning(request,"Pool not paid for")
-            return HttpResponseRedirect(reverse("oscar_settings",kwargs={'id':pool.id}))
-        return func(request, id, *args, **kwargs)
+    def decorator(request,id=None,*args, **kwargs):
+        if id:
+            pool = get_object_or_404(omodels.OscarPool,id=id)
+            if not pool.paid:
+                messages.error(request,"Pool not paid for yet")
+                return HttpResponseRedirect(reverse("oscar_payment",kwargs={'id':pool.id}))
+            return func(request, id, *args, **kwargs)
     return decorator
