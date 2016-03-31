@@ -163,7 +163,6 @@ def your_pools(request):
         current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
         cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
         old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
-
     context = {
         'cur_oscar_pools':cur_oscar_pools,
         'old_oscar_pools':old_oscar_pools,

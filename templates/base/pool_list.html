@@ -37,7 +37,7 @@
         {% for pool in old_oscar_pools %}
           <li>
             <div class="well well-sm" style="text-align:center;">
-              <span style="font-weight:bold;"> <a href="{% url 'oscar_pool_recap' pool.id %}">Celebrate the Oscars with AMG!</a></span>
+              <span style="font-weight:bold;"> <a href="{% url 'oscar_pool_recap' pool.id %}">{{ pool.name }}</a></span>
               <span style="padding: 0px 15px;">|</span> Admin: {{ pool.administrator }}
             </div>
           </li>
