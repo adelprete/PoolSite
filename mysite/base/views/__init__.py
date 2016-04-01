@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from mysite.base import forms as bforms
 from mysite.base import models as bmodels
 from mysite.oscars import models as omodels
+from mysite.oscars.decorators import pool_members_only
 
 from django.db.models import Q
 
@@ -225,6 +226,7 @@ def join_public_pool(request,id=None):
 
 
 @login_required
+@pool_members_only
 def leave_pool(request,id):
     """
         A button within each pool that allows the logged in user to leave the

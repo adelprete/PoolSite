@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from mysite.base import forms as bforms, models as bmodels
 from mysite.base.views import pool_views as pviews
 from mysite.oscars import forms as oforms, models as omodels
-from mysite.oscars.decorators import paid
+from mysite.oscars.decorators import paid, pool_admin_only, pool_members_only
 
 #Rest imports
 from rest_framework import status, generics
@@ -82,10 +82,10 @@ def oscars_detail(request, pk, format=None):
         pool.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 # end of REST views
 
 @login_required
+@pool_admin_only
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):
     """
         The settings page for pools.
@@ -119,20 +119,17 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/
 
     if id:
         pool = get_object_or_404(omodels.OscarPool,id=id)
-
-        # check if user is admin for this pool
-        if request.user != pool.administrator:
-            return HttpResponseRedirect(pool.get_absolute_url())
-
         custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
-    if 'delete' in request.POST:
-        pool.delete()
-        messages.success(request,"Pool deleted")
-        return HttpResponseRedirect(reverse('root'))
+
+        if 'delete' in request.POST:
+            pool.delete()
+            messages.success(request,"Pool deleted")
+            return HttpResponseRedirect(reverse('root'))
 
     pool_form = form_class(instance=pool)
 
     if request.POST:
+        import pdb;pdb.set_trace()
         pool_form = form_class(request.POST, instance=pool)
         if pool_form.is_valid():
             pool_record = pool_form.save(commit=False)
@@ -192,6 +189,7 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/
     return render(request,template,context)
 
 @login_required
+@pool_members_only
 @paid
 def pool_homepage(request, id):
     """
@@ -208,6 +206,7 @@ def pool_homepage(request, id):
     return render(request,"oscars/pool_home.html",context)
 
 
+@pool_admin_only
 def pool_admin_message(request,id):
     """
         Presents the pool admin with a form to edit their Welcome Message on
@@ -216,11 +215,6 @@ def pool_admin_message(request,id):
         tinymce is used to provide as robust text editor on the template.
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
-    # check if this user is in this pool
-    pviews.check_if_valid_member(pool,request.user)
-
-    if request.user != pool.administrator:
-        return HttpResponseRedirect(pool.get_absolute_url())
 
     message_form = oforms.AdminMessageForm(instance=pool)
     if request.POST:
@@ -239,6 +233,7 @@ def pool_admin_message(request,id):
 
 
 @login_required
+@pool_members_only
 @paid
 def pool_ballot_list(request,id):
     """
@@ -248,10 +243,6 @@ def pool_ballot_list(request,id):
         submissions count
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
 
     ballots = pool.ballot_set.all()
     your_ballots = ballots.filter(member=request.user)
@@ -276,6 +267,7 @@ def pool_ballot_list(request,id):
 
 
 @login_required
+@pool_members_only
 @paid
 def pool_ballot(request,id=None,ballot_id=None):
     """
@@ -289,10 +281,6 @@ def pool_ballot(request,id=None,ballot_id=None):
         weren't done so already.
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
 
     allow_new_picksheets = True
     if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
@@ -385,16 +373,13 @@ def pool_ballot(request,id=None,ballot_id=None):
 
 
 @login_required
+@pool_admin_only
 def remove_ballot(request,id,ballot_id):
     """
         Gives the pool admin a way to delete a ballot.
     """
     ballot = get_object_or_404(omodels.Ballot,id=ballot_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if this user is the admin in this pool
-    if request.user != pool.administrator:
-        return HttpResponseRedirect(pool.get_absolute_url())
 
     ballot.delete()
 
@@ -405,6 +390,7 @@ def remove_ballot(request,id,ballot_id):
 
 
 @login_required
+@pool_members_only
 @paid
 def pool_standings(request, id):
     """
@@ -452,16 +438,13 @@ def pool_standings(request, id):
 
 
 @login_required
+@pool_members_only
 @paid
 def pool_members(request,id=None):
     """
         Displays a list of members that are signed up with the pool.
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
 
     context = {
         'pool':pool,
@@ -471,16 +454,13 @@ def pool_members(request,id=None):
 
 
 @login_required
+@pool_admin_only
 def remove_member(request,id,member_id):
     """
         Allows a way for admins to remove a member from their pool.
     """
     member = get_object_or_404(User,id=member_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if this user is the admin in this pool
-    if request.user != pool.administrator:
-        return HttpResponseRedirect(pool.get_absolute_url())
 
     pool.members.remove(member)
     pool.ballot_set.filter(member=member).delete()
@@ -489,7 +469,9 @@ def remove_member(request,id,member_id):
 
     return HttpResponseRedirect(reverse("oscar_members",kwargs={'id':pool.id}))
 
+
 @login_required
+@pool_members_only
 @paid
 def predictions(request,id):
     """
@@ -500,10 +482,6 @@ def predictions(request,id):
         changes their text to green.
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
 
     categories=OrderedDict()
     all_winners={}
@@ -554,6 +532,7 @@ def public_pools_list(request):
 
 
 @login_required
+@pool_admin_only
 def email_members(request, id):
     """
         Provides a way for admins to send out a mass email to all of their
@@ -561,9 +540,6 @@ def email_members(request, id):
     """
     pool = get_object_or_404(omodels.OscarPool,id=id)
     form = bforms.EmailMembersForm()
-    # check if this user is the admin in this pool
-    if request.user != pool.administrator:
-        return HttpResponseRedirect(pool.get_absolute_url())
 
     if request.GET:
         emails = pool.members.all().values_list('email',flat=True)
@@ -579,6 +555,7 @@ def email_members(request, id):
 
 
 @login_required
+@pool_admin_only
 def oscar_payment(request, id):
     """
         Displays our payment page where credit card information is retieved.
@@ -588,10 +565,6 @@ def oscar_payment(request, id):
         When a payment is recieved the max members size of a pool is determined.
     """
     pool = get_object_or_404(omodels.OscarPool, id=id)
-
-    #redirect non-admins out of here
-    if request.user != pool.administrator:
-        return HttpResponseRedirect(reverse("your_pools"))
 
     custom_categories = omodels.CustomCategory.objects.filter(pool=pool).order_by('base_category__priority')
     if request.POST:

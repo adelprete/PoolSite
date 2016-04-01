@@ -17,3 +17,24 @@ def paid(func):
                 return HttpResponseRedirect(reverse("oscar_payment",kwargs={'id':pool.id}))
             return func(request, id, *args, **kwargs)
     return decorator
+
+def pool_admin_only(func):
+    def decorator(request,id=None,*args, **kwargs):
+        if id:
+            pool = get_object_or_404(omodels.OscarPool,id=id)
+            if request.user != pool.administrator:
+                if pool.paid == True:
+                    return HttpResponseRedirect(pool.get_absolute_url())
+                else:
+                    return HttpResponseRedirect(reverse("your_pools"))
+            return func(request, id, *args, **kwargs)
+    return decorator
+
+def pool_members_only(func):
+    def decorator(request,id=None,*args, **kwargs):
+        if id:
+            pool = get_object_or_404(omodels.OscarPool,id=id)
+            if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
+                return HttpResponseRedirect(reverse("root"))
+            return func(request, id, *args, **kwargs)
+    return decorator
