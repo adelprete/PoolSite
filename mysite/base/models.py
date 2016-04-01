@@ -7,13 +7,10 @@ import datetime
 
 from mysite.base import choices as bchoices
 
-class ActiveDefinitionManager(models.Manager):
-    """Manager that only returns objects that are active"""
-    def get_queryset(self):
-        return super(ActiveDefinitionManager,self).get_query_set().filter(active=True)
-
 class Definition(models.Model):
-    """Very basic abstract model"""
+    """
+        An abstract model that holds a couple fields that alot of other fields share
+    """
     name = models.CharField(max_length=100)
     active = models.BooleanField(default=True)
     objects = models.Manager()
@@ -27,7 +24,18 @@ class Definition(models.Model):
 
 
 class Pool(models.Model):
-    """This Pool Class that is used as a super class to every pool on the site."""
+    """
+        Pool class is a super class to Oscar Pool.
+
+        It exists because Pool used to be tied to many different pools other than
+        Oscar Pool, such as Survivor Pools, March Madness Pools and Nfl Pools.
+        These pools unfortunately, no longer exist.
+
+        When those different pools existed, this model was used to store generic
+        fields that all pools used and made it easy to grab all pools on site
+        no matter the type.  It has outlived its purpose but still exists and
+        is still used on Oscar Pools.
+    """
     administrator = models.ForeignKey('auth.User',blank=True,null=True)
     name = models.CharField(max_length=30,verbose_name='Pool Name')
     password = models.CharField("Pool password",blank=True,max_length=30,help_text="Must be 6 characters long.  Members will use this to join your pool.")
@@ -47,6 +55,11 @@ class Pool(models.Model):
     third_place = models.ForeignKey('auth.User',null=True,blank=True,related_name='third_place_set')
 
     def save(self):
+        """
+            When initially saved we assign the pool an front facing identity Number
+
+            We also set the creation date of the pool.
+        """
         if not self.identity:
             try:
                 identity = Pool.objects.latest('creation_date').identity + 1
@@ -61,18 +74,24 @@ class Pool(models.Model):
         if not self.creation_date:
             self.creation_date = datetime.date.today()
 
-        if self.id:
-            if (self.members.count() + 1) == self.max_members:
-                self.is_full = True
-            else:
-                self.is_full = False
-
         super(Pool, self).save()
         saved = True
+
+    def is_full(self):
+        """
+            Returns True if the max number of members this pool can have has been reached.
+        """
+        if (self.members.count() + 1) == self.max_members:
+            self.is_full = True
+        else:
+            self.is_full = False
+
 
 class MemberProfile(models.Model):
     """
         Member profile is used to store some more information about the users
+
+        In hindsight this should've been a custom user class
     """
     user = models.OneToOneField('auth.User',editable=False)
     first_name = models.CharField(max_length=30,blank=False)
@@ -104,7 +123,9 @@ class MemberProfile(models.Model):
         super(MemberProfile,self).save(*args,**kwargs)
 
 class Contact(models.Model):
-    """ This Contact model allows a person to contact me through the site"""
+    """
+        This Contact model allows a person to contact me through the site.
+    """
     email = models.CharField(max_length=60,blank=False)
     subject = models.CharField(max_length=60,blank=False)
     body = models.TextField(blank=False)

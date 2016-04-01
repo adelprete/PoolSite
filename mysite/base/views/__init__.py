@@ -18,6 +18,8 @@ from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
 #Angular views
+#Testing out Django rest framework to see if it could be useful
+# not used anywhere on the site at the moment
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -46,10 +48,24 @@ class UserDetail(generics.RetrieveAPIView):
 #End of Angular Views
 
 class RegistrationViewUniqueEmail(RegistrationView):
+    """
+        Assigning the type of form we want to use for user registration
+    """
     form_class = RegistrationFormUniqueEmail
 
-def signup(request,form=bforms.MemberProfileForm):
+class CustomActivationView(ActivationView):
+    """
+        Telss the user after activation that they are able to log in now.
+    """
+    def get_success_url(self, request, user):
+        messages.success(request, 'You may now log in')
+        return ('django.contrib.auth.views.login', (), {})
 
+def signup(request,form=bforms.MemberProfileForm):
+    """
+        Brings up a blank sign up form for a new user to fill out.
+        Afterwards they must verify their acount through an email sent to them.
+    """
     if request.POST:
         member_form = form(request.POST)
         if member_form.is_valid():
@@ -61,17 +77,11 @@ def signup(request,form=bforms.MemberProfileForm):
     }
     return render(request,"signup_form.html",context)
 
-def login(request):
-    context={}
-    return render(request, "login.html",context)
-
-class CustomActivationView(ActivationView):
-    def get_success_url(self, request, user):
-        messages.success(request, 'You may now log in')
-        return ('django.contrib.auth.views.login', (), {})
 
 def profile_basics(request,id=None,form_class=bforms.MemberProfileForm):
-
+    """
+        Displays the form for updating a user's member profiles
+    """
     template = "profile.html"
     profile = None
     address = None
@@ -108,11 +118,12 @@ def profile_basics(request,id=None,form_class=bforms.MemberProfileForm):
     return render(request,template,context)
 
 def profile_stats(request,id):
-
+    """
+        Displays the users stats on the site.
+        Currently only displays their win record for 1st, 2nd, and 3rd.
+    """
     profile = get_object_or_404(bmodels.MemberProfile,id=id)
-
     member = profile.user
-
     oscarpools = omodels.OscarPool.objects.filter(Q(administrator=member)|Q(members=member)).distinct()
 
     context = {
@@ -123,26 +134,14 @@ def profile_stats(request,id):
         }
     return render(request,"profile_stats.html",context)
 
-def your_pools(request):
-
-    if request.user.is_anonymous():
-        messages.error(request,"Please log in first")
-        return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
-
-
-    current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
-    cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
-    old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
-
-    context = {
-        'cur_oscar_pools':cur_oscar_pools,
-        'old_oscar_pools':old_oscar_pools,
-    }
-
-    return render(request,"base/pool_list.html",context)
 
 def join_pool(request, id=None, password=None):
-
+    """
+        View creates the template for joining a public pool.
+        To join a public pool the user can only enter its Identity
+        To join a private pool, the identity and password is required.
+        Page also displays a link to see a list of open public pools to join.
+    """
     if id and password:
         messages.info(request,"Enter " + id + " for the Pool id, and " + password + " for the password to join their pool")
     elif id and not password:
@@ -186,28 +185,33 @@ def join_pool(request, id=None, password=None):
     return render(request,'join_form.html', {'form':form})
 
 
-class PublicPools(object):
+def your_pools(request):
+    """
+        Finds the pools that the user is in.
+        Seperates them out by current and past pools.
+    """
+    if request.user.is_anonymous():
+        messages.error(request,"Please log in first")
+        return HttpResponseRedirect(reverse('django.contrib.auth.views.login'))
 
-    def __new__(cls, request, *args, **kwargs):
-        obj = super(PublicPools,cls).__new__(cls)
-        return obj(request, *args, **kwargs)
 
-    def __call__(self,request,*args,**kwargs):
+    current_oscar_ceremony = omodels.OscarCeremony.objects.latest('date')
+    cur_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user),oscar_ceremony=current_oscar_ceremony).distinct()
+    old_oscar_pools = omodels.OscarPool.objects.filter(Q(administrator=request.user)|Q(members=request.user)).exclude(oscar_ceremony=current_oscar_ceremony).distinct()
 
-        context = {
-            'title':self.get_title,
-            'pools':self.get_queryset,
-        }
-        return render(request,'base/public_pools.html',context)
+    context = {
+        'cur_oscar_pools':cur_oscar_pools,
+        'old_oscar_pools':old_oscar_pools,
+    }
 
-    def get_queryset(self):
-        pass
+    return render(request,"base/pool_list.html",context)
 
-    def get_title(self):
-        pass
 
 @login_required
 def join_public_pool(request,id=None):
+    """
+        A view that handles joining a public pool chosen on the public pools list.
+    """
     if id:
         pool = bmodels.Pool.objects.get(identity=id)
         pool.members.add(request.user)
@@ -222,7 +226,10 @@ def join_public_pool(request,id=None):
 
 @login_required
 def leave_pool(request,id):
-
+    """
+        A button within each pool that allows the logged in user to leave the
+        pool.  Admins of the pool can not use this view.
+    """
     pool = get_object_or_404(bmodels.Pool,id=id)
 
     if request.user != pool.administrator:
@@ -235,7 +242,10 @@ def leave_pool(request,id):
     return HttpResponseRedirect(reverse("oscar_members", args=(pool.id,)))
 
 def contact(request, form=bforms.ContactForm):
-
+    """
+        Displays a blank contact form for the user to contact me.
+        Im notified by email when I get new contacts.
+    """
     if request.POST:
         form = form(request.POST)
         if form.is_valid():

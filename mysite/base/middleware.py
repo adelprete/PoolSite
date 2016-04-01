@@ -3,6 +3,10 @@ from django.core.urlresolvers import reverse
 
 
 class FinishProfile:
+    """
+        Middleware that checks if the user finished filling out their profile.
+        If they go anywhere on the site they will be redirect tot he profile form.
+    """
     def process_request(self,request):
         if not request.user.is_anonymous():
             if request.path != '/profile/' and request.path != '/accounts/logout/':

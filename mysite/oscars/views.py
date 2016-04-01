@@ -26,6 +26,7 @@ from mysite.oscars.models import OscarPool
 from mysite.oscars.serializers import OscarPoolSerializer
 
 # REST views start here
+# They aren't used anywhere at the momment.  Just messing around with it.
 
 class OscarPoolList(generics.ListAPIView):
     model = OscarPool
@@ -83,201 +84,22 @@ def oscars_detail(request, pk, format=None):
 
 
 # end of REST views
-@login_required
-@paid
-def pool_homepage(request, id):
-    pool = get_object_or_404(omodels.OscarPool,id=id)
-    pviews.check_if_valid_member(pool,request.user)
-
-    context = {
-        'pool':pool,
-        'members':pool.members.all()
-    }
-
-    return render(request,"oscars/pool_home.html",context)
-
-@login_required
-@paid
-def pool_members(request,id=None):
-
-    pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
-
-    context = {
-        'pool':pool,
-        'join_url': request.build_absolute_uri(reverse("join_pool"))
-    }
-    return render(request,'oscars/members.html',context)
-
-@login_required
-@paid
-def pool_ballot_list(request,id):
-
-    pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
-
-    ballots = pool.ballot_set.all()
-    your_ballots = ballots.filter(member=request.user)
-    allow_new_picksheets = True
-
-    no_picksheets_reason = ""
-    if (ballots.filter(member=request.user).count() >= pool.max_submissions):
-        allow_new_picksheets = False
-        no_picksheets_reason = "You have reached your maximum ballot submissions."
-    if not pool.allow_new_picksheets():
-        allow_new_picksheets = False
-        no_picksheets_reason = "The deadline has past to enter or edit any ballots."
-
-    context = {
-        'pool':pool,
-        'ballots':ballots,
-        'your_ballots':your_ballots,
-        'allow_new_ballots':allow_new_picksheets,
-        'no_picksheets_reason': no_picksheets_reason,
-    }
-    return render(request,'oscars/ballots.html',context)
-
-@login_required
-@paid
-def pool_ballot(request,id=None,ballot_id=None):
-
-    pool = get_object_or_404(omodels.OscarPool,id=id)
-
-    # check if this user is in this pool
-    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
-        return HttpResponseRedirect(reverse("root"))
-
-    allow_new_picksheets = True
-    if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
-        allow_new_picksheets = False
-
-    ballot=None
-    response_forms=[]
-
-    if ballot_id:
-        ballot = get_object_or_404(omodels.Ballot,id=ballot_id)
-
-    if not ballot:
-        pool_categories = pool.customcategory_set.filter(active=True)
-
-    ballot_form = oforms.BallotForm(allow_new_picksheets,instance=ballot)
-
-    if request.POST:
-        ballot_form = oforms.BallotForm(allow_new_picksheets,request.POST,instance=ballot)
-        if "delete" in request.POST:
-            if datetime.timedelta(0) < (ballot.pool.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
-                ballot.delete()
-                messages.success(request,"The Ballot was deleted")
-                return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
-            else:
-                messages.error(request,"You cannot delete ballots after the Ceremony has started")
-        elif ballot_form.is_valid():
-            if not ballot:
-                valid_forms=True
-                response_forms = []
-                for category in pool_categories:
-                    response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,request.POST,prefix=category.name))
-                for response_form in response_forms:
-                    if response_form.is_valid() == False:
-                        valid_forms=False;
-
-                if valid_forms:
-                    for response_form in response_forms:
-                        #response_form = oforms.ResponseForm(category,request.POST,prefix=category.name)
-                        if response_form.is_valid():
-
-                            ballot_record = ballot_form.save(commit=False)
-                            ballot_record.pool = pool
-                            ballot_record.member = request.user
-                            ballot_record.save(update_last_save=True)
-
-                            response_record = response_form.save(commit=False)
-                            response_record.category = pool_categories.get(name=response_form.prefix)
-                            response_record.ballot = ballot_record
-                            response_record.save()
-                    if response_form.is_valid():
-                        messages.success(request,"Ballot saved")
-                        return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
-            if ballot:
-                for response in ballot.response_set.all():
-                    response_form = oforms.ResponseForm(response.category,allow_new_picksheets,request.POST,prefix=response.category.name,instance=response)
-                    if response_form.is_valid():
-
-                        ballot_record = ballot_form.save(commit=False)
-                        ballot_record.pool = pool
-                        ballot_record.member = request.user
-                        ballot_record.save(update_last_save=True)
-
-                        response_record = response_form.save(commit=False)
-                        response_record.category = response.category
-                        response_record.ballot = ballot_record
-                        response_record.save()
-                if response_form.is_valid():
-                    messages.success(request,"Ballot saved")
-                    return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
-
-        messages.error(request,"Ballot not saved! Please check that you've filled out every field.")
-
-    if ballot and response_forms.__len__() == 0:
-        for response in ballot.response_set.all():
-            response_forms.append(oforms.ResponseForm(response.category,allow_new_picksheets,prefix=response.category.name,instance=response))
-    elif response_forms.__len__() == 0:
-        for category in pool_categories:
-            response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,prefix=category.name))
-
-    context = {
-        'pool':pool,
-        'ballot':ballot,
-        'ballot_form':ballot_form,
-        'response_forms':response_forms,
-        'allow_new_ballots':allow_new_picksheets,
-    }
-    return render(request,'oscars/ballot_form.html',context)
-
-@login_required
-@paid
-def pool_standings(request, id):
-    ballots = None
-
-    pool = get_object_or_404(omodels.OscarPool,id=id)
-    pviews.check_if_valid_member(pool,request.user)
-    ballots = pool.ballot_set.all().distinct()
-
-    if pool.up_to_date == False:
-        for ballot in ballots:
-            ballot.total_points = 0
-            ballot.total_correct = 0
-            for response in ballot.response_set.all():
-                if response.category.active:
-                    ballot.total_points += response.points
-                    if response.correct:
-                        ballot.total_correct += 1
-
-            ballot.save()
-        pool.up_to_date = True
-        pool.save()
-
-    if pool.how_to_win == 'points':
-        ballots = ballots.order_by('-total_points','-total_correct','last_save_date')
-    else:
-        ballots = ballots.order_by('-total_correct','last_save_date')
-
-    context = {
-        'pool': pool,
-        'ballots':ballots
-    }
-
-    return render(request,'oscars/standings.html',context)
 
 @login_required
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):
+    """
+        The settings page for pools.
 
+        If creating a pool you are sent to the payment screen on save.
+
+        If editing the settings in a pool that already exists, only the
+        admin has access to it.
+
+        When a pool is initially saved, we create copies of Base Categories called
+        Custom Categories and these are unique to each pool to keep track of
+        which categories the pool admin wanted to use and what values those
+        categories have.
+    """
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
     except:
@@ -369,16 +191,204 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/
 
     return render(request,template,context)
 
+@login_required
+@paid
+def pool_homepage(request, id):
+    """
+        Displays the hme page of the given pool.
+    """
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    pviews.check_if_valid_member(pool,request.user)
 
-class pool_admin_message(pviews.PoolAdminMessage):
-    template = 'oscars/admin_message_form.html'
-    form_class=oforms.AdminMessageForm
-    def get_pool(self,id):
-        return get_object_or_404(omodels.OscarPool,id=id)
+    context = {
+        'pool':pool,
+        'members':pool.members.all()
+    }
+
+    return render(request,"oscars/pool_home.html",context)
+
+
+def pool_admin_message(request,id):
+    """
+        Presents the pool admin with a form to edit their Welcome Message on
+        their pools home page.
+
+        tinymce is used to provide as robust text editor on the template.
+    """
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    # check if this user is in this pool
+    pviews.check_if_valid_member(pool,request.user)
+
+    if request.user != pool.administrator:
+        return HttpResponseRedirect(pool.get_absolute_url())
+
+    message_form = oforms.AdminMessageForm(instance=pool)
+    if request.POST:
+        message_form = oforms.AdminMessageForm(request.POST,instance=pool)
+        if message_form.is_valid():
+            pool_record = message_form.save()
+            messages.success(request,"Welcome Message saved successfully.")
+            return HttpResponseRedirect(pool_record.get_absolute_url())
+
+    context = {
+        'pool':pool,
+        'form':message_form
+    }
+
+    return render(request,'oscars/admin_message_form.html',context)
+
+
+@login_required
+@paid
+def pool_ballot_list(request,id):
+    """
+        Displays the Ballots created within the pool given.
+        Users can edit and create new ballots as long as the pool entry deadline
+        hasn't been reached and that they haven't reached the pool's max
+        submissions count
+    """
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if user is in this pool
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
+        return HttpResponseRedirect(reverse("root"))
+
+    ballots = pool.ballot_set.all()
+    your_ballots = ballots.filter(member=request.user)
+    allow_new_picksheets = True
+
+    no_picksheets_reason = ""
+    if (ballots.filter(member=request.user).count() >= pool.max_submissions):
+        allow_new_picksheets = False
+        no_picksheets_reason = "You have reached your maximum ballot submissions."
+    if not pool.allow_new_picksheets():
+        allow_new_picksheets = False
+        no_picksheets_reason = "The deadline has past to enter or edit any ballots."
+
+    context = {
+        'pool':pool,
+        'ballots':ballots,
+        'your_ballots':your_ballots,
+        'allow_new_ballots':allow_new_picksheets,
+        'no_picksheets_reason': no_picksheets_reason,
+    }
+    return render(request,'oscars/ballots.html',context)
+
+
+@login_required
+@paid
+def pool_ballot(request,id=None,ballot_id=None):
+    """
+        Displays an empty ballot if the user is creating a new one or displays
+        a filled out ballot if they are editing one they've already created.
+
+        Because Reponses have their own models, we create a list of forms for
+        each custom category and loop over them in the template.
+
+        If the form is valid on save, we tie the reponses to the ballot if they
+        weren't done so already.
+    """
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if this user is in this pool
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
+        return HttpResponseRedirect(reverse("root"))
+
+    allow_new_picksheets = True
+    if datetime.timedelta(0) > (pool.entry_deadline.replace(tzinfo=None) - datetime.datetime.utcnow()):
+        allow_new_picksheets = False
+
+    ballot=None
+    response_forms=[]
+
+    if ballot_id:
+        ballot = get_object_or_404(omodels.Ballot,id=ballot_id)
+
+    if not ballot:
+        pool_categories = pool.customcategory_set.filter(active=True)
+
+    ballot_form = oforms.BallotForm(allow_new_picksheets,instance=ballot)
+
+    if request.POST and allow_new_picksheets:
+        ballot_form = oforms.BallotForm(allow_new_picksheets,request.POST,instance=ballot)
+        if "delete" in request.POST:
+            if datetime.timedelta(0) < (ballot.pool.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
+                ballot.delete()
+                messages.success(request,"The Ballot was deleted")
+                return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
+            else:
+                messages.error(request,"You cannot delete ballots after the Ceremony has started")
+        elif ballot_form.is_valid():
+            if not ballot:
+                valid_forms=True
+                response_forms = []
+                for category in pool_categories:
+                    response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,request.POST,prefix=category.name))
+                for response_form in response_forms:
+                    if response_form.is_valid() == False:
+                        valid_forms=False;
+
+                if valid_forms:
+                    for response_form in response_forms:
+                        #response_form = oforms.ResponseForm(category,request.POST,prefix=category.name)
+                        if response_form.is_valid():
+
+                            ballot_record = ballot_form.save(commit=False)
+                            ballot_record.pool = pool
+                            ballot_record.member = request.user
+                            ballot_record.save(update_last_save=True)
+
+                            response_record = response_form.save(commit=False)
+                            response_record.category = pool_categories.get(name=response_form.prefix)
+                            response_record.ballot = ballot_record
+                            response_record.save()
+                    if response_form.is_valid():
+                        messages.success(request,"Ballot saved")
+                        return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
+            if ballot:
+                for response in ballot.response_set.all():
+                    response_form = oforms.ResponseForm(response.category,allow_new_picksheets,request.POST,prefix=response.category.name,instance=response)
+                    if response_form.is_valid():
+
+                        ballot_record = ballot_form.save(commit=False)
+                        ballot_record.pool = pool
+                        ballot_record.member = request.user
+                        ballot_record.save(update_last_save=True)
+
+                        response_record = response_form.save(commit=False)
+                        response_record.category = response.category
+                        response_record.ballot = ballot_record
+                        response_record.save()
+                if response_form.is_valid():
+                    messages.success(request,"Ballot saved")
+                    return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
+
+        messages.error(request,"Ballot not saved! Please check that you've filled out every field.")
+    elif request.POST and not allow_new_picksheets:
+        messages.error(request,"Ballot not saved! The entry deadline was reached.")
+
+    if ballot and response_forms.__len__() == 0:
+        for response in ballot.response_set.all():
+            response_forms.append(oforms.ResponseForm(response.category,allow_new_picksheets,prefix=response.category.name,instance=response))
+    elif response_forms.__len__() == 0:
+        for category in pool_categories:
+            response_forms.append(oforms.ResponseForm(category,allow_new_picksheets,prefix=category.name))
+
+    context = {
+        'pool':pool,
+        'ballot':ballot,
+        'ballot_form':ballot_form,
+        'response_forms':response_forms,
+        'allow_new_ballots':allow_new_picksheets,
+    }
+    return render(request,'oscars/ballot_form.html',context)
+
 
 @login_required
 def remove_ballot(request,id,ballot_id):
-
+    """
+        Gives the pool admin a way to delete a ballot.
+    """
     ballot = get_object_or_404(omodels.Ballot,id=ballot_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
@@ -393,9 +403,78 @@ def remove_ballot(request,id,ballot_id):
 
     return HttpResponseRedirect(reverse("oscar_pool_ballots",kwargs={'id':pool.id}))
 
+
+@login_required
+@paid
+def pool_standings(request, id):
+    """
+        Displays the current standings of the pool.
+
+        Recalculates the point values for each pool if the pool's field,
+        up_to_date, is False.  Afterwards, up_to_date is made True.
+
+        Orders the ballots by:
+        Total Points(if applicable)
+        Total Correct
+        Older ballots get the edge over newer ones.
+    """
+    ballots = None
+
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+    pviews.check_if_valid_member(pool,request.user)
+    ballots = pool.ballot_set.all().distinct()
+
+    if pool.up_to_date == False:
+        for ballot in ballots:
+            ballot.total_points = 0
+            ballot.total_correct = 0
+            for response in ballot.response_set.all():
+                if response.category.active:
+                    ballot.total_points += response.points
+                    if response.correct:
+                        ballot.total_correct += 1
+
+            ballot.save()
+        pool.up_to_date = True
+        pool.save()
+
+    if pool.how_to_win == 'points':
+        ballots = ballots.order_by('-total_points','-total_correct','last_save_date')
+    else:
+        ballots = ballots.order_by('-total_correct','last_save_date')
+
+    context = {
+        'pool': pool,
+        'ballots':ballots
+    }
+
+    return render(request,'oscars/standings.html',context)
+
+
+@login_required
+@paid
+def pool_members(request,id=None):
+    """
+        Displays a list of members that are signed up with the pool.
+    """
+    pool = get_object_or_404(omodels.OscarPool,id=id)
+
+    # check if user is in this pool
+    if request.user not in pool.members.all() and request.user != pool.administrator and not request.user.is_superuser:
+        return HttpResponseRedirect(reverse("root"))
+
+    context = {
+        'pool':pool,
+        'join_url': request.build_absolute_uri(reverse("join_pool"))
+    }
+    return render(request,'oscars/members.html',context)
+
+
 @login_required
 def remove_member(request,id,member_id):
-
+    """
+        Allows a way for admins to remove a member from their pool.
+    """
     member = get_object_or_404(User,id=member_id)
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
@@ -413,7 +492,13 @@ def remove_member(request,id,member_id):
 @login_required
 @paid
 def predictions(request,id):
-
+    """
+        Calculates the predictions of all the ballots on the site.
+        Provides percentages to see which nominees most people are choosing
+        in each category.
+        When the a nominee is announced as the winner, the predictions page
+        changes their text to green.
+    """
     pool = get_object_or_404(omodels.OscarPool,id=id)
 
     # check if this user is in this pool
@@ -448,26 +533,32 @@ def predictions(request,id):
     }
     return render(request,'oscars/predictions.html',context)
 
-from mysite.base.views import PublicPools
-class OscarPublicPools(PublicPools):
 
-    def get_title(self):
-        return 'Oscar'
+def public_pools_list(request):
+    """
+        We grab all the open public pools for the current oscar ceremony and
+        display them in a list so that users can join them.
+    """
+    try:
+        current_ceremony = omodels.OscarCeremony.objects.latest('date')
+    except:
+        current_ceremony = None
 
-    def get_queryset(self):
+    pools = omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
+    public_pools = [pool for pool in pools if pool.allow_new_picksheets() and pool.members.count()+1 != pool.max_members]
 
-        try:
-            current_ceremony = omodels.OscarCeremony.objects.latest('date')
-        except:
-            current_ceremony = None
+    context = {
+        'pools':public_pools,
+    }
+    return render(request,'base/public_pools.html',context)
 
-        pools = omodels.OscarPool.objects.filter(oscar_ceremony=current_ceremony,public=True).distinct()
-        public_pools = [pool for pool in pools if pool.allow_new_picksheets() and pool.members.count()+1 != pool.max_members]
-        return public_pools
 
 @login_required
 def email_members(request, id):
-
+    """
+        Provides a way for admins to send out a mass email to all of their
+        pool members.
+    """
     pool = get_object_or_404(omodels.OscarPool,id=id)
     form = bforms.EmailMembersForm()
     # check if this user is the admin in this pool
@@ -489,7 +580,13 @@ def email_members(request, id):
 
 @login_required
 def oscar_payment(request, id):
+    """
+        Displays our payment page where credit card information is retieved.
 
+        Stripe is used for all payments.
+
+        When a payment is recieved the max members size of a pool is determined.
+    """
     pool = get_object_or_404(omodels.OscarPool, id=id)
 
     #redirect non-admins out of here
