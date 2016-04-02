@@ -127,6 +127,15 @@ class OscarPool(bmodels.Pool):
             return False
         return True
 
+    def ceremony_started(self):
+        """
+            If the current date and time is past the ceremony start date and time, we close off
+            the ability to edit pool settings
+        """
+        if datetime.timedelta(0) > (self.oscar_ceremony.date.replace(tzinfo=None) - datetime.datetime.utcnow()):
+            return True
+        return False
+
     @property
     def can_display_winners(self):
         """
