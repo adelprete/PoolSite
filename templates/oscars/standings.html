@@ -5,8 +5,8 @@
   <link rel="stylesheet" href="{{ STATIC_URL }}css/base/table.css">
 {% endblock %}
 {% block body %}
-    <title>Standings - {{ pool.name }} | Oscar Pool Hub</title>
-    <h2 class="headliner">Standings</h2>
+    <title>{{ header }} - {{ pool.name }} | Oscar Pool Hub</title>
+    <h2 class="headliner">{{ header }}</h2>
     {% display_top_three %}
     <article>
       <div class="table-responsive">
@@ -24,7 +24,7 @@
               <tr>
                   <td><a href="{% url 'profile_stats' ballot.member.memberprofile.id %}">{{ ballot.member }}</a></td>
                   <td>
-                    {% if pool.allow_new_picksheets %}
+                    {% if pool.allow_new_picksheets or header == "Recap" %}
                         {{ ballot.name }}
                     {% else %}
                         <a href="{% url 'oscar_ballot' pool.id ballot.id %}">{{ ballot.name }}</a>

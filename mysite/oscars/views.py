@@ -392,7 +392,7 @@ def remove_ballot(request,id,ballot_id):
 @login_required
 @pool_members_only
 @paid
-def pool_standings(request, id):
+def pool_standings(request, id, template='oscars/standings.html', header="Standings"):
     """
         Displays the current standings of the pool.
 
@@ -400,9 +400,9 @@ def pool_standings(request, id):
         up_to_date, is False.  Afterwards, up_to_date is made True.
 
         Orders the ballots by:
-        Total Points(if applicable)
-        Total Correct
-        Older ballots get the edge over newer ones.
+        1.Total Points(if applicable)
+        2.Total Correct
+        3.Older ballots get the edge over newer ones.
     """
     ballots = None
 
@@ -431,10 +431,11 @@ def pool_standings(request, id):
 
     context = {
         'pool': pool,
-        'ballots':ballots
+        'ballots':ballots,
+        'header': header
     }
 
-    return render(request,'oscars/standings.html',context)
+    return render(request,template,context)
 
 
 @login_required
