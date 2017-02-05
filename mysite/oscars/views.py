@@ -85,7 +85,6 @@ def oscars_detail(request, pk, format=None):
 # end of REST views
 
 @login_required
-@pool_admin_only
 def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/oscar_pool_form.html"):
     """
         The settings page for pools.
@@ -100,6 +99,8 @@ def oscar_pool(request,id=None,form_class=oforms.OscarPoolForm,template="oscars/
         which categories the pool admin wanted to use and what values those
         categories have.
     """
+    messages.error(request, "Pools are closed for 2016.  We'll be back in 2017.")
+    return HttpResponseRedirect(reverse('root'))
     try:
         ceremony = omodels.OscarCeremony.objects.latest('date')
     except:

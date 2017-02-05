@@ -46,7 +46,6 @@ class Pool(models.Model):
     max_submissions = models.PositiveIntegerField(default=1)
     public = models.BooleanField(default=False,help_text="By making your pool public, random people will be able to join your pool.")
     max_members =  models.PositiveIntegerField(default=1, blank=True, null=True)
-    is_full = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
 
     #Top 3
@@ -82,9 +81,9 @@ class Pool(models.Model):
             Returns True if the max number of members this pool can have has been reached.
         """
         if (self.members.count() + 1) == self.max_members:
-            self.is_full = True
+            return True
         else:
-            self.is_full = False
+            return False
 
 
 class MemberProfile(models.Model):

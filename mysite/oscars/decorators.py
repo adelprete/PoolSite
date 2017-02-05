@@ -20,6 +20,7 @@ def paid(func):
 
 def pool_admin_only(func):
     def decorator(request,id=None,*args, **kwargs):
+        import pdb;pdb.set_trace()
         if id:
             pool = get_object_or_404(omodels.OscarPool,id=id)
             if request.user != pool.administrator:
